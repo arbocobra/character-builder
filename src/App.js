@@ -1,25 +1,54 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import { CharacterDisplay } from './components/CharacterDisplay';
+import { CharacterSelect } from './components/CharacterSelect';
 
-function App() {
+const App = () => {
+  const [character, setCharacter] = useState({
+    // abilities: {
+
+    // },
+    background: '',
+    baseModifiers: [],
+    bonusModifiers_race: [],
+    bonusModifiers_class: [],
+    class: '',
+    extras_race: [],
+    extras_class: [],
+    extras_background: [],
+    language: [],
+    level: 0,
+    proficiency_bonus: 0,
+    race: '',
+    size: '',
+    skills: [],
+    speed: 0,
+    subclass: '',
+    subrace: '',
+    variant: '',
+  });
+
+  // useEffect(() => console.log(character), [character])
+
+    const updateCharacter = (val) => {
+    setCharacter((prev) => ({
+      ...prev,
+      ...val,
+    }));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="player-select" className="container-box select">
+      <p>Character Display</p>
+        <CharacterSelect updateCharacter={updateCharacter} character={character} />
+      </div>
+      <div id="player-display" className="container-box display">
+        <p>Character Select</p>
+        <CharacterDisplay currentCharacter={character} />
+      </div>
     </div>
   );
-}
+};
 
 export default App;

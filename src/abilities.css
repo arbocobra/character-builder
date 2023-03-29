@@ -1,0 +1,435 @@
+.grid-container {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(7, 1fr);
+  grid-auto-flow: row;
+  gap: 3px;
+  background: #eee;
+  padding: 3px !important;
+}
+
+.grid-container > div {
+  column-gap: 1px;
+}
+
+.grid-container > div > div {
+  background: white;
+  text-align: center;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.title {
+  text-align: left !important;
+  min-width: 80px;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.blank {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.base {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.bonus {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.total {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.modifier {
+  grid-area: 1 / 5 / 2 / 6;
+}
+
+.strength {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.str-title {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.str-base {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.str-bonus {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.str-total {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.str-mod {
+  grid-area: 1 / 5 / 2 / 6;
+}
+
+.dexterity {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+.dex-title {
+grid-area: 1 / 1 / 2 / 2;
+}
+
+.dex-base {
+grid-area: 1 / 2 / 2 / 3;
+}
+
+.dex-bonus {
+grid-area: 1 / 3 / 2 / 4;
+}
+
+.dex-total {
+grid-area: 1 / 4 / 2 / 5;
+}
+
+.dex-mod {
+grid-area: 1 / 5 / 2 / 6;
+}
+
+
+
+.constitution {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 4 / 1 / 5 / 2;
+}
+
+.con-title {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  
+  .con-base {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  
+  .int-bonus {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+  
+  .int-total {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+  
+  .con-mod {
+    grid-area: 1 / 5 / 2 / 6;
+  }
+
+
+.intelligence {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 5 / 1 / 6 / 2;
+}
+
+.int-title {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  
+  .int-base {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  
+  .int-bonus {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+  
+  .int-total {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+  
+  .int-mod {
+    grid-area: 1 / 5 / 2 / 6;
+  }
+
+
+.wisdom {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 6 / 1 / 7 / 2;
+}
+
+  
+  .wis-title {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  
+  .wis-base {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  
+  .wis-bonus {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+  
+  .wis-total {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+  
+  .wis-mod {
+    grid-area: 1 / 5 / 2 / 6;
+  }
+
+
+
+.charisma {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 7 / 1 / 8 / 2;
+}
+
+.cha-title {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  
+  .cha-base {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  
+  .cha-bonus {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+  
+  .cha-total {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+  
+  .cha-mod {
+    grid-area: 1 / 5 / 2 / 6;
+  }
+
+
+/*  */
+
+/* .container {  display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(7, 1fr);
+    gap: 0px 0px;
+    grid-auto-flow: row;
+  }
+  .a {  display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  
+  .aa { grid-area: 1 / 1 / 2 / 2; }
+  
+  .ab { grid-area: 1 / 2 / 2 / 3; }
+  
+  .ac { grid-area: 1 / 3 / 2 / 4; }
+  
+  .ad { grid-area: 1 / 4 / 2 / 5; }
+  
+  .ae { grid-area: 1 / 5 / 2 / 6; } */
+
+/* .b {  display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-area: 2 / 1 / 3 / 2;
+  } */
+
+/* .ba {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.bb {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.bc {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.bd {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.be {
+  grid-area: 1 / 5 / 2 / 6;
+} */
+
+/* .c {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.ca {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.cb {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.cc {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.cd {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.ce {
+  grid-area: 1 / 5 / 2 / 6;
+} */
+
+/* .d {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 4 / 1 / 5 / 2;
+} */
+/* 
+.da {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.db {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.dc {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.dd {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.de {
+  grid-area: 1 / 5 / 2 / 6;
+} */
+/* 
+.e {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 5 / 1 / 6 / 2;
+}
+
+.ea {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.eb {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.ec {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.ed {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.ee {
+  grid-area: 1 / 5 / 2 / 6;
+} */
+/* 
+.f {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 6 / 1 / 7 / 2;
+}
+
+.fa {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.fb {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.fc {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.fd {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.fe {
+  grid-area: 1 / 5 / 2 / 6;
+} */
+/* 
+.g {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-area: 7 / 1 / 8 / 2;
+}
+
+.ga {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.gb {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.gc {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.gd {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.ge {
+  grid-area: 1 / 5 / 2 / 6;
+} */
