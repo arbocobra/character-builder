@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 // import React, { useState } from 'react';
 import { skills } from '../../data/CharacterDetails';
 
-export const DisplaySkills = (props) => {
+export const DisplaySkills = memo(function DisplaySkills(props) {
    const {currentCharacter, abilityScores} = props;
  
   //  const [skillProficiency, setSkillProficiency] = useState([]);
@@ -24,4 +24,4 @@ export const DisplaySkills = (props) => {
      )) }
      </div>
    )
- }
+ })

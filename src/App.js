@@ -5,9 +5,16 @@ import { CharacterSelect } from './components/CharacterSelect';
 
 const App = () => {
   const [character, setCharacter] = useState({
-    // abilities: {
-
-    // },
+    abilities: {
+      base: [],
+      bonus: {
+        race: [],
+        class: [],
+        total: [],
+      },
+      totalAbilities: [],
+      modifiers: [],
+    },
     background: '',
     baseModifiers: [],
     bonusModifiers_race: [],

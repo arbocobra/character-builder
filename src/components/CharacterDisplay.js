@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 // import RaceSubrace from '../data/RaceSubrace';
 // import { skills } from '../data/CharacterDetails';
 import { DisplayBio } from './display/DisplayBio';
-import { DisplayAbilities } from './display/DisplayAbilities';
+import { DisplayAbilities, DisplayAbilitiesAlt } from './display/DisplayAbilities';
 import { DisplaySkills } from './display/DisplaySkills';
 
-export const CharacterDisplay = (props) => {
+export const CharacterDisplay = memo(function CharacterDisplay(props) {
 
   const { currentCharacter } = props;
 
@@ -71,7 +71,8 @@ export const CharacterDisplay = (props) => {
     <div className="parent-grid">
       <DisplayBio currentCharacter={currentCharacter} />
       <DisplayAbilities abilityScores={abilityScores} abilityRef={abilityRef.current} />
+      <DisplayAbilitiesAlt abilityScores={abilityScores} abilityRef={abilityRef.current} />
       <DisplaySkills currentCharacter={currentCharacter} abilityScores={abilityScores} />    
     </div>
   )
-}
+})

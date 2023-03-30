@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 
-export const DisplayBio = (props) => {
+export const DisplayBio = memo(function DisplayBio(props) {
    const {currentCharacter} = props;
    return (
      <Fragment>
@@ -49,4 +49,4 @@ export const DisplayBio = (props) => {
        </div>)}
      </Fragment>
    )
- }
+ })

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import RaceSubrace from '../data/RaceSubrace';
 import { Background } from '../data/Background';
 // import { language, skills } from '../CharacterDetails';
@@ -11,7 +11,7 @@ import { SelectClass } from './select/SelectClass';
 import { SelectBackground } from './select/SelectBackground';
 import { SelectOther } from './select/SelectOther';
 
-export const CharacterSelect = (props) => {
+export const CharacterSelect = memo(function CharacterSelect(props) {
 	const { updateCharacter, character } = props;
 
 	const RaceObj = useRef(RaceSubrace);
@@ -35,7 +35,7 @@ export const CharacterSelect = (props) => {
 		switch (cat) {
 			case 'race':
 				updateObject = RaceObj.current.race[val]
-				update = updateRace(updateObject, val, character);
+				update = updateRace(updateObject, val, CharacterRef.current);
 				Object.assign(charUpdate, update)
 				selection_req = Object.keys(updateObject).includes('select')
 				break;
@@ -100,4 +100,4 @@ export const CharacterSelect = (props) => {
 			/>
 		</div>
 	);
-};
+});
