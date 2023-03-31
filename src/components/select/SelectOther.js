@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback, memo, createRef, Fragment } from 'react';
-import { toggleList } from '../../helperFunctions';
+import React, { useState, useEffect, useRef, memo } from 'react';
+import { addDropdownEvent, addOptionEvent } from '../selectFunctions'
+
+const _ = require('lodash'); 
 
 export const SelectOther = memo(function SelectOther(props) {
 	const { updateSelect, selectionDetails } = props;
@@ -8,18 +10,18 @@ export const SelectOther = memo(function SelectOther(props) {
 	const [active, setActive] = useState(false);
 	
 	useEffect(() => {
-		if (selectionDetails.length > 0) {
+		if (selectionDetails.length) {
 			setActive(true);
-		}
+		} else setActive(false)
 	}, [selectionDetails]);
 
 	const handleSelect = (arr, i) => {
-		let displayBoxes = Array.from(parentRef.current.querySelectorAll('.select-other-box'));
+		let displayBoxes = _.values(parentRef.current.querySelectorAll('.select-other-box'))
 		displayBoxes[i].classList.add('hidden')
-		// console.log(displayBoxes[i].classList)
-		if (displayBoxes.every(el => Array.from(el.classList).includes('hidden'))) { setActive(false) }
+		if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
+			setActive(false) 
+		}
 		updateSelect(arr[1], arr[0])
-
 	};
 
 
@@ -30,7 +32,7 @@ export const SelectOther = memo(function SelectOther(props) {
 				{selectionDetails.map((el, i) => (
 					<div className='select-other-box' key={el[0]}>
 						<p>Select {el[0]}</p>
-						<SelectBox name={el[0]} count={el[1]} arr={el[2]} index={i} handleSelect={handleSelect} />
+						<SelectBox name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} />
 					</div>
 				))}
 				</div>
@@ -40,86 +42,62 @@ export const SelectOther = memo(function SelectOther(props) {
 });
 
 const SelectBox = (props) => {
-	const {name, count, arr, index, handleSelect} = props;
+	const {name, count, options, index, handleSelect} = props;
 	
 	const [canSubmit, setCanSubmit] = useState(false)
 	const [selection, setSelection] = useState(['', Array(count).fill('')])
 	const initialOption = useRef('-- select --');
+	const parentRef = useRef()
 
-	const selectionArr = Array(count).fill(arr)
+	const selectionArr = Array(count).fill(options)
 
 	useEffect(() => {
-		const parent = document.querySelectorAll('.select-other-box');
-		const select = parent[index].querySelectorAll('.custom-dropdown')
-
-		selectionArr.map((el, num) => {
-			const div = select[num]
-			const list = div.children[1];
-			const header = div.children[0];
-			header.addEventListener('click', () => toggleList(list));
-			const options = list.children;
-			for (let i = 0; i < options.length; i++) {
-				options[i].addEventListener('click', () => {
-					let val = options[i].innerHTML;
-					header.childNodes[0].nodeValue = val;
-					toggleList(div.children[1]);
-					singleSelect(val, name, num)
-				});
-			}
-		})
+		const divArr = parentRef.current.querySelectorAll('.custom-dropdown');
+		for (let i = 0; i < count; i++) {
+			addDropdownEvent(divArr[i]);
+			addOptionEvent(divArr[i], dropSelect, [name, i])
+		}
 	}, [])
 
 	useEffect(() => {
-		if (selection[0] !== '') {
-			if (selection[1].length === 1) setCanSubmit(true)
-			else {
-				let uniqueArr = new Set(selection[1])
-				const parent = document.querySelectorAll('.select-other-box');
-				const select = parent[index].querySelectorAll('.custom-dropdown')
-				if (selection[1].length === uniqueArr.size) {
-					for (let el of select) {
-						el.children[0].classList.remove('red')
-					}
-					setCanSubmit(true)
-				} else {
-					for (let el of select) {
-						el.children[0].classList.add('red')
-					}
+		if (selection[0]) {
+			const divArr = parentRef.current.querySelectorAll('.custom-dropdown');
+			if (_.compact(selection[1]).length === count) {
+				if (_.uniq(_.compact(selection[1])).length === count) {
+					[...divArr].map(div => div.children[0].classList.remove('red'))
+					setCanSubmit(true);
+				}
+				else {
+					[...divArr].map(div => div.children[0].classList.add('red'))
 					setCanSubmit(false)
 				}
-			}
+			}			
 		}
 	}, [selection])
 
-	const singleSelect = (val, cat, index) => {
-		let arr = [...selection][1]
-		arr.forEach((el,i) => {
-			if (i === index) {
-				arr[i] = val
-			} else (
-				arr[i] = el
-			)
-		})
-		if (!arr.includes('')) setSelection([cat, arr])
+	const dropSelect = (val, cat, index) => {
+		let arr = [...selection][1];
+		arr[index] = val;
+		setSelection([cat, arr])
 	}
 
 	return (
-		<Fragment>
+		<div ref={parentRef} >
 			{ selectionArr.map((el,i) => 
-		( <div key={`${name}-${i}`} className="custom-dropdown">
-			<div className="value-header">
-				{initialOption.current}
-				<div className="arrow-down"></div>
+				( <div key={`${name}-${i}`} className="custom-dropdown">
+					<div className="value-header">
+						{initialOption.current}
+						<div className="arrow-down"></div>
+					</div>
+					<ul id="select-other" className="value-list closed">
+						{options.map((el) => (
+							<li key={`opt-${el}`}>{el}</li>
+						))}
+					</ul>
+				</div> )) }
+			<div className='button-container'>
+				<button onClick={() => handleSelect(selection, index)} disabled={!canSubmit}><span>&#10003;</span></button>
 			</div>
-			<ul id="select-other" className="value-list closed">
-				{arr.map((el) => (
-					<li key={`opt-${el}`}>{el}</li>
-				))}
-			</ul>
-		</div> )) }
-		<div className='button-container'>
-			<button onClick={() => handleSelect(selection, index)} disabled={!canSubmit}><span>&#10003;</span></button>
 		</div>
-		</Fragment>
 	)
 }

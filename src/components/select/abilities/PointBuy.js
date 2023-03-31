@@ -44,7 +44,7 @@ const Stat = (props) => {
 
 	useEffect(() => {
 		if (firstRender.current) addDropdownEvent(selectRef.current);
-		addOptionEvent(selectRef.current, handleSelect, 'base');
+		addOptionEvent(selectRef.current, handleSelect, ['base']);
 	}, [displayArr]);
 
 	

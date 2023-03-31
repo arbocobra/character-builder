@@ -5,13 +5,23 @@ import { DisplayBio } from './display/DisplayBio';
 import { DisplayAbilities, DisplayAbilitiesAlt } from './display/DisplayAbilities';
 import { DisplaySkills } from './display/DisplaySkills';
 
-export const CharacterDisplay = memo(function CharacterDisplay(props) {
+import { has, isEmpty, isEqual } from 'lodash';
+const _ = require('lodash'); 
+
+// export const CharacterDisplay = memo(function CharacterDisplay(props) {
+  export const CharacterDisplay = (props) => {
 
   const { currentCharacter } = props;
 
   const firstRender = useRef(true)
   const abilityRef = useRef(['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'])
   const initialScores = useRef([[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]])
+  const abilityObj = useRef({
+    base: [0,0,0,0,0,0],
+    totalBonus: [0,0,0,0,0,0],
+    total: [0,0,0,0,0,0],
+    modifiers: [0,0,0,0,0,0],
+  })
   // const characterRef = useRef({
   //   background: '',
   //   baseModifiers: [],
@@ -32,7 +42,7 @@ export const CharacterDisplay = memo(function CharacterDisplay(props) {
   //   subrace: '',
   //   variant: '',
   // });
-
+  const [altAbilityScores, setAltAbilityScores] = useState(abilityObj.current)
   const [abilityScores, setAbilityScores] = useState(initialScores.current)
 
   useEffect(() => {
@@ -47,10 +57,19 @@ export const CharacterDisplay = memo(function CharacterDisplay(props) {
         updateAbilityScores('bonus_class', currentCharacter.bonusModifiers_class)
       }
     }
-    else {
-      firstRender.current = false
+  }, [currentCharacter])
+
+  useEffect(() => {
+    if (!firstRender.current && _.has(currentCharacter, 'abilities')) {
+      console.log(currentCharacter.abilities.total)
+      const update = _.omit(currentCharacter.abilities, ['bonus'])
+      setAltAbilityScores(update);
     }
   }, [currentCharacter])
+
+  useEffect(() => {
+    if (firstRender.current) firstRender.current = false
+  }, [])
 
   const updateAbilityScores = (cat, val) => {
     const update = [...abilityScores]
@@ -70,9 +89,9 @@ export const CharacterDisplay = memo(function CharacterDisplay(props) {
   return (
     <div className="parent-grid">
       <DisplayBio currentCharacter={currentCharacter} />
-      <DisplayAbilities abilityScores={abilityScores} abilityRef={abilityRef.current} />
-      <DisplayAbilitiesAlt abilityScores={abilityScores} abilityRef={abilityRef.current} />
+      <DisplayAbilities abilityScores={abilityScores} abilityRef={abilityRef.current} altAbilityScores={altAbilityScores}/>
+      <DisplayAbilitiesAlt abilities={altAbilityScores} abilityRef={abilityRef.current} abilityScores={abilityScores}/>
       <DisplaySkills currentCharacter={currentCharacter} abilityScores={abilityScores} />    
     </div>
   )
-})
+}

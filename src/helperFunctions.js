@@ -91,9 +91,9 @@ export const characterOptions = (char, selections) => {
 //   return abilities;
 // }
 
-export const setModifiersByName = (mod, currentArray) => {
+export const setModifiersByName = (name, current) => {
    let index;
-   let ability = mod.toLowerCase();
+   let ability = name.toLowerCase();
    switch (ability) {
       case 'strength': 
          index = 0;
@@ -114,7 +114,6 @@ export const setModifiersByName = (mod, currentArray) => {
          index = 5;
          break;
    }
-   let val = currentArray[index];
-   currentArray[index] = val + 1;
-   return index;
+   let val = current[index];
+   current[index] = val + 1;
 }

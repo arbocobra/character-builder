@@ -40,7 +40,7 @@ const Stat = (props) => {
 
 	useEffect(() => {
 		addDropdownEvent(selectRef.current);
-		addOptionEvent(selectRef.current, handleSelect, 'base');
+		addOptionEvent(selectRef.current, handleSelect, ['base']);
 	}, []);
 
 	const notZero = (el) => el !== 0;

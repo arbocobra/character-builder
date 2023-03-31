@@ -4,7 +4,7 @@ export const addDropdownEvent = (div) => {
 	header.addEventListener('click', () => toggleList(options));
 }
 
-export const addOptionEvent = (div, handleSelect, cat) => {
+export const addOptionEvent = (div, handleSelect, args) => {
    const options = div.children[1].children;
    const header = div.children[0];
    for (let i = 0; i < options.length; i++) {
@@ -13,7 +13,7 @@ export const addOptionEvent = (div, handleSelect, cat) => {
             let val = options[i].innerHTML;
             header.childNodes[0].nodeValue = val;
             toggleList(div.children[1]);
-            handleSelect(val, cat);
+            handleSelect(val, ...args);
          });
          options[i].classList.add('event');
       }

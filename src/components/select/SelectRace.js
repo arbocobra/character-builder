@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { addDropdownEvent, addOptionEvent } from '../selectFunctions'
+import RaceSubrace from '../../data/RaceSubrace';
 
 export const SelectRace = memo(function SelectRace(props) {
-	const { updateSelect, RaceObj } = props;
+	// const { updateSelect, RaceObj } = props;
+	const { updateSelect } = props;
 
 	const [raceSelect, setRaceSelect] = useState(null);
 	const [subraceInput, setSubraceInput] = useState([]);
@@ -15,7 +17,7 @@ export const SelectRace = memo(function SelectRace(props) {
 	const subraceRef = useRef();
 	const initialOption = useRef('-- select --');
 
-	const optionsArray = Object.keys(RaceObj.race);
+	const optionsArray = Object.keys(RaceSubrace.race);
 
 	useEffect(() => {
 		const div = parentRef.current;
@@ -28,17 +30,17 @@ export const SelectRace = memo(function SelectRace(props) {
 	useEffect(() => {
 		const div = subraceInput.length < 1 ? raceRef.current : subraceRef.current;
 		const cat = subraceInput.length < 1 ? 'race' : 'subrace';
-		addOptionEvent(div, handleSelect, cat)
+		addOptionEvent(div, handleSelect, [cat])
 	}, [subraceInput]);
 
 	useEffect(() => {
 		if (!firstRender.current) {
 			updateSelect(raceSelect, 'race');
 			subraceRef.current.children[0].childNodes[0].nodeValue = initialOption.current;
-			if (RaceObj.race[raceSelect].has_subrace) {
+			if (RaceSubrace.race[raceSelect].has_subrace) {
 				subraceRef.current.classList.remove('hidden');
-				setSubraceInput(Object.keys(RaceObj.subrace[raceSelect]));
-				if (RaceObj.race[raceSelect].subrace_req) setRequired(true);
+				setSubraceInput(Object.keys(RaceSubrace.subrace[raceSelect]));
+				if (RaceSubrace.race[raceSelect].subrace_req) setRequired(true);
 				else setRequired(false);
 			} else {
 				subraceRef.current.classList.add('hidden');

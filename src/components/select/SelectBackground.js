@@ -94,7 +94,7 @@ export const SelectBackground = memo(function SelectBackground(props) {
 
 	useEffect(() => {
 		addDropdownEvent(backgroundRef.current)
-		addOptionEvent(backgroundRef.current, handleSelect, 'background')
+		addOptionEvent(backgroundRef.current, handleSelect, ['background'])
 	}, []);
 
 	const handleSelect = (val, cat) => {

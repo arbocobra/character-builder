@@ -10,9 +10,9 @@ const App = () => {
       bonus: {
         race: [],
         class: [],
-        total: [],
       },
-      totalAbilities: [],
+      totalBonus: [],
+      total: [],
       modifiers: [],
     },
     background: '',

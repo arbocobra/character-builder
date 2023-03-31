@@ -33,7 +33,7 @@ export const SelectClass = memo(function SelectClass(props) {
 	useEffect(() => {
 		const divArr = parentRef.current.querySelectorAll('.custom-dropdown')
 		for (let i = 0; i < divArr.length; i++) {
-			addOptionEvent(divArr[i], handleSelect, dropdownCat[i])
+			addOptionEvent(divArr[i], handleSelect, [dropdownCat[i]])
 		}
 	}, [classSelect]);
 
