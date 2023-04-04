@@ -1,52 +1,72 @@
-import React, { Fragment, memo } from 'react';
+import React, { useEffect, Fragment, memo } from 'react';
+const _ = require('lodash'); 
 
 export const DisplayBio = memo(function DisplayBio(props) {
    const {currentCharacter} = props;
+  //  const { race, subrace, background, level, size, speed} = currentCharacter;
+   const skills = currentCharacter.skills.total;
+   const languages = currentCharacter.languages.total;
+  
    return (
-     <Fragment>
-       { currentCharacter.race !== '' && (<div className='row-grid'>
-         <div>Race:</div>
-         <div>{currentCharacter.race}</div>
-       </div>)}
-       { currentCharacter.subrace !== '' && (<div className='row-grid'>
-         <div>Subrace:</div>
-         <div>{currentCharacter.subrace}</div>
-       </div>)}
-       { currentCharacter.background !== '' && (<div className='row-grid'>
-         <div>Background:</div>
-         <div>{currentCharacter.background}</div>
-       </div>)}
-       { currentCharacter.class !== '' && (<div className='row-grid'>
-         <div>Class:</div>
-         <div>{currentCharacter.class}</div>
-       </div>)}
-       { currentCharacter.level > 0 && (<div className='row-grid'>
-         <div>Level:</div>
-         <div>{currentCharacter.level}</div>
-       </div>)}
-       { currentCharacter.language.length > 0 && (<div className='row-grid'>
-         <div>Language(s):</div>
-         <ul>{ currentCharacter.language.map((el,i) => (<li key={`language-${i}`}>{el}</li>)) }</ul>
-       </div>)}
-       { currentCharacter.size !== '' && (<div className='row-grid'>
-         <div>Size:</div>
-         <div>{currentCharacter.size}</div>
-       </div>)}
-       { currentCharacter.speed > 0 && (<div className='row-grid'>
-         <div>Speed:</div>
-         <div>{currentCharacter.speed}</div>
-       </div>)}
-       { (currentCharacter.extras_race.length > 0 || currentCharacter.extras_class.length > 0 || currentCharacter.extras_background.length > 0) && (<div className='row-grid'>
-         <div>Features:</div>
-         <div className='grid-features'>
-           { currentCharacter.extras_race.length > 0 && 
-           (<ul>{ currentCharacter.extras_race.map((el,i) => (<li key={`extras_race-${i}`}>{el}</li>)) }</ul>) }
-           { currentCharacter.extras_class.length > 0 && 
-           (<ul>{ currentCharacter.extras_class.map((el,i) => (<li key={`extras_class-${i}`}>{el}</li>)) }</ul>) }
-           { currentCharacter.extras_background.length > 0 && 
-           (<ul>{ currentCharacter.extras_background.map((el,i) => (<li key={`extras_background-${i}`}>{el}</li>)) }</ul>) }
-         </div>
-       </div>)}
-     </Fragment>
+    <div>
+      <Row name={'Race'} bio={currentCharacter.race} type='string' list={false} />
+      <Row name={'Subrace'} bio={currentCharacter.subrace} type='string' list={false} />
+      <Row name={'Size'} bio={currentCharacter.size} type='string' list={false} />
+      <Row name={'Speed'} bio={currentCharacter.speed} type='num' list={false} />
+      <Row name={'Background'} bio={currentCharacter.background} type='string' list={false} />
+      <Row name={'Prof. Bonus'} bio={currentCharacter.proficiency_bonus} type='num' list={false} />
+      <Row name={'Class'} bio={currentCharacter.class} type='string' list={false} />
+      <Row name={'Level'} bio={currentCharacter.level} type='num' list={false} />
+      {/* <Row name={'Abilities'} bio={currentCharacter.abilities.total} type='array' list={false} /> */}
+      <Row name={'Languages'} bio={currentCharacter.languages.total} type='array' list={false} />
+      <Row name={'Skills'} bio={currentCharacter.skills.total} type='array' list={false} />
+      <FeaturesRow features={currentCharacter.features} />
+    </div>
    )
  })
+
+ const Row = (props) => {
+    const {name, bio, type, list} = props;
+
+    const bioBool = (type) => {
+      if (type === 'string' || type === 'array') return bio.length > 0;
+      if (type === 'num') return bio > 0;
+    }
+
+    const isTrue = bioBool(type);
+
+    if (isTrue) {
+      return (
+        <div className='row-grid'>
+          <div>{name}:</div>
+          { list ? (<ul>{bio.map((el,i) => (<li key={`${name}-${i}`}>{el}</li>))}</ul>) : null }
+          { !list && type === 'array' ? (<div>{bio.join(', ')}</div>) : null }
+          { !list && type !== 'array' ? (<div>{bio}</div>) : null }
+        </div>
+      )
+    }
+ }
+
+ const FeaturesRow = (props) => {
+  const {features} = props;
+
+  // const bioBool = (type) => {
+  //   if (type === 'string' || type === 'array') return bio.length > 0;
+  //   if (type === 'num') return bio > 0;
+  // }
+  const total = features.total;
+  const isTrue = total.length > 0;
+
+  if (isTrue) {
+    return (
+      <div className='row-grid'>
+        <div>Features:</div>
+        <div className='grid-features'>
+          { features.race.length ? (<ul>{ features.race.map((el,i) => (<li key={`features_race-${i}`}>{el}</li>)) }</ul>) : null}
+          { features.background.length ? (<ul>{ features.background.map((el,i) => (<li key={`features_background-${i}`}>{el}</li>)) }</ul>) : null}
+          { features.class.length ? (<ul>{ features.class.map((el,i) => (<li key={`features_class-${i}`}>{el}</li>)) }</ul>) : null}
+        </div>
+      </div>
+    )
+  }
+}

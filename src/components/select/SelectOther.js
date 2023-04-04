@@ -8,9 +8,11 @@ export const SelectOther = memo(function SelectOther(props) {
 	
 	const parentRef = useRef();
 	const [active, setActive] = useState(false);
+
+	// useEffect(() => console.log(selectionDetails), [selectionDetails])
 	
 	useEffect(() => {
-		if (selectionDetails.length) {
+		if (selectionDetails[1].length) {
 			setActive(true);
 		} else setActive(false)
 	}, [selectionDetails]);
@@ -21,15 +23,15 @@ export const SelectOther = memo(function SelectOther(props) {
 		if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
 			setActive(false) 
 		}
-		updateSelect(arr[1], arr[0])
+		updateSelect(arr[1], arr[0], selectionDetails[0])
 	};
+	// return (<div></div>)
 
-
-	if (active) {
+	if (active && selectionDetails[1].length ) {
 		return (
 			<div className='stat-input-container other'>
 				<div ref={parentRef} id='SelectOther' className='stat-input'>
-				{selectionDetails.map((el, i) => (
+				{selectionDetails[1].map((el, i) => (
 					<div className='select-other-box' key={el[0]}>
 						<p>Select {el[0]}</p>
 						<SelectBox name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} />
@@ -38,7 +40,7 @@ export const SelectOther = memo(function SelectOther(props) {
 				</div>
 			</div>
 		);
-	}
+	} 
 });
 
 const SelectBox = (props) => {

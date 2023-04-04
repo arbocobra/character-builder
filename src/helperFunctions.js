@@ -1,4 +1,6 @@
 import { language, skills } from './data/CharacterDetails';
+import RaceSubrace from './data/RaceSubrace';
+import { Background } from './data/Background';
 
 const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 
@@ -42,54 +44,29 @@ export const characterOptions = (char, selections) => {
          el[2] === 'ALL' ? charSelect.push(abilities) : charSelect.push(el[2])
       }
       result.push(charSelect)    
-      // console.log(abilities)  
    })
    return result;
 }
 
-// class Ability {
-// 	constructor(name, id) {
-// 		this.name = name;
-// 		this.id = id;
-//       this.baseValue = 0;
-// 	   this.raceBonusValue = 0;
-// 	   this.classBonusValue = 0;
-//       // this.modifier = 0;
-// 	}
-	
-// 	get bonusValue() {
-// 		return this.classBonusValue + this.raceBonusValue;
-// 	}
-// 	get displayName() {
-// 	   return this.name.charAt(0).toUpperCase() + this.name.slice(1);
-// 	}
-// 	get totalValue() {
-// 		return this.baseValue + this.bonusValue;
-// 	}
-//    get modifier() {
-//       return this.baseValue > 0 ? Math.floor((this.totalValue - 10) / 2) : null;
-//    }
-// 	set baseValue(val) {
-// 		this._baseValue = val;
-// 	}
-// 	set raceBonusValue(val) {
-// 		this._raceBonusValue = val;
-// 	}
-// 	set classBonusValue(val) {
-// 		this._classBonusValue = val;
-// 	}
-// }
+export const getReferenceObject = (val, cat, parent) => {
+   const ref = {};
+   if (cat === 'race') Object.assign(ref, {...RaceSubrace.race[val]})
+   else if (cat === 'subrace') {
+      if (val === 'N/A') Object.assign(ref, {...RaceSubrace.race[parent]});
+      else Object.assign(ref, {...RaceSubrace.subrace[parent][val]});
+   } else if (cat === 'background') Object.assign(ref, {...Background[val]});
+   return ref;
+}
 
-// const abilityArr = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma' ]
+export const checkForNull = (update, character) => {
+   if (Object.values(update).includes(null)) {
+      let key = getKeyByValue(update);
+      update[key] = character[key];
+      checkForNull(update, character)
+   } else return update;
+}
 
-// export const createAbilityObject = () => {
-//    let abilities = {}
-//    for (let [i, val] of abilityArr.entries()) {
-//       let obj = new Ability (val, i)
-//       abilities[val] = obj
-//   }
-//   return abilities;
-// }
+const getKeyByValue = (object) => Object.keys(object).find(key => object[key] === null);
 
 export const setModifiersByName = (name, current) => {
    let index;

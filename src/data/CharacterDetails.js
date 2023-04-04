@@ -24,4 +24,4 @@ export const Tools = ['Alchemist\'s Tools', 'Calligrapher\'s Tools', 'Cartograph
 
 export const Instruments = ['Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Lute', 'Lyre', 'Horn', 'Pan flute', 'Shawm', 'Viol']
 
-export const skills = [['Acrobatics', 1], ['Animal Handling', 4], ['Arcana', 3], ['Athletics', 0], ['Deception', 5], ['History', 3], ['Insight', 4], ['Intimidation', 5], ['Investigation', 3], ['Medicine', 4], ['Nature', 3], ['Perception', 4], ['Performance', 5], ['Persuasion', 5], ['Religion', 3], ['Sleight of Hand', 1], ['Stealth', 1], ['Survival', 4]]
+export const skills = [['acrobatics', 1], ['animal handling', 4], ['arcana', 3], ['athletics', 0], ['deception', 5], ['history', 3], ['insight', 4], ['intimidation', 5], ['investigation', 3], ['medicine', 4], ['nature', 3], ['perception', 4], ['performance', 5], ['persuasion', 5], ['religion', 3], ['sleight of hand', 1], ['stealth', 1], ['survival', 4]]

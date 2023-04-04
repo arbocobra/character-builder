@@ -2,10 +2,7 @@ import React, { useEffect, memo } from 'react';
 const _ = require('lodash'); 
 
 export const DisplayAbilities = memo(function DisplayAbilities(props) {
-   const {abilityScores, abilityRef, altAbilityScores} = props;
-
-  //  useEffect(() => console.log(abilityScores))
-  //  useEffect(() => console.log(altAbilityScores.total))
+   const {abilityScores, abilityRef} = props;
  
    return (
      <div className='ability-grid table-grid'>
@@ -16,16 +13,17 @@ export const DisplayAbilities = memo(function DisplayAbilities(props) {
          <div>Total</div>
          <div>Modifier</div>
        </div>
-     { abilityScores.map((el,i) => (
-       <div key={abilityRef[i]} className='ability-row'>
-         <div>{abilityRef[i]}</div>
-         <div>{el[0]}</div>
-         <div>{el[1]}</div>
-         <div>{el[2]}</div>
-         { el[0] > 0 && <div>{el[3]}</div> }
+     { abilityRef.map((el,i) => (
+       <div key={el} className='ability-row'>
+         <div>{el}</div>
+         {/* { !_.isEmpty(abilityScores.base ) && (<div>{abilityScores.base[i]}</div>)} */}
+         {/* { !_.isEmpty(abilityScores.base ) && (<div>{abilityScores.base[i]}</div>)} */}
+         <div>{abilityScores.base[i]}</div>
+         <div>{abilityScores.totalBonus[i]}</div>
+         <div>{abilityScores.total[i]}</div>
+         { abilityScores.base.length && <div>{abilityScores.modifiers[i]}</div>}
        </div>
      )) }
-     <p>Total: {altAbilityScores.total}</p>
      </div>
    )
  
@@ -34,11 +32,6 @@ export const DisplayAbilities = memo(function DisplayAbilities(props) {
  export const DisplayAbilitiesAlt = memo(function DisplayAbilities(props) {
 
   const {abilities, abilityRef, abilityScores} = props;
-
-  // useEffect(() => {
-  //   if (_.has(abilities, 'total')) console.log(abilities.total)
-  //   }, [abilities])
-  // useEffect(() => console.log('render alt'))
 
   
     
