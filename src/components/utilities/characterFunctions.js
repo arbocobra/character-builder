@@ -16,6 +16,7 @@ export const updateRace = (reference, val, current) => {
       skills: modifiedSkills,
       speed: reference.speed,
    }
+
    checkForNull(update, current)
    return update;
 }
@@ -33,6 +34,7 @@ export const updateSubrace = (reference, val, current, parentRef) => {
       features: modifiedFeatures,
       languages: modifiedLanguages,
    }
+   
    checkForNull(update, current)
    return update;
 }

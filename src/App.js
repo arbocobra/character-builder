@@ -87,11 +87,11 @@ const App = () => {
   return (
     <div className="App">
       <div id="player-select" className="container-box select">
-      <p>Character Display</p>
+        <h2>Character Select</h2>
         <CharacterSelect updateCharacter={updateCharacter} character={character} />
       </div>
       <div id="player-display" className="container-box display">
-        <p>Character Select</p>
+        <h2>Character Display</h2>
         <CharacterDisplay currentCharacter={character} />
       </div>
     </div>

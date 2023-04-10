@@ -7,7 +7,7 @@ export const SelectRace = memo(function SelectRace(props) {
 	const { updateSelect } = props;
 
 	const initialOption = useRef('-- select --');
-	const altRaceRef = useRef()
+	const raceRef = useRef()
 	const optionsArray = Object.keys(RaceSubrace.race);
 
 	const [raceSelect, setRaceSelect] = useState(null);
@@ -19,7 +19,7 @@ export const SelectRace = memo(function SelectRace(props) {
 
 	const handleSelect = (val, cat) => {
 		if (cat === 'race') {
-			if (subraceInput.current.length) resetSub(altRaceRef.current, subraceInput.current, initialOption.current, hasSubrace.current)
+			if (subraceInput.current.length) resetSub(raceRef.current, subraceInput.current, initialOption.current, hasSubrace.current)
 			required.current = RaceSubrace.race[val].subrace_req;
 			if (RaceSubrace.race[val].has_subrace) {
 				hasSubrace.current = true;
@@ -55,14 +55,15 @@ export const SelectRace = memo(function SelectRace(props) {
 
 
 	return (
-		<div ref={altRaceRef} className="stat-input-container">
+		<div ref={raceRef} className="stat-input-container">
 			<div id="SelectRace" className="stat-input">
-				<p>Select Race</p>
+				<p className='section-title'>Select Race</p>
 				<Dropdown cat='race' handleSelect={handleSelect} optionsArray={optionsArray} initialOption={initialOption.current} />
 				{ hasSubrace.current ? 
 				<Dropdown cat='subrace' handleSelect={handleSelect} optionsArray={subraceInput.current} initialOption={initialOption.current} /> : null }
-				{hasSubrace.current && (<span className='alert'>{ required.current ? '* Subrace required' :'* Subrace NOT required' }</span>)}
+				{hasSubrace.current ? (<span className="alert">{ required.current ? '* Subrace required' :'* Subrace NOT required' }</span>) : null}
 			</div>
+			{/* {hasSubrace.current && (<div className="alert"><span>{ required.current ? '* Subrace required' :'* Subrace NOT required' }</span></div>)} */}
 		</div>
 	)
 })

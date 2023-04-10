@@ -23,7 +23,7 @@ export const SelectAbilities = memo(function SelectAbilities(props) {
     return (
       <div className="stat-input-container abilities">
         <div id="SelectAbilities" className="stat-input">
-            <p>Select Abilities</p>
+          <p className='section-title'>Select Abilities</p>
             <form id="selection-form" name="attributeSelect" className='selectionRadio'>
               <div>
                 <input type="radio" id="point-buy" name="attributes" value="point-buy"/>

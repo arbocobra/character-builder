@@ -1,6 +1,8 @@
-const CharacterRaceSubrace = {
+import { skills } from "./CharacterDetails";
+
+const CharacterRaceSubracePREV = {
 	race: {
-		aarakocra: {
+		Aarakocra: {
 			size: 'M',
 			speed: 25,
 			language: ['common', 'aarakocra', 'auran'],
@@ -10,7 +12,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['flight', 'talons', 'wind caller'],
 		},
-		aasimar: {
+		Aasimar: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'celestial'],
@@ -20,7 +22,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['darkvision', 'celestial resistance', 'healing hands', 'light bearer'],
 		},
-		bugbear: {
+		Bugbear: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'goblin'],
@@ -30,7 +32,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['darkvision', 'fey ancestry', 'long-limbed', 'powerful build', 'sneaky', 'surprise attack'],
 		},
-		centaur: {
+		Centaur: {
 			size: 'M',
 			speed: 40,
 			language: ['common', 'sylvan'],
@@ -41,7 +43,7 @@ const CharacterRaceSubrace = {
 			extras: ['charge', 'equine build', 'hooves', 'natural affinity'],
 			select: [['skills', 1, ['animal handling', 'medicine', 'nature', 'survival']]],
 		},
-		changeling: {
+		Changeling: {
 			size: 'M',
 			speed: 30,
 			language: ['common'],
@@ -56,7 +58,7 @@ const CharacterRaceSubrace = {
 				['bonusModifiers_race', 1, ['Dexterity', 'Intelligence']],
 			],
 		},
-		dragonborn: {
+		Dragonborn: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'draconic'],
@@ -66,7 +68,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['breath weapon', 'damage resistance', 'draconic ancestry'],
 		},
-		dwarf: {
+		Dwarf: {
 			size: 'M',
 			speed: 25,
 			language: ['common', 'dwarf'],
@@ -77,7 +79,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['darkvision', 'dwarven combat training', 'dwarven resilience', 'stonecunning', 'tool proficiency'],
 		},
-		elf: {
+		Elf: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'elvish'],
@@ -88,7 +90,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['darkvision', 'fey ancestry', 'keen sense', 'trance'],
 		},
-		firbolg: {
+		Firbolg: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'elvish', 'giant'],
@@ -98,7 +100,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['firborg magic', 'hidden step', 'powerful build', 'speech of beast and leaf'],
 		},
-		genasi: {
+		Genasi: {
 			size: 'S/M',
 			speed: 30,
 			language: ['common', 'primordial'],
@@ -109,7 +111,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['darkvision'],
 		},
-		gith: {
+		Gith: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'gith'],
@@ -120,7 +122,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['psychic resilience'],
 		},
-		gnome: {
+		Gnome: {
 			size: 'S',
 			speed: 25,
 			language: ['common', 'gnomish'],
@@ -131,7 +133,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['darkvision', 'gnome cunning'],
 		},
-		goblin: {
+		Goblin: {
 			size: 'S',
 			speed: 30,
 			language: ['common', 'goblin'],
@@ -141,7 +143,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['darkvision', 'fey ancestry', 'fury of the small', 'nimble escape'],
 		},
-		goliath: {
+		Goliath: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'giant'],
@@ -151,7 +153,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['little giant', 'mountain born', 'stone\'s endurance'],
 		},
-		grung: {
+		Grung: {
 			size: 'S',
 			speed: 25,
 			language: ['common, grung'],
@@ -161,7 +163,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['amphibious', 'arboreal alertness', 'poison immunity', 'poisonous skin', 'standing leap', 'water dependency'],
 		},
-		halfling: {
+		Halfling: {
 			size: 'S',
 			speed: 25,
 			language: ['common', 'halfling'],
@@ -172,7 +174,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['brave', 'lucky', 'nimble'],
 		},
-		'half-elf': {
+		'Half-Elf': {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'elvish'],
@@ -187,7 +189,7 @@ const CharacterRaceSubrace = {
 				['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom']],
 			],
 		},
-		'half-orc': {
+		'Half-Orc': {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'orc'],
@@ -197,7 +199,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['darkvision', 'menacing', 'relentless endurance', 'savage attacks'],
 		},
-		hobgoblin: {
+		Hobgoblin: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'goblin'],
@@ -207,7 +209,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['darkvision', 'fey ancestry', 'fey gift', 'fortune from the many'],
 		},
-		human: {
+		Human: {
 			size: 'M',
 			speed: 30,
 			language: ['common'],
@@ -219,7 +221,7 @@ const CharacterRaceSubrace = {
 			extras: null,
 			select: [['language', 1, 'ALL']],
 		},
-		kalashtar: {
+		Kalashtar: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'quori'],
@@ -230,7 +232,7 @@ const CharacterRaceSubrace = {
 			extras: ['dual mind', 'mentail discipline', 'mind link', 'severed from dreams'],
 			select: [['language', 1, 'ALL']],
 		},
-		kenku: {
+		Kenku: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'auran (all speech via mimicry)'],
@@ -241,7 +243,7 @@ const CharacterRaceSubrace = {
 			extras: ['expert duplication', 'kenku recall', 'mimicry'],
 			select: [['skills', 2, ['acrobatics', 'deception', 'stealth', 'sleight of hand']]],
 		},
-		kobold: {
+		Kobold: {
 			size: 'S',
 			speed: 30,
 			language: ['common', 'draconic'],
@@ -251,7 +253,7 @@ const CharacterRaceSubrace = {
 			subrace_req: null,
 			extras: ['darkvision', 'draconic cry', 'kobold legacy'],
 		},
-		lizardfolk: {
+		Lizardfolk: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'draconic'],
@@ -262,7 +264,7 @@ const CharacterRaceSubrace = {
 			extras: ["30' swim", 'Hold breath 15min', 'Bite', 'Hungry Jaws', 'Natural Armor', 'Cunning Artisan'],
 			select: [['skills', 2, ['animal handling', 'nature', 'perception', 'stealth', 'survival']]],
 		},
-		loxodon: {
+		Loxodon: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'loxodon'],
@@ -278,7 +280,7 @@ const CharacterRaceSubrace = {
 				'Adv. on Perception, Survival, Investigation checks involving smell',
 			],
 		},
-		minotaur: {
+		Minotaur: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'minotaur'],
@@ -289,7 +291,7 @@ const CharacterRaceSubrace = {
 			extras: ['Horns', 'Hammering Horns', 'Goring Rush', 'Labyrinthine Recall'],
 			select: [['skills', 1, ['intimidation', 'persuasion']]],
 		},
-		orc: {
+		Orc: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'orc'],
@@ -304,7 +306,7 @@ const CharacterRaceSubrace = {
 				'Relentless Endurance',
 			],
 		},
-		shifter: {
+		Shifter: {
 			size: 'M',
 			speed: 30,
 			language: ['common'],
@@ -316,7 +318,7 @@ const CharacterRaceSubrace = {
 			extras: ["60' Darkvision", 'Shifting: temp hp (2xPB)'],
 			select: [['skills', 1, ['acrobatics', 'athletics', 'intimidation', 'survival']]],
 		},
-		'simic hybrid': {
+		'Simic Hybrid': {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'elvish/vedalken'],
@@ -327,7 +329,7 @@ const CharacterRaceSubrace = {
 			extras: ["60' Darkvision", '+1 AC (w/o heavy armor)', 'Acid Spit', 'Animal Enhancements (at L1 and L5)'],
 			select: [['bonusModifiers_race', 1, ['Strength', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma']]],
 		},
-		tabaxi: {
+		Tabaxi: {
 			size: 'S/M',
 			speed: 30,
 			language: ['common'],
@@ -338,7 +340,7 @@ const CharacterRaceSubrace = {
 			extras: ["30' climb", "60' Darkvision", 'Feline Agility (temp. speed*2)', "Cat's Claws"],
 			select: [['language', 1, 'ALL']],
 		},
-		tiefling: {
+		Tiefling: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'infernal'],
@@ -349,7 +351,7 @@ const CharacterRaceSubrace = {
 			subrace_req: false,
 			extras: ["60' Darkvision", 'Infernal Legacy (spells)', 'Fire res.'],
 		},
-		tortle: {
+		Tortle: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'aquan'],
@@ -360,7 +362,7 @@ const CharacterRaceSubrace = {
 			extras: ['Natural Armor (base AC = 17)', 'Shell Defense', 'Claws', 'Hold Breath', "Nature's Intuition"],
 			select: [['skills', 1, ['animal handling', 'medicine', 'nature', 'perception', 'stealth', 'survival']]],
 		},
-		triton: {
+		Triton: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'primordial'],
@@ -375,7 +377,7 @@ const CharacterRaceSubrace = {
 				'Emissary of the Sea,\nGuardians of the Depths (prim. Cold res.)',
 			],
 		},
-		vedalken: {
+		Vedalken: {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'vedalken'],
@@ -386,7 +388,7 @@ const CharacterRaceSubrace = {
 			extras: ['Partially Amphibious', 'Tireless Precision', 'Adv. on INT, WIS & CHA saves'],
 			select: [['language', 1, 'ALL']],
 		},
-		warforged: {
+		Warforged: {
 			size: 'M',
 			speed: 30,
 			language: ['common'],
@@ -397,7 +399,7 @@ const CharacterRaceSubrace = {
 			subrace_req: true,
 			extras: ['Warforged Resilience', "Sentry's Rest", 'Integrated Protection'],
 		},
-		'yuan-ti': {
+		'Yuan-Ti': {
 			size: 'M',
 			speed: 30,
 			language: ['common', 'abyssal', 'draconic'],
@@ -414,22 +416,75 @@ const CharacterRaceSubrace = {
 		},
 	},
 	subrace: {
-		dwarf: {
-			hill: {
+		// Aasimar: {
+		// 	Variant: {
+		// 		modifiers: [0, 0, 0, 0, 1, 2],
+		// 		skills: null,
+		// 		language: null,
+		// 		speed: null,
+		// 		extras: [
+		// 			"60' Darkvision",
+		// 			'Light cantrip',
+		// 			'Necrotic & Radiant res.',
+		// 			'Celestial Legacy (2 additional spells)',
+		// 		],
+		// 	},
+		// 	Protector: {
+		// 		modifiers: [0, 0, 0, 0, 1, 2],
+		// 		skills: null,
+		// 		language: null,
+		// 		speed: null,
+		// 		extras: [
+		// 			"60' Darkvision",
+		// 			'Healing Hands',
+		// 			'Light cantrip',
+		// 			'Necrotic & Radiant res.',
+		// 			'Radiant Soul (mobility, damage buff)',
+		// 		],
+		// 	},
+		// 	Scourge: {
+		// 		modifiers: [0, 0, 1, 0, 0, 2],
+		// 		skills: null,
+		// 		language: null,
+		// 		speed: null,
+		// 		extras: [
+		// 			"60' Darkvision",
+		// 			'Healing Hands',
+		// 			'Light cantrip',
+		// 			'Necrotic & Radiant res.',
+		// 			'Radiant Consumption (AoE damage, damage buff)',
+		// 		],
+		// 	},
+		// 	Fallen: {
+		// 		modifiers: [1, 0, 0, 0, 0, 2],
+		// 		skills: null,
+		// 		language: null,
+		// 		speed: null,
+		// 		extras: [
+		// 			"60' Darkvision",
+		// 			'Healing Hands',
+		// 			'Light cantrip',
+		// 			'Necrotic & Radiant res.',
+		// 			'Necrotic Shroud (crowd control, damage buff)',
+		// 		],
+		// 	},
+		// },
+		Dwarf: {
+			Hill: {
 				modifiers: [0, 0, 2, 0, 1, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['dwarven toughness'],
 			},
-			mountain: {
+			Mountain: {
 				modifiers: [2, 0, 2, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['dwarven armor training'],
 			},
-			'gray (duergar)': {
+			'Gray (Duergar)': {
 				modifiers: [1, 0, 2, 0, 0, 0],
 				skills: null,
 				language: ['undercommon'],
@@ -437,44 +492,44 @@ const CharacterRaceSubrace = {
 				extras: ['duergar magic', 'psionic fortitude'],
 			},
 		},
-		elf: {
-			high: {
+		Elf: {
+			High: {
 				modifiers: [0, 2, 0, 1, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['extra language', 'elf weapon training'],
-				select: [['language', 1, 'all']],
+				select: [['language', 1, 'ALL']],
 			},
-			wood: {
+			Wood: {
 				modifiers: [0, 2, 0, 0, 1, 0],
 				skills: null,
 				language: null,
 				speed: 35,
 				extras: ['elf weapon training', 'fleet of foot', 'mask of the wild'],
 			},
-			drow: {
+			Drow: {
 				modifiers: [0, 2, 0, 0, 0, 1],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['drow magic', 'drow weapon training', 'sunlight sensitivity'],
 			},
-			eladrin: {
+			Eladrin: {
 				modifiers: [0, 2, 0, 0, 0, 1],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['fey step'],
 			},
-			'sea elf': {
+			'Sea Elf': {
 				modifiers: [0, 2, 1, 0, 0, 0],
 				skills: null,
 				language: ['aquan'],
 				speed: null,
 				extras: ['child of the sea', 'friend of the sea'],
 			},
-			'shadar kai': {
+			'Shadar Kai': {
 				modifiers: [0, 2, 1, 0, 0, 0],
 				skills: null,
 				language: null,
@@ -482,29 +537,29 @@ const CharacterRaceSubrace = {
 				extras: ['blessing of the raven queen', 'necrotic resistance'],
 			},
 		},
-		genasi: {
-			air: {
+		Genasi: {
+			Air: {
 				modifiers: [0, 1, 2, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['lightning resistance', 'mingle with the wind', 'unending breath'],
 			},
-			earth: {
+			Earth: {
 				modifiers: [1, 0, 2, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['earth walk', 'merge with stone'],
 			},
-			fire: {
+			Fire: {
 				modifiers: [0, 0, 2, 1, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['fire resistance', 'reach to the blaze'],
 			},
-			water: {
+			Water: {
 				modifiers: [0, 0, 2, 0, 1, 0],
 				skills: null,
 				language: null,
@@ -512,15 +567,15 @@ const CharacterRaceSubrace = {
 				extras: ['acid resistance', 'call to the wave'],
 			},
 		},
-		gith: {
-			githyanki: {
+		Gith: {
+			Githyanki: {
 				modifiers: [2, 0, 0, 1, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['astral knowledge', 'githyanki psionics'],
 			},
-			githzerai: {
+			Githzerai: {
 				modifiers: [0, 0, 0, 1, 2, 0],
 				skills: null,
 				language: null,
@@ -528,22 +583,22 @@ const CharacterRaceSubrace = {
 				extras: ['githzerai psionics', 'mentail discipline'],
 			},
 		},
-		gnome: {
-			forest: {
+		Gnome: {
+			Forest: {
 				modifiers: [0, 1, 0, 2, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['natural illusionist', 'speak with small beasts'],
 			},
-			rock: {
+			Rock: {
 				modifiers: [0, 0, 1, 2, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['artificer\'s lore', 'tinker'],
 			},
-			'deep (svirfneblin)': {
+			'Deep (Svirfneblin)': {
 				modifiers: [0, 1, 0, 2, 0, 0],
 				skills: null,
 				language: ['undercommon'],
@@ -551,22 +606,22 @@ const CharacterRaceSubrace = {
 				extras: ['gift of the svirfneblin', 'svirfneblin camouflage'],
 			},
 		},
-		halfling: {
-			lightfoot: {
+		Halfling: {
+			Lightfoot: {
 				modifiers: [0, 2, 0, 0, 0, 1],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['naturally stealthy'],
 			},
-			stout: {
+			Stout: {
 				modifiers: [0, 2, 1, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['stout resilience'],
 			},
-			// ghostwise: {
+			// Ghostwise: {
 			// 	modifiers: [0, 2, 0, 0, 1, 0],
 			// 	skills: null,
 			// 	language: null,
@@ -574,139 +629,139 @@ const CharacterRaceSubrace = {
 			// 	extras: ['silent speech'],
 			// },
 		},
-		'half-elf': {
-			'half-wood': {
+		'Half-Elf': {
+			'Half-Wood': {
 				modifiers: [0, 0, 0, 0, 0, 2],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom']], ['language', 1, 'ALL']],
 			},
-			'half-high': {
+			'Half-High': {
 				modifiers: [0, 0, 0, 0, 0, 2],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom']], ['language', 1, 'ALL']],
 			},
-			'half-drow': {
+			'Half-Drow': {
 				modifiers: [0, 0, 0, 0, 0, 2],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom']], ['language', 1, 'ALL']],
 			},
-			'half-aquatic': {
+			'Half-Aquatic': {
 				modifiers: [0, 0, 0, 0, 0, 2],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom']], ['language', 1, 'ALL']],
 			},
 		},
-		human: {
-			variant: {
+		Human: {
+			Variant: {
 				modifiers: [0, 0, 0, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: ['**+1 feat'],
 				select: [
-					['skills', 1, 'all'],
-					['language', 1, 'all'],
-					['bonusmodifiers_race', 2, 'all'],
+					['skills', 1, 'ALL'],
+					['language', 1, 'ALL'],
+					['bonusModifiers_race', 2, 'ALL'],
 				],
 			},
 		},
-		shifter: {
-			beasthide: {
+		Shifter: {
+			Beasthide: {
 				modifiers: [0, 1, 2, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
-				extras: ["60' darkvision", 'shifting', 'while shifted: 1d6 temp hp and +1 ac'],
+				extras: ["60' Darkvision", 'Shifting', 'While shifted: 1d6 temp hp and +1 AC'],
 			},
-			longtooth: {
+			Longtooth: {
 				modifiers: [2, 1, 0, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
-				extras: ["60' darkvision", 'shifting', 'while shifted: unarmed strike w fangs (1d6 + str -> piercing)'],
+				extras: ["60' Darkvision", 'Shifting', 'While shifted: unarmed strike w fangs (1d6 + STR -> piercing)'],
 			},
-			swiftstride: {
+			Swiftstride: {
 				modifiers: [0, 2, 0, 0, 0, 1],
 				skills: null,
 				language: null,
 				speed: 35,
-				extras: ["60' darkvision", 'shifting', "while shifted: +10 speed, +10 reaction in 5' proximity (no oa)"],
+				extras: ["60' Darkvision", 'Shifting', "While shifted: +10 speed, +10 reaction in 5' proximity (no OA)"],
 			},
-			wildhunt: {
+			Wildhunt: {
 				modifiers: [0, 1, 0, 0, 2, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: [
-					"60' darkvision",
-					'shifting',
-					'while shifted: adv on wis, no attacks on you with adv (unless incapacitated)',
+					"60' Darkvision",
+					'Shifting',
+					'While shifted: adv on WIS, no attacks on you with adv (unless incapacitated)',
 				],
 			},
 		},
-		tiefling: {
-			variant: {
+		Tiefling: {
+			Variant: {
 				modifiers: [0, 0, 0, 1, 0, 2],
 				skills: null,
 				language: null,
 				speed: null,
-				extras: ["60' darkvision", 'fire res.', "devil's tongue or hellfire or winged"],
+				extras: ["60' Darkvision", 'Fire res.', "Devil's Tongue or Hellfire or Winged"],
 			},
-			feral: {
+			Feral: {
 				modifiers: [0, 2, 0, 1, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
-				extras: ["60' darkvision", 'fire res.', "devil's tongue or hellfire or winged"],
+				extras: ["60' Darkvision", 'Fire res.', "Devil's Tongue or Hellfire or Winged"],
 			},
 		},
-		warforged: {
-			envoy: {
+		Warforged: {
+			Envoy: {
 				modifiers: [0, 0, 1, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
-				extras: ['warforged resilience', "sentry's rest", 'integrated protection', '+1 tool', 'integrated tool'],
+				extras: ['Warforged Resilience', "Sentry's Rest", 'Integrated Protection', '+1 tool', 'Integrated Tool'],
 				select: [
-					['skills', 1, 'all'],
-					['language', 1, 'all'],
-					['bonusmodifiers_race', 2, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']],
+					['skills', 1, 'ALL'],
+					['language', 1, 'ALL'],
+					['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma']],
 				],
 			},
-			juggernaut: {
+			Juggernaut: {
 				modifiers: [2, 0, 1, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: null,
 				extras: [
-					'warforged resilience',
-					"sentry's rest",
-					'integrated protection',
-					'powerful build',
+					'Warforged Resilience',
+					"Sentry's Rest",
+					'Integrated Protection',
+					'Powerful Build',
 					'unarmed strike w/ extra damage (bludgeoning)',
 				],
 			},
-			skirmisher: {
+			Skirmisher: {
 				modifiers: [0, 2, 1, 0, 0, 0],
 				skills: null,
 				language: null,
 				speed: 35,
-				extras: ['warforged resilience', "sentry's rest", 'integrated protection', 'light step'],
+				extras: ['Warforged Resilience', "Sentry's Rest", 'Integrated Protection', 'Light Step'],
 			},
 		},
 	},
 };
 
-export default CharacterRaceSubrace;
+export default CharacterRaceSubracePREV;

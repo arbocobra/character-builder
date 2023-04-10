@@ -110,9 +110,6 @@ export const rollDice = (num, dice, mod) => {
 
 export const smartCase = (string) => {
    const noCaps = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'the', 'to']
-   // let allCaps = _.capitalize(string);
-   // let arr = _.words(_.capitalize(string));
-   // arr.forEach(word => noCaps.includes(word) ? word.toLowerCase() : word);
    let corrected = _.words(string).map(word => noCaps.includes(word) ? word : _.capitalize(word))
    return corrected.join(' ');
 }

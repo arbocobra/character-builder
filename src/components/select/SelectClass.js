@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-// import { toggleList } from '../../helperFunctions';
 import { addDropdownEvent, addOptionEvent } from '../utilities/selectFunctions'
 import CharacterClassSubclass from '../../data/ClassSubclass';
 
@@ -88,7 +87,7 @@ export const SelectClass = memo(function SelectClass(props) {
 	return (
 		<div className="stat-input-container class">
 			<div id="SelectClass" ref={parentRef} className="stat-input">
-				<p>Select Class</p>
+				<p className='section-title'>Select Class</p>
 				<div ref={levelRef} className="custom-dropdown">
 					<div className="value-header small">
 						- level -
@@ -161,7 +160,7 @@ const SelectHitPoints = (props) => {
 
 	return (
 			<div>
-				<p>Select Hit Points</p>
+				<p className='section-title'>Select Hit Points</p>
 				<form id="selection-form" name="hpSelect" className='selectionRadio'>
 					<div>
 						<input type="radio" id="average" name="hitPoints" value="average"/>

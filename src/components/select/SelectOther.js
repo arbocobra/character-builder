@@ -33,7 +33,7 @@ export const SelectOther = memo(function SelectOther(props) {
 				<div ref={parentRef} id='SelectOther' className='stat-input'>
 				{selectionDetails[1].map((el, i) => (
 					<div className='select-other-box' key={el[0]}>
-						<p>Select {el[0]}</p>
+						<p className='section-title'>Select {el[0]}</p>
 						<SelectBox name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} />
 					</div>
 				))}
