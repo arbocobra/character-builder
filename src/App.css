@@ -56,6 +56,9 @@ p {
 .stat-input-container.abilities {
 	max-height: 322px;
 }
+.stat-input-container.class {
+	max-height: 322px;
+}
 /* .stat-input-container {
 	flex-flow: row wrap;
 	display: flex;
@@ -114,6 +117,8 @@ p {
 	width: 100%;
 }
 
+
+
 .button-container.full {
 	width: 100%;
 	display: flex;
@@ -150,8 +155,12 @@ p {
 .selectionRadio {
 	display: flex;
 	flex-flow: row nowrap;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	width: 100%;
+}
+
+.selectionRadio > div {
+	margin-right: 15px;
 }
 
 .ability-select-container {
@@ -372,3 +381,31 @@ p {
 }
 
 .hidden {display: none}
+
+.tooltip {
+	position: relative;
+	/* display: inline-block; */
+	/* border-bottom: 1px dotted black; */
+	width: 100%;
+ }
+ .tooltip > div:first-child {
+	border-bottom: 1px dotted black;
+	display: inline-block;
+ }
+ 
+ .tooltip .tooltiptext {
+	visibility: hidden;
+	/* width: 450px; */
+	background-color: #cfcfcf;
+	color: #000;
+	border-radius: 2px;
+	padding: 10px;
+	position: absolute;
+	z-index: 1;
+	left: 25px;
+	font-size: 13px;
+ }
+ 
+ .tooltip:hover .tooltiptext {
+	visibility: visible;
+ }

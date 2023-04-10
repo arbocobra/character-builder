@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { addDropdownEvent, addOptionEvent } from '../../selectFunctions';
+import { addDropdownEvent, addOptionEvent } from '../../utilities/selectFunctions';
 import { SubmitButton } from '../SubmitButton';
 
 export const PointBuy = (props) => {

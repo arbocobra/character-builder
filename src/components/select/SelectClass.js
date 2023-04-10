@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 // import { toggleList } from '../../helperFunctions';
-import { addDropdownEvent, addOptionEvent } from '../selectFunctions'
+import { addDropdownEvent, addOptionEvent } from '../utilities/selectFunctions'
 import CharacterClassSubclass from '../../data/ClassSubclass';
 
 export const SelectClass = memo(function SelectClass(props) {
@@ -9,7 +9,7 @@ export const SelectClass = memo(function SelectClass(props) {
 	const [levelSelect, setLevelSelect] = useState(0);
 	const [classSelect, setClassSelect] = useState(null);
 	const [subclassInput, setSubclassInput] = useState([])
-	// const [subclassSelect, setSubclassSelect] = useState(null);
+	const [subclassSelect, setSubclassSelect] = useState(null);
 	const parentRef = useRef();
 	const levelRef = useRef();
 	const classRef = useRef();
@@ -28,34 +28,51 @@ export const SelectClass = memo(function SelectClass(props) {
 		for (let i = 0; i < divArr.length; i++) {
 			addDropdownEvent(divArr[i])
 		}
-	}, []);
-
-	useEffect(() => {
-		const divArr = parentRef.current.querySelectorAll('.custom-dropdown')
-		for (let i = 0; i < divArr.length; i++) {
+		for (let i = 0; i < 2; i++) {
 			addOptionEvent(divArr[i], handleSelect, [dropdownCat[i]])
 		}
+	}, []);
+
+	const subclassAvailable = () => {
+		if (!classSelect || levelSelect < 1) return false;
+		else return levelSelect >= selectedClassObj.current.subLevel
+	}
+
+	const resetSubclass = () => {
+		subclassRef.current.children[0].childNodes[0].nodeValue = initialOption.current;
+		setSubclassSelect(null)
+		updateSelect('', 'subclass');
+	}
+
+	useEffect (() => {
+		if (classSelect) { 
+			let subResult = subclassAvailable()
+			if (subResult) {
+				setSubclassInput(classObj.current[classSelect].subArray);
+			} else {
+				if (subclassSelect) resetSubclass()
+			}	
+		}
+	}, [classSelect, levelSelect])
+
+	useEffect(() => {
+		if (levelSelect > 0) updateSelect(levelSelect, 'level');
+	}, [levelSelect]);
+
+	useEffect(() => {
+		if (classSelect) updateSelect(classSelect, 'class');
 	}, [classSelect]);
 
 	useEffect (() => {
-		if (classSelect) {
-			// selectedClassObj.current = classObj.current[classSelect];
-			setSubclassInput(classObj.current[classSelect].subArray);
-			if (levelSelect >= selectedClassObj.current.subLevel) subclassRef.current.classList.remove('hidden');
-			else subclassRef.current.classList.add('hidden');
-			
-		}
-	}, [classSelect])
+		if (subclassInput.length) {
+			subclassRef.current.classList.remove('hidden');
+			addOptionEvent(subclassRef.current, handleSelect, ['subclass'])
+		} else subclassRef.current.classList.add('hidden');
+	}, [subclassInput])
 
 	useEffect(() => {
-		if (levelSelect > 0) {
-			updateSelect(levelSelect, 'level');
-		}
-		if (classSelect) {
-			if (levelSelect >= selectedClassObj.current.subLevel) subclassRef.current.classList.remove('hidden');
-			else subclassRef.current.classList.add('hidden');
-		}
-	}, [levelSelect]);
+		if (subclassSelect) updateSelect(subclassSelect, 'subclass', classSelect);
+	}, [subclassSelect]);
 
 	const handleSelect = (val, cat) => {
 		if (cat === 'level') {
@@ -63,11 +80,13 @@ export const SelectClass = memo(function SelectClass(props) {
 		} else if (cat === 'class') {
 			setClassSelect(val)
 			selectedClassObj.current = classObj.current[val];
+		} else if (cat === 'subclass') {
+			setSubclassSelect(val)
 		}
 	};
 
 	return (
-		<div className="stat-input-container">
+		<div className="stat-input-container class">
 			<div id="SelectClass" ref={parentRef} className="stat-input">
 				<p>Select Class</p>
 				<div ref={levelRef} className="custom-dropdown">
@@ -105,7 +124,55 @@ export const SelectClass = memo(function SelectClass(props) {
 						))}
 					</ul>
 				</div>
+				{ (levelSelect > 0 && classSelect) ? 
+				<SelectHitPoints {...props} levelSelect={levelSelect} classSelect={classSelect} selectedClassObj={selectedClassObj.current} /> : null}
+				
+
+				
 			</div>
 		</div>
 	);
 });
+
+const SelectHitPoints = (props) => {
+	const { updateSelect, levelSelect, classSelect, selectedClassObj } = props;
+
+	// const [pointsSelect, setPointsSelect] = useState('')
+
+	useEffect(() => {
+      const selectionOptions = document.hpSelect.hitPoints
+      for (const opt of Array.from(selectionOptions)) {
+			// console.log(opt.value)
+        opt.addEventListener('change', selectHitPointOption);
+		// opt.addEventListener('change', updateSelect(opt.value, 'hit points'))
+
+      }
+    }, []);
+
+	 const selectHitPointOption = (event) => {
+      updateSelect(event.target.value, 'hit-points')
+		
+    };
+		
+	const hitDice = selectedClassObj.hitDice
+	const diceCount = levelSelect - 1;
+
+	
+
+	return (
+			<div>
+				<p>Select Hit Points</p>
+				<form id="selection-form" name="hpSelect" className='selectionRadio'>
+					<div>
+						<input type="radio" id="average" name="hitPoints" value="average"/>
+						<label htmlFor="average">Average Hit Dice: {selectedClassObj.hitDice.slice(1) / 2 + 1}</label>
+					</div>
+					<div>
+						<input type="radio" id="roll" name="hitPoints" value="roll"/>
+						<label htmlFor="roll">Roll Hit Dice: {selectedClassObj.hitDice}</label>
+					</div>
+				</form>
+			</div>
+	)
+	
+}

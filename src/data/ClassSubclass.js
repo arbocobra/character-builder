@@ -1,3 +1,4 @@
+import { calcSorceryPoints, calcSpellSlots, calcSpellsKnown } from "../components/utilities/classFunctions";
 const CharacterClassSubclass = {
 	class: {
 		Artificer: {
@@ -5,7 +6,8 @@ const CharacterClassSubclass = {
 			subLevel: 3,
 			subArray: ['Alchemist', 'Armorer', 'Artillerist', 'Battle Smith'],
          hitDice: 'd8',
-         saves: ['Constitution', 'Intelligence']
+         saves: ['Constitution', 'Intelligence'],
+			select: [['skills', 2, ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleight of hand']]],
 		},
 		Barbarian: {
 			subName: 'Primal Path',
@@ -22,6 +24,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd12',
          saves: ['Strength', 'Constitution'],
+			select: [['skills', 2, ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival']]],
 		},
 		Bard: {
 			subName: 'Bard College',
@@ -37,7 +40,8 @@ const CharacterClassSubclass = {
 				'College of Whispers',
 			],
          hitDice: 'd8',
-         saves: ['Dexterity', 'Charisma'],		
+         saves: ['Dexterity', 'Charisma'],
+			select: [['skills', 3, 'ALL']],	
 		},
 		Cleric: {
 			subName: 'Divine Domain',
@@ -60,6 +64,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd8',
          saves: ['Wisdom', 'Charisma'],
+			select: [['skills', 2, ['history', 'insight', 'medicine', 'persuasion', 'religion']]],
 		},
 		Druid: {
 			subName: 'Druid Circle',
@@ -74,7 +79,8 @@ const CharacterClassSubclass = {
 				'Circle of Wildfire',
 			],
          hitDice: 'd8',
-         saves: ['Intelligence', 'Wisdom'],		
+         saves: ['Intelligence', 'Wisdom'],	
+			select: [['skills', 2, ['arcana', 'animal handling', 'insight', 'medicine', 'nature', 'perception', 'religion', 'survival']]],
 		},
 		Fighter: {
 			subName: 'Martial Archetype',
@@ -93,6 +99,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd10',
          saves: ['Strength', 'Constitution'],
+			select: [['skills', 2, ['acrobatics', 'animal handling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival']]],
 		},
 		Monk: {
 			subName: 'Monastic Tradition',
@@ -111,6 +118,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd8',
          saves: ['Strength', 'Dexterity'],
+			select: [['skills', 2, ['acrobatics', 'athletics', 'history', 'insight', 'religion', 'stealth']]],
 		},
 		Paladin: {
 			subName: 'Sacred Oath',
@@ -128,6 +136,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd10',
          saves: ['Wisdom', 'Charisma'],	
+			select: [['skills', 2, ['athletics', 'insight', 'intimidation', 'medicine', 'persuasion', 'religion']]],
 		},
 		Ranger: {
 			subName: 'Ranger Conclave',
@@ -144,6 +153,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd10',
          saves: ['Strength', 'Dexterity'],
+			select: [['skills', 3, ['animal handling', 'athletics', 'insight', 'investigation', 'nature', 'perception', 'stealth', 'survival']]],
 		},
 		Rogue: {
 			subName: 'Roguish Archetype',
@@ -161,6 +171,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd8',
          saves: ['Dexterity', 'Intelligence'],
+			select: [['skills', 4, ['acrobatics', 'athletics', 'deception', 'insight', 'intimidation', 'investigation', 'perception', 'performance', 'persuasion', 'sleight of hand', 'stealth']]],
 		},
 		Sorcerer: {
 			subName: 'Sorcerous Origin',
@@ -177,6 +188,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd6',
          saves: ['Constitution', 'Charisma'],
+			select: [['skills', 2, ['arcana', 'deception', 'insight', 'intimidation', 'persuasion', 'religion']]],
 		},
 		Warlock: {
 			subName: 'Otherworldly Patron',
@@ -194,6 +206,7 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd8',
          saves: ['Wisdom', 'Charisma'],
+			select: [['skills', 2, ['arcana', 'deception', 'history', 'intimidation', 'investigation', 'nature', 'religion']]],
 		},
 		Wizard: {
 			subName: 'Arcane Tradition',
@@ -215,8 +228,33 @@ const CharacterClassSubclass = {
 			],
          hitDice: 'd6',
          saves: ['Intelligence', 'Wisdom'],
+			select: [['skills', 2, ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion']]],
 		},
 	},
+	features: {
+		Artificer: [],
+		Barbarian: [],
+		Bard: [],
+		Cleric: [],
+		Druid: [],
+		Fighter: [],
+		Monk: [],
+		Paladin: [],
+		Ranger: [],
+		Rogue: [],
+		Sorcerer: [
+			[[],['Spellcasting', 'Sorcerous Origins', 'SCF'], ['Font of Magic'], ['Metamagic'], ['ASI'], [], ['SCF'], [], ['ASI'], [], ['Metamagic'], [], ['ASI'], [], ['SCF'], [], ['ASI'], ['Metamagic'], ['SCF'], ['ASI'], ['Sorcerous Restoration']], 
+			['Sorcery Points', calcSorceryPoints]
+		],
+		Warlock: [],
+		Wizard: [],
+	},
+	utilities: [calcSpellsKnown, calcSpellSlots]
 };
+
+// console.log(CharacterClassSubclass.utilities[1]('Sorcerer', 10))
+
+// features [[features by [level]], [special ability - name, count func], [spells known func, calc slots func], ]
+// features - ASI = ability score improvement, SCF = subclass feature update
 
 export default CharacterClassSubclass;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { addDropdownEvent, addOptionEvent } from '../selectFunctions'
+import { addDropdownEvent, addOptionEvent } from '../utilities/selectFunctions'
 
 const _ = require('lodash'); 
 

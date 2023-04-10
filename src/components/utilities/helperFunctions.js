@@ -1,6 +1,8 @@
-import { language, skills } from './data/CharacterDetails';
-import RaceSubrace from './data/RaceSubrace';
-import { Background } from './data/Background';
+import { language, skills } from '../../data/CharacterDetails';
+import RaceSubrace from '../../data/RaceSubrace';
+import { Background } from '../../data/Background';
+import ClassSubclass from '../../data/ClassSubclass';
+const _ = require('lodash'); 
 
 const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 
@@ -55,6 +57,7 @@ export const getReferenceObject = (val, cat, parent) => {
       if (val === 'N/A') Object.assign(ref, {...RaceSubrace.race[parent]});
       else Object.assign(ref, {...RaceSubrace.subrace[parent][val]});
    } else if (cat === 'background') Object.assign(ref, {...Background[val]});
+   else if (cat === 'class') Object.assign(ref, {...ClassSubclass[cat][val]})
    return ref;
 }
 
@@ -93,4 +96,23 @@ export const setModifiersByName = (name, current) => {
    }
    let val = current[index];
    current[index] = val + 1;
+}
+
+export const rollDice = (num, dice, mod) => {
+   const result = [];
+   for (let i = 0; i < num; i++) {
+      let random = Math.ceil(Math.random() * dice)
+      result.push(random + mod)
+   }
+   console.log(result)
+   return _.sum(result)
+}
+
+export const smartCase = (string) => {
+   const noCaps = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'the', 'to']
+   // let allCaps = _.capitalize(string);
+   // let arr = _.words(_.capitalize(string));
+   // arr.forEach(word => noCaps.includes(word) ? word.toLowerCase() : word);
+   let corrected = _.words(string).map(word => noCaps.includes(word) ? word : _.capitalize(word))
+   return corrected.join(' ');
 }

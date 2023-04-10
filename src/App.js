@@ -6,14 +6,19 @@ import { CharacterSelect } from './components/CharacterSelect';
 const App = () => {
   const [character, setCharacter] = useState({
     abilities: {
-      base: [],
+      // ***Temp - swap back base/total/modifiers after testing ****
+      base: [12,12,12,13,13,13],
+      // base: [],
       bonus: {
         race: [],
         class: [],
       },
       totalBonus: [],
-      total: [],
-      modifiers: [],
+      // total: [],
+      total: [12,12,12,13,13,13],
+      // modifiers: [],
+      modifiers: [1,1,1,1,1,1],
+      // ***
     },
     background: '',
     class: '', 
@@ -29,6 +34,9 @@ const App = () => {
       background: [],
       total: [],
     },
+    hit_dice: '',
+    hit_points: 0,
+    hp_selection: '',
     languages: {
       race: [],
       class: [],
@@ -44,6 +52,7 @@ const App = () => {
     },
     proficiency_bonus: 0,
     race: '',
+    saving_throws: [],
     size: '',
     skills: {
       race: [],
@@ -52,6 +61,7 @@ const App = () => {
       total: [],
     },
     speed: 0,
+    sub_name: '',
     subclass: '',
     subrace: '',
     variant: '',

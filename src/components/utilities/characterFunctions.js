@@ -1,9 +1,7 @@
-import { checkForNull, setModifiersByName } from "./helperFunctions";
+import { checkForNull, setModifiersByName, rollDice } from "./helperFunctions";
 const _ = require('lodash'); 
 
 export const updateRace = (reference, val, current) => {
-   // const abilitiesRef = current.abilities;
-   // console.log(current.skills.total)
    let modifiedAbilities = updateBonusAbilities(current.abilities, reference.modifiers, 'race');
    let modifiedLanguages = updateReferenceObject(current.languages, reference.language, 'race');
    let modifiedSkills = updateReferenceObject(current.skills, reference.skills, 'race');
@@ -17,30 +15,39 @@ export const updateRace = (reference, val, current) => {
       size: reference.size,
       skills: modifiedSkills,
       speed: reference.speed,
-      extras_race: reference.extras,
-      // skills: reference.skill,
-      // bonusModifiers_race: reference.modifiers,
-      // language: reference.language,
    }
    checkForNull(update, current)
    return update;
 }
 
-export const updateSubrace = (reference, val, current) => {
-   const abilitiesRef = current.abilities;
-   let modifiedAbilities = updateBonusAbilities(abilitiesRef, reference.modifiers, 'race')
+export const updateSubrace = (reference, val, current, parentRef) => {
+   let modifiedAbilities = updateBonusAbilities(current.abilities, reference.modifiers, 'race');
+   let languageRef = reference.language ? [...parentRef.language, ...reference.language].flat() : current.languages.race;
+   let featureRef = reference.extras ? [...parentRef.extras, ...reference.extras].flat() : current.features.race;
+   let modifiedLanguages = updateReferenceObject(current.languages, languageRef, 'race');
+   let modifiedFeatures = updateReferenceObject(current.features, featureRef, 'race');
    
    let update = {
       subrace: val,
       abilities: modifiedAbilities,
-      extras_race: reference.extras,
-      language: reference.language,
-      bonusModifiers_race: reference.modifiers,
-      skills: reference.skills,
+      features: modifiedFeatures,
+      languages: modifiedLanguages,
    }
    checkForNull(update, current)
    return update;
 }
+
+export const updateClass = (reference, val, current) => {
+   let update = {
+      class: val,
+      saving_throws: reference.saves,
+      hit_dice: reference.hitDice,
+      sub_name: reference.subName
+   }
+   return update;
+}
+
+// export const updateSubclass = (reference, val, current) => {}
 
 export const updateBaseAbilities = (val, current) => {
    const modifiedAbilities = current.abilities;
@@ -52,7 +59,8 @@ export const updateBaseAbilities = (val, current) => {
    }
    let newModifiers = modifiedAbilities.total.map(el => Math.floor((el - 10) / 2));
    modifiedAbilities.modifiers = newModifiers;
-   return modifiedAbilities;
+   return {abilities: modifiedAbilities};
+   // return modifiedAbilities;
 }
 
 export const updateBackground = (reference, val, current) => {
@@ -72,13 +80,6 @@ export const updateBackground = (reference, val, current) => {
    return update;
 }
 
-const updateReferenceObject = (ref, val, cat) => {
-   // console.log(ref.total)
-   ref[cat] = val ? [...val].map(word => word.toLowerCase()) : []
-   ref.total = _.uniq([...ref.race, ...ref.class, ...ref.background])
-   return ref;
-}
-
 export const updateSelectedTraits = (val, trait, {...current}, cat) => {
    const ref = {...current[trait]}
    let modifiedTrait;
@@ -90,6 +91,33 @@ export const updateSelectedTraits = (val, trait, {...current}, cat) => {
       modifiedTrait = updateTraitObject(ref, val, cat)
    }
    return { [trait]: modifiedTrait }
+}
+
+export const updateHitPoints = (val, current) => {
+   if (current.abilities.modifiers.length) {
+      const constMod = current.abilities.modifiers[2];
+      const level = current.level;
+      const diceVal = Number.parseInt(current.hit_dice.slice(1))
+      const initVal = diceVal + constMod;
+   
+      if (level === 1) return { hit_points: initVal }
+      else {
+         let levelVal;
+         if (val === 'average') {
+            levelVal = (level - 1) * ((diceVal / 2 + 1) + constMod)
+         } else levelVal = rollDice(level - 1, diceVal, constMod)
+         return {
+            hit_points: levelVal + initVal,
+            hp_selection: val
+         }
+      } 
+   }
+}
+
+const updateReferenceObject = (ref, val, cat) => {
+   ref[cat] = val ? [...val].map(word => word.toLowerCase()) : []
+   ref.total = _.uniq([...ref.race, ...ref.class, ...ref.background])
+   return ref;
 }
 
 const updateTraitObject = (ref, val, cat) => {

@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
-// import RaceSubrace from '../data/RaceSubrace';
-import { Background } from '../data/Background';
-import { updateRace, updateSubrace, updateBackground, updateSelectedTraits, updateBaseAbilities } from '../characterFunctions';
-import { characterOptions, getReferenceObject } from '../helperFunctions';
-
+import { updateRace, updateSubrace, updateBackground, updateClass, updateSubclass, updateSelectedTraits, updateBaseAbilities, updateHitPoints } from './utilities/characterFunctions';
+import { characterOptions, getReferenceObject } from './utilities/helperFunctions';
 import { SelectRace } from './select/SelectRace';
 import { SelectAbilities } from './select/SelectAbilities';
 import { SelectClass } from './select/SelectClass';
@@ -12,71 +9,161 @@ import { SelectOther } from './select/SelectOther';
 
 const _ = require('lodash'); 
 
+function usePrevious(value, name) {
+	const ref = useRef();
+	useEffect(() => {
+	  ref.current = value;
+	},[value]);
+	return ref.current;
+ }
+
 export const CharacterSelect = memo(function CharacterSelect(props) {
 	const { updateCharacter, character } = props;
 	
 	const [selectionDetails, setSelectionDetails] = useState(['',[]]);
-
+	const firstRender = useRef(true)
 	const selection_req = useRef(false)
+	const characterRef = useRef()	
+	const [char, setChar] = useState(character);
+
+	useEffect(() => setChar(character), [character])
+
+	// 👇 look here
+	const prevChar = usePrevious(char, 'main')	
 
 	useEffect(() => {
-		characterRef.current = {...character};
+		characterRef.current = {...character}
 	}, [character])
-	const characterRef = useRef({...character})
+
+	const updateConnectedTraits = (update) => {
+		const current = characterRef.current
+		let updateArr = Object.keys(update)
+		const results = {};
+		// _.intersection(updateArr, ['abilities', 'level', 'hit_dice'])
+		// if (_.includes(updateArr, 'abilities') || _.includes(updateArr, 'level') ||  _.includes(updateArr, 'hit_dice')) {
+		if (!_.isEmpty(_.intersection(updateArr, ['abilities', 'level', 'hit_dice']))) {
+			if (!_.isEmpty(current.hp_selection)) {
+				let hpUpdate = updateHitPoints(current.hp_selection, current);
+				Object.assign(results, hpUpdate)
+			}
+		}
+		return results;
+	}
+	// const findChange = (prev, curr) => {
+
+	// 	console.log(prev.abilities.total)
+	// 	console.log(curr.abilities.total)
+
+	// 	// const previous = []
+	// 	// const current = []
+	// 	// const getValues = (obj, arr) => {
+	// 	// 	for (let el of Object.values(obj)) {
+	// 	// 		if (typeof el === 'object') {
+	// 	// 			if (Array.isArray(el)) arr.push(el)
+	// 	// 			else getValues(el, arr)
+	// 	// 		} else arr.push(el)
+	// 	// 	}
+	// 	// }
+	// 	// getValues(prev, previous)
+	// 	// console.log(previous)
+	// 	// getValues(curr, current)
+	// 	// console.log(current)
+	// }
 	
+	
+	// const prevTotal = prevChar.abilities.total
+	
+	// useEffect(() => {
+	// 	if (!firstRender.current) {
+	// 		console.log(char.abilities.total)
+	// 		console.log(prevChar.abilities.total)
+	// 	} else firstRender.current = false
+	// }, [char])
+	
+	const checkSelection = (ref) => {
+		if (_.has(ref, 'select')) selection_req.current = true;
+		else selection_req.current = false;
+		// if (selection_req.current) {
+		// 	let selections = characterOptions(val, selectParam)
+		// 	setSelectionDetails([cat, selections])
+		// } else setSelectionDetails(['', []])
+	}
+
+	const confirmSelections = (val, cat, ref) => {
+		if (selection_req.current) {
+			let selections = characterOptions(val, ref)
+			setSelectionDetails([cat, selections])
+		} else setSelectionDetails(['', []])
+	}
 	
 	const updateSelect = useCallback((val, cat, parent) => {
 		let update;
 		if (cat === 'race' || cat === 'subrace') {
 			const raceRef = getReferenceObject(val, cat, parent)
-			// console.log(character);
-			// console.log(characterRef.current);
-			if (_.has(raceRef, 'select')) selection_req.current = true;
-			else selection_req.current = false;
+			checkSelection(raceRef)
+			confirmSelections(val, 'race', raceRef.select)
 			if (cat === 'race') update = updateRace(raceRef, val, characterRef.current)
-			if (cat === 'subrace') update = updateSubrace(raceRef, val, characterRef.current)
-			if (selection_req.current) {
-				let selections = characterOptions(val, raceRef.select)
-				setSelectionDetails(['race', selections])
-			} else setSelectionDetails(['', []])
+			if (cat === 'subrace') {
+				const parentRef = getReferenceObject(parent, 'race')
+				update = updateSubrace(raceRef, val, characterRef.current, parentRef)
+			}
 		}
 		else if (cat === 'background') {
 			const backgroundRef = getReferenceObject(val, cat);
 			if (backgroundRef.language > 0) selection_req.current = true;
 			else selection_req.current = false;
+			confirmSelections(val, 'background', [['language', backgroundRef.language, 'ALL']])
 			update = updateBackground(backgroundRef, val, characterRef.current);
-			if (selection_req.current) {
-				let selections = characterOptions(val, [['language', backgroundRef.language, 'ALL'],])
-				setSelectionDetails(['background', selections])
-			} else setSelectionDetails(['', []])
+			// if (selection_req.current) {
+			// 	let selections = characterOptions(val, [['language', backgroundRef.language, 'ALL'],])
+			// 	setSelectionDetails(['background', selections])
+			// } else setSelectionDetails(['', []])
 		}
 		else if (cat === 'base') {
 			update = updateBaseAbilities(val, characterRef.current)
 		}
 		else if (cat === 'level') {
+
 			const bonus = Math.ceil(val / 4) + 1
 			update = {
-				level: val,
+				level: Number(val),
 				proficiency_bonus: bonus,
 			}
+		}
+		else if (cat === 'class') {
+			const classRef = getReferenceObject(val, cat);
+			checkSelection(classRef)
+			confirmSelections(val, 'class', classRef.select)
+			update = updateClass(classRef, val, characterRef.current)
+			
+		}
+		else if (cat === 'subclass') {
+			update = {subclass: val}
 		}
 		else if (cat === 'bonusModifiers_race') {
 			update = updateSelectedTraits(val, 'abilities', characterRef.current, parent);			
 		}
 		else if (cat === 'language') {
 			update = updateSelectedTraits(val, 'languages', characterRef.current, parent);
-			
 		}
 		else if (cat === 'skills') {
 			update = updateSelectedTraits(val, 'skills', characterRef.current, parent);
+		}
+		else if (cat === 'hit-points') {
+			if (characterRef.current.abilities.base.length) {
+				update = updateHitPoints(val, characterRef.current);
+			} else update = { hp_selection: val }
 		}
 		else {
 			console.log(val)
 			console.log(cat)
 		}
-
+		let addition = updateConnectedTraits(update)
+		if (!_.isEmpty(addition)) Object.assign(update, addition)
 		updateCharacter(update)
 	}, [])
+
+	
 
 
 	return (
@@ -84,6 +171,7 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 			<SelectRace
 				updateSelect={updateSelect}
 			/>
+			{/* <SelectRaceAlt updateSelect={updateSelect}/> */}
 			<SelectAbilities updateSelect={updateSelect} />
 			<SelectClass updateSelect={updateSelect} />
 			<SelectBackground
@@ -93,7 +181,37 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 				updateSelect={updateSelect}
 				selectionDetails={selectionDetails}
 			/>
+			{/* <Counter val={0} arr={character.abilities.total} /> */}
 		</div>
 	);
 });
 
+// function usePrevious(value) {
+// 	const ref = useRef();
+// 	useEffect(() => {
+// 	  ref.current = value;
+// 	},[value]);
+// 	return ref.current;
+//  }
+ 
+ // the App where the hook is used 
+ function Counter(props) {
+	const {val, arr} = props;
+	
+	const [char, setChar] = useState(arr);
+	const prevRef = useRef()
+	
+
+	useEffect(() => setChar(arr), [arr])
+
+	// 👇 look here
+	
+	const prevChar = usePrevious(char, 'count')
+	prevRef.current = prevChar;
+ 
+	return (<div>
+		{/* <h1>Now: {count}, before: {prevCount}</h1> */}
+		<h1>Now: {char}, before: {prevChar}</h1>
+		{/* <button onClick={() => setCount((curr) => curr + 1)}>Click</button> */}
+	</div>);
+ }

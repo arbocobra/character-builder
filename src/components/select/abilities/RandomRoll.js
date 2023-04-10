@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { toggleList } from '../../../helperFunctions';
-import { addDropdownEvent, addOptionEventIndex } from '../../selectFunctions';
+import { toggleList } from '../../utilities/helperFunctions';
+import { addDropdownEvent, addOptionEventIndex } from '../../utilities/selectFunctions';
 import { SubmitButton } from '../SubmitButton';
 
 export const RandomRoll = (props) => {

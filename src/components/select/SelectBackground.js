@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, memo } from 'react';
-import { addDropdownEvent, addOptionEvent } from '../selectFunctions'
+import { addDropdownEvent, addOptionEvent } from '../utilities/selectFunctions'
 import { Background } from '../../data/Background';
 
 export const SelectBackground = memo(function SelectBackground(props) {
@@ -34,17 +34,6 @@ export const SelectBackground = memo(function SelectBackground(props) {
                   ))}
                </ul>
             </div>
-            {/* <div ref={variantRef} className="custom-dropdown hidden">
-               <div ref={headerRef} className="value-header">
-                  {variantInitialOption.current}
-                  <div className="arrow-down"></div>
-               </div>
-               <ul ref={optionsRef} id="select-background" className="value-list closed">
-                  {variantOpt.map((el) => (
-                     <li key={`variant-${el}`}>{el}</li>
-                  ))}
-               </ul>
-            </div> */}
          </div>
       </div>
 	);

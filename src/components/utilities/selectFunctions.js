@@ -43,3 +43,11 @@ const toggleList = (div) => {
    arrow.classList.toggle('arrow-down');
    arrow.classList.toggle('arrow-up');
 };
+
+export const clearSelection = (setCat) => setCat(null);
+
+export const resetSub = (div, arr, init, ref) => {
+   div.querySelectorAll('.value-header')[1].childNodes[0].nodeValue = init;
+   arr = [];
+   ref = false;
+}
