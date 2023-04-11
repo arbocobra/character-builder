@@ -14,6 +14,7 @@ export const DisplaySkills = memo(function DisplaySkills(props) {
 
    useEffect(() => {
     if (currentCharacter.skills.total.length) setCurrentSkills(currentCharacter.skills.total);
+    if (currentCharacter.skills.total.length !== currentSkills.length) setCurrentSkills(currentCharacter.skills.total);
    }, [currentCharacter]);
 
    useEffect(() => {

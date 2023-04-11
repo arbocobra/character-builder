@@ -40,11 +40,13 @@ export const updateSubrace = (reference, val, current, parentRef) => {
 }
 
 export const updateClass = (reference, val, current) => {
+   let modifiedSkills = updateReferenceObject(current.skills, reference.skills, 'class');
    let update = {
+      skills: modifiedSkills,
       class: val,
       saving_throws: reference.saves,
       hit_dice: reference.hitDice,
-      sub_name: reference.subName
+      sub_name: reference.subName,
    }
    return update;
 }
@@ -62,7 +64,6 @@ export const updateBaseAbilities = (val, current) => {
    let newModifiers = modifiedAbilities.total.map(el => Math.floor((el - 10) / 2));
    modifiedAbilities.modifiers = newModifiers;
    return {abilities: modifiedAbilities};
-   // return modifiedAbilities;
 }
 
 export const updateBackground = (reference, val, current) => {

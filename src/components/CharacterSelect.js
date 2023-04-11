@@ -39,8 +39,6 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		const current = characterRef.current
 		let updateArr = Object.keys(update)
 		const results = {};
-		// _.intersection(updateArr, ['abilities', 'level', 'hit_dice'])
-		// if (_.includes(updateArr, 'abilities') || _.includes(updateArr, 'level') ||  _.includes(updateArr, 'hit_dice')) {
 		if (!_.isEmpty(_.intersection(updateArr, ['abilities', 'level', 'hit_dice']))) {
 			if (!_.isEmpty(current.hp_selection)) {
 				let hpUpdate = updateHitPoints(current.hp_selection, current);
@@ -49,44 +47,10 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		}
 		return results;
 	}
-	// const findChange = (prev, curr) => {
-
-	// 	console.log(prev.abilities.total)
-	// 	console.log(curr.abilities.total)
-
-	// 	// const previous = []
-	// 	// const current = []
-	// 	// const getValues = (obj, arr) => {
-	// 	// 	for (let el of Object.values(obj)) {
-	// 	// 		if (typeof el === 'object') {
-	// 	// 			if (Array.isArray(el)) arr.push(el)
-	// 	// 			else getValues(el, arr)
-	// 	// 		} else arr.push(el)
-	// 	// 	}
-	// 	// }
-	// 	// getValues(prev, previous)
-	// 	// console.log(previous)
-	// 	// getValues(curr, current)
-	// 	// console.log(current)
-	// }
-	
-	
-	// const prevTotal = prevChar.abilities.total
-	
-	// useEffect(() => {
-	// 	if (!firstRender.current) {
-	// 		console.log(char.abilities.total)
-	// 		console.log(prevChar.abilities.total)
-	// 	} else firstRender.current = false
-	// }, [char])
 	
 	const checkSelection = (ref) => {
 		if (_.has(ref, 'select')) selection_req.current = true;
 		else selection_req.current = false;
-		// if (selection_req.current) {
-		// 	let selections = characterOptions(val, selectParam)
-		// 	setSelectionDetails([cat, selections])
-		// } else setSelectionDetails(['', []])
 	}
 
 	const confirmSelections = (val, cat, ref) => {
@@ -114,16 +78,11 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 			else selection_req.current = false;
 			confirmSelections(val, 'background', [['language', backgroundRef.language, 'ALL']])
 			update = updateBackground(backgroundRef, val, characterRef.current);
-			// if (selection_req.current) {
-			// 	let selections = characterOptions(val, [['language', backgroundRef.language, 'ALL'],])
-			// 	setSelectionDetails(['background', selections])
-			// } else setSelectionDetails(['', []])
 		}
 		else if (cat === 'base') {
 			update = updateBaseAbilities(val, characterRef.current)
 		}
 		else if (cat === 'level') {
-
 			const bonus = Math.ceil(val / 4) + 1
 			update = {
 				level: Number(val),

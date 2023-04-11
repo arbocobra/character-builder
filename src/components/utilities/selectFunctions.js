@@ -46,8 +46,10 @@ const toggleList = (div) => {
 
 export const clearSelection = (setCat) => setCat(null);
 
-export const resetSub = (div, arr, init, ref) => {
-   div.querySelectorAll('.value-header')[1].childNodes[0].nodeValue = init;
+export const resetSub = (div, arr, init, ref, i) => {
+   div.querySelectorAll('.value-header')[i].childNodes[0].nodeValue = init;
    arr = [];
-   ref = false;
+   console.log(typeof ref)
+   if (typeof ref === 'boolean') ref = false;
+   if (typeof ref === 'function') ref(false);
 }

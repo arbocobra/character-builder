@@ -61,14 +61,15 @@ h2 {
 	margin-bottom: 10px;
 	padding: 10px;
 	/* max-height: 102px; */
-	height: 130px;
+	/* height: 130px; */
 }
-.stat-input-container.abilities {
+/* .stat-input-container.abilities {
 	max-height: 322px;
 }
 .stat-input-container.class {
 	max-height: 322px;
-}
+} */
+
 /* .stat-input-container {
 	flex-flow: row wrap;
 	display: flex;
@@ -79,7 +80,7 @@ h2 {
 	max-height: 102px;
 } */
 .stat-input-container.other {
-	max-height: 322px;
+	/* max-height: 322px; */
 	flex-flow: column nowrap;
 }
 .stat-input {
@@ -266,7 +267,7 @@ h2 {
 	/* transition: max-height 500ms; */
 	box-shadow: 0px 0px 5px #b5b5b5;
 	position: absolute;
-	width: 130px;
+	width: 100%;
 	top: 30px;
 }
 .value-list.closed {
@@ -427,4 +428,15 @@ h2 {
  
  .tooltip:hover .tooltiptext {
 	visibility: visible;
+ }
+
+ .select-other-container {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 10px;
+ }
+ .select-other-category {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 10px;
  }
