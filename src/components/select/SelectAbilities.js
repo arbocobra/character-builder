@@ -5,13 +5,19 @@ import { StandardArray } from './abilities/StandardArray';
 import { RandomRoll } from './abilities/RandomRoll';
 
 export const SelectAbilities = memo(function SelectAbilities(props) {
-  
+  const { updateSelect } = props;
+
     useEffect(() => {
       const selectionOptions = document.attributeSelect.attributes;
       for (const opt of Array.from(selectionOptions)) {
         opt.addEventListener('change', selectAttributeOption);
       }
     }, []);
+
+    const handleSelect = (arr) => {
+      updateSelect(arr, 'base');
+      setSelectionType('Complete. Can reselect.');
+    };
   
     const [selectionType, setSelectionType] = useState('No method selected');
     const abilities = useRef(['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',]);
@@ -21,7 +27,7 @@ export const SelectAbilities = memo(function SelectAbilities(props) {
     };
   
     return (
-      <div className="stat-input-container abilities">
+      <div className="stat-input-container">
         <div id="SelectAbilities" className="stat-input">
           <p className='section-title'>Select Abilities</p>
             <form id="selection-form" name="attributeSelect" className='selectionRadio'>
@@ -39,11 +45,11 @@ export const SelectAbilities = memo(function SelectAbilities(props) {
               </div>
             </form>
             {selectionType === 'point-buy' ? (
-              <PointBuy {...props} abilities={abilities.current} setSelectionType={setSelectionType} />
+              <PointBuy abilities={abilities.current} submit={handleSelect} />
             ) : selectionType === 'standard-array' ? (
-              <StandardArray {...props} abilities={abilities.current} setSelectionType={setSelectionType} />
+              <StandardArray abilities={abilities.current} submit={handleSelect} />
             ) : selectionType === 'random-roll' ? (
-              <RandomRoll {...props} abilities={abilities.current} setSelectionType={setSelectionType} />
+              <RandomRoll abilities={abilities.current} submit={handleSelect} />
             ) : (
               <p>{selectionType}</p>
             )}

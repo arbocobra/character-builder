@@ -1,11 +1,28 @@
-import React, { useEffect, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 const _ = require('lodash'); 
 
 export const DisplayAbilities = memo(function DisplayAbilities(props) {
    const {abilityScores, abilityRef} = props;
+
+  //  const [displayModifiers, setDisplayModifiers] = useState([])
+
+  //  useEffect(() => {
+  //   let displayMods = []
+  //   abilityScores.modifiers?.map(num => {
+  //     if (num > 0) displayMods.push(`+ ${num}`);
+  //     else if (num < 0) displayMods.push(`- ${num}`);
+  //     else displayMods.push(num)
+  //  })
+  //  setDisplayModifiers(displayMods)
+  // }, [abilityScores])
+
+  const displayModifiers = _.isEmpty(abilityScores.modifiers) ? [] : abilityScores.modifiers.map(num => num > 0 ? `+${num}` : num )
  
    return (
+   <div className='display-grid'>
+      <p className='section-title'>Abilities</p>
      <div className='ability-grid table-grid'>
+      
        <div className='ability-row header'>
          <div>Ability</div>
          <div>Base</div>
@@ -15,35 +32,18 @@ export const DisplayAbilities = memo(function DisplayAbilities(props) {
        </div>
      { abilityRef.map((el,i) => (
        <div key={el} className='ability-row'>
-         <div>{el}</div>
-         <div>{abilityScores.base[i]}</div>
-         <div>{abilityScores.totalBonus[i]}</div>
-         <div>{abilityScores.total[i]}</div>
-         { abilityScores.base.length && <div>{abilityScores.modifiers[i]}</div>}
+         <div>{_.capitalize(el)}</div>
+         <div>{ abilityScores.base.length ? abilityScores.base[i] : null }</div>
+         {/* <div>{ abilityScores.base.every(val => val === 0) ? null : abilityScores.base[i] }</div> */}
+         <div>{ abilityScores.totalBonus.length ? abilityScores.totalBonus[i] : null }</div>
+         {/* <div>{ abilityScores.totalBonus.every(val => val === 0) ? null : abilityScores.totalBonus[i] }</div> */}
+         <div>{ abilityScores.total.length ? abilityScores.total[i] : null }</div>
+         {/* <div>{ abilityScores.total.every(val => val === 0) ? null : abilityScores.total[i] }</div> */}
+         <div className='strong'>{ displayModifiers.length ? displayModifiers[i] : null }</div>
        </div>
      )) }
+     </div>
      </div>
    )
  
  })
-
- export const DisplayAbilitiesAlt = memo(function DisplayAbilities(props) {
-
-  const {abilities, abilityRef, abilityScores} = props;
-
-  
-    
-  return (
-    <div className='ability-grid table-grid'>
-      {/* {_.keys(abilities).map(el => !_.isEmpty(abilities[el]) ? (<p key={el}>{_.capitalize(el)}: {abilities[el]}</p>) : null)} */}
-      {/* {!_.isEmpty(abilities.base) && <p>Base: {abilities.base}</p>}
-      {!_.isEmpty(abilities.totalBonus) && <p>Bonus: {abilities.totalBonus}</p>}
-      {!_.isEmpty(abilities.total) && <p>Total: {abilities.total}</p>}
-      {!_.isEmpty(abilities.modifiers) && <p>Modifiers: {abilities.modifiers}</p>} */}
-      <p>Base: {abilities.base}</p>
-      <p>Bonus: {abilities.totalBonus}</p>
-      <p>Total: {abilities.total}</p>
-      <p>Modifiers: {abilities.modifiers}</p>
-    </div>
-  )
-} )

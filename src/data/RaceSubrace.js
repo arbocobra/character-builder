@@ -53,7 +53,7 @@ const CharacterRaceSubrace = {
 			select: [
 				['skills', 2, ['deception', 'insight', 'intimidation', 'performance', 'persuasion']],
 				['language', 2, 'ALL'],
-				['bonusModifiers_race', 1, ['dexterity', 'intelligence']],
+				['abilities', 1, ['dexterity', 'intelligence']],
 			],
 		},
 		dragonborn: {
@@ -184,7 +184,7 @@ const CharacterRaceSubrace = {
 			extras: ['darkvision', 'fey ancestry', 'half-elf versatility'],
 			select: [
 				['skills', 2, 'ALL'],
-				['bonusModifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']],
+				['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']],
 			],
 		},
 		'half-orc': {
@@ -325,7 +325,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ["60' Darkvision", '+1 AC (w/o heavy armor)', 'Acid Spit', 'Animal Enhancements (at L1 and L5)'],
-			select: [['bonusModifiers_race', 1, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']]],
+			select: [['abilities', 1, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']]],
 		},
 		tabaxi: {
 			size: 'S/M',
@@ -581,7 +581,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
 			},
 			'half-high': {
 				modifiers: [0, 0, 0, 0, 0, 2],
@@ -589,7 +589,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
 			},
 			'half-drow': {
 				modifiers: [0, 0, 0, 0, 0, 2],
@@ -597,7 +597,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
 			},
 			'half-aquatic': {
 				modifiers: [0, 0, 0, 0, 0, 2],
@@ -605,7 +605,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['bonusmodifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'all']],
 			},
 		},
 		human: {
@@ -618,7 +618,7 @@ const CharacterRaceSubrace = {
 				select: [
 					['skills', 1, 'all'],
 					['language', 1, 'all'],
-					['bonusmodifiers_race', 2, 'all'],
+					['abilities', 2, 'all'],
 				],
 			},
 		},
@@ -682,7 +682,7 @@ const CharacterRaceSubrace = {
 				select: [
 					['skills', 1, 'all'],
 					['language', 1, 'all'],
-					['bonusmodifiers_race', 2, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']],
+					['abilities', 2, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']],
 				],
 			},
 			juggernaut: {

@@ -19,7 +19,7 @@ export const requiresSelection = (char, cat) => {
       }
       if (char.bonusModifiers_race.includes('-')) {
          result[0] = true;
-         result[1].push('bonusModifiers_race');
+         result[1].push('abilities');
       }
    }
    return result;
@@ -42,7 +42,7 @@ export const characterOptions = (char, selections) => {
          el[2] === 'ALL' ? charSelect.push(skillNames) : charSelect.push(el[2])
       } else if (el[0] === 'language') {
          charSelect.push(Object.keys(language))
-      } else if (el[0] === 'bonusModifiers_race') {
+      } else if (el[0] === 'abilities') {
          el[2] === 'ALL' ? charSelect.push(abilities) : charSelect.push(el[2])
       }
       result.push(charSelect)    

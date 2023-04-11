@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { addDropdownEvent, addOptionEvent } from '../../utilities/selectFunctions';
-import { SubmitButton } from '../SubmitButton';
+import { SubmitButton } from '../../SubmitButton';
 
 export const PointBuy = (props) => {
-	const { abilities } = props;
+	const { abilities, submit } = props;
 
 	const [total, setTotal] = useState(27);
 	const [selectedArr, setSelectedArr] = useState([0, 0, 0, 0, 0, 0]);
@@ -28,7 +28,8 @@ export const PointBuy = (props) => {
 			{abilities.map((ability, i) => (
 				<Stat key={ability} index={i} pointsObj={costValue.current} total={total} ability={ability} setSelectedArr={setSelectedArr} />
 			))}
-			<SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} />
+			{/* <SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} /> */}
+			<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} />
 		</div>
 	);
 };
@@ -97,17 +98,4 @@ const Stat = (props) => {
 			</div>
 		</div>
 	);
-};
-
-// steps - on render
-// 1. availableArray set to default x6
-// 2. init useeffect - add toggle to dropdown
-// 3. init/displayArr useeffect - add toggle/handler to each option in list
-// 4. init/total useeffect - update displayArr from available + less
-// 2-4 x6
-// steps - on select
-// 1. handleSelect-> updates state: selected & selectedArr
-// 2. availableArray x6 ??
-// 3. selectedArr useeffect - calculates total cost of all selected stats and updates state: total, checks if all stats are selected
-// 4. availableArray x6 ??
-// 5. total useeffect - update displayArr from available + less x6
+}

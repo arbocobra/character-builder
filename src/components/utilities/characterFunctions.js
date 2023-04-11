@@ -57,6 +57,7 @@ export const updateBaseAbilities = (val, current) => {
    const modifiedAbilities = current.abilities;
    modifiedAbilities.base = val;
    if (_.isEmpty(modifiedAbilities.total)) modifiedAbilities.total = modifiedAbilities.base;
+   else if (_.isEmpty(modifiedAbilities.totalBonus)) modifiedAbilities.total = modifiedAbilities.base;
    else {
       let newTotal = modifiedAbilities.base.map((el,i) => el + modifiedAbilities.totalBonus[i]);
       modifiedAbilities.total = newTotal;

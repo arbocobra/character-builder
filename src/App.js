@@ -7,17 +7,17 @@ const App = () => {
   const [character, setCharacter] = useState({
     abilities: {
       // ***Temp - swap back base/total/modifiers after testing ****
-      base: [12,12,12,13,13,13],
-      // base: [],
+      // base: [12,12,12,13,13,13],
+      base: [],
       bonus: {
         race: [],
         class: [],
       },
       totalBonus: [],
-      // total: [],
-      total: [12,12,12,13,13,13],
-      // modifiers: [],
-      modifiers: [1,1,1,1,1,1],
+      total: [],
+      // total: [12,12,12,13,13,13],
+      modifiers: [],
+      // modifiers: [1,1,1,1,1,1],
       // ***
     },
     background: '',

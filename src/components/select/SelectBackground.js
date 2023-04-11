@@ -8,13 +8,6 @@ export const SelectBackground = memo(function SelectBackground(props) {
 	const initialOption = useRef('-- select --');
 	const backgroundRef = useRef();
    const optionsArray = Object.keys(Background);
-	// const backgroundOptions = Object.keys(Background);
-   
-
-	// useEffect(() => {
-	// 	addDropdownEvent(backgroundRef.current)
-	// 	addOptionEvent(backgroundRef.current, handleSelect, ['background'])
-	// }, []);
 
 	const handleSelect = (val, cat) => {
 		updateSelect(val, cat)
@@ -28,22 +21,4 @@ export const SelectBackground = memo(function SelectBackground(props) {
          </div>
       </div>
 	);
-   // return (
-	// 	<div className="stat-input-container">
-   //       <div id="SelectBackground" className="stat-input">
-   //          <p className='section-title'>Select Background</p>
-   //          <div ref={backgroundRef} className="custom-dropdown">
-   //             <div className="value-header">
-   //                {initialOption.current}
-   //                <div className="arrow-down"></div>
-   //             </div>
-   //             <ul id="select-background" className="value-list closed">
-   //                {backgroundOptions.map((el) => (
-   //                   <li key={`background-${el}`}>{el}</li>
-   //                ))}
-   //             </ul>
-   //          </div>
-   //       </div>
-   //    </div>
-	// );
 });

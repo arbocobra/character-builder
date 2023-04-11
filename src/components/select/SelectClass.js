@@ -55,7 +55,7 @@ export const SelectClass = memo(function SelectClass(props) {
 	}, [subclassSelect]);
 
 	return (
-		<div className="stat-input-container class">
+		<div className="stat-input-container">
 			<div id="SelectClass" ref={classRef} className="stat-input">
 				<p className='section-title'>Select Class</p>
 				<Dropdown cat='level' handleSelect={handleSelect} optionsArray={levelNum} initialOption='- level -' />

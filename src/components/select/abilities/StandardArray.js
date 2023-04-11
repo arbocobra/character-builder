@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { addDropdownEvent, addOptionEvent } from '../../utilities/selectFunctions';
-import { SubmitButton } from '../SubmitButton';
+import { SubmitButton } from '../../SubmitButton';
 
 export const StandardArray = (props) => {
-	const { abilities } = props;
+	// const { abilities } = props;
+	const { abilities, submit } = props;
 
 	const [selectedArr, setSelectedArr] = useState([0, 0, 0, 0, 0, 0]);
 	const [canSubmit, setCanSubmit] = useState(false);
@@ -24,7 +25,7 @@ export const StandardArray = (props) => {
 			{abilities.map((ability, i) => (
 				<Stat key={ability} index={i} ability={ability} selectedArr={selectedArr} setSelectedArr={setSelectedArr} standardArray={standardArray.current} />
 			))}
-			<SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} />
+			<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} />
 		</div>
 	);
 };

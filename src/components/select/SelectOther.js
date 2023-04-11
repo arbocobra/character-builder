@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { addDropdownEvent, addOptionEvent } from '../utilities/selectFunctions';
 import { Dropdown } from '../Dropdown';
+import { SubmitButton } from '../SubmitButton';
 
 const _ = require('lodash'); 
 
@@ -9,8 +9,6 @@ export const SelectOther = memo(function SelectOther(props) {
 	
 	const parentRef = useRef();
 	const [active, setActive] = useState(false);
-
-	// useEffect(() => console.log(selectionDetails), [selectionDetails])
 	
 	useEffect(() => {
 		if (selectionDetails[1].length) {
@@ -19,7 +17,7 @@ export const SelectOther = memo(function SelectOther(props) {
 	}, [selectionDetails]);
 
 	const handleSelect = (arr, i) => {
-		let displayBoxes = _.values(parentRef.current.querySelectorAll('.select-other-category'))
+		let displayBoxes = _.values(parentRef.current.querySelectorAll('.category-select'))
 		displayBoxes[i].classList.add('hidden')
 		if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
 			setActive(false) 
@@ -32,7 +30,7 @@ export const SelectOther = memo(function SelectOther(props) {
 			<div className='stat-input-container other'>
 				<div ref={parentRef} id='SelectOther' className='stat-input'>
 				{selectionDetails[1].map((el, i) => (
-					<div className='select-other-category' key={el[0]}>
+					<div className='category-select' key={el[0]}>
 						<p className='section-title'>Select {el[0]}</p>
 						<SelectOptions name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} />
 					</div>
@@ -77,10 +75,11 @@ const SelectOptions = (props) => {
 
 	return (
 		<div className='select-other-container' ref={parentRef} >
-			{selectionArr.map((el,i) => <Dropdown cat={name} handleSelect={dropSelect} optionsArray={options} initialOption={initialOption.current} index={i} />)}
-			<div className='button-container'>
+			{selectionArr.map((el,i) => <Dropdown key={`${name}_${i}`} cat={name} handleSelect={dropSelect} optionsArray={options} initialOption={initialOption.current} index={i} />)}
+			{/* <div className='button-container'>
 				<button onClick={() => handleSelect(selection, index)} disabled={!canSubmit}><span>&#10003;</span></button>
-			</div>
+			</div> */}
+			<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index]} />
 		</div>
 	)
 }

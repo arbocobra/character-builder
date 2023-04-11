@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toggleList } from '../../utilities/helperFunctions';
 import { addDropdownEvent, addOptionEventIndex } from '../../utilities/selectFunctions';
-import { SubmitButton } from '../SubmitButton';
+import { SubmitButton } from '../../SubmitButton';
 
 export const RandomRoll = (props) => {
-	const { updateSelect, abilities, setSelectionType } = props;
+	// const { updateSelect, abilities, setSelectionType } = props;
+	const { abilities, submit } = props;
 
 	const [selectedArr, setSelectedArr] = useState([0, 0, 0, 0, 0, 0]);
 	const [randomArray, setRandomArray] = useState([]);
@@ -50,7 +51,8 @@ export const RandomRoll = (props) => {
 						setDisplayIndexAll={setDisplayIndexAll}
 					/>
 				))}
-				<SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} />
+				{/* <SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} /> */}
+				<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} />
 			</div>
 		);
 	}

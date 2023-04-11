@@ -53,3 +53,26 @@ export const resetSub = (div, arr, init, ref, i) => {
    if (typeof ref === 'boolean') ref = false;
    if (typeof ref === 'function') ref(false);
 }
+
+export const limitSelections = (nodes, bool, cat) => {
+   if (bool) {
+      for (let el of nodes) {
+         let name = el.id.split('-')[1];
+         if (name !== cat && name !== 'sub' + cat) {
+            let text = document.createTextNode('Complete additional selections before continuing');
+            let div = document.createElement('div');
+            div.classList.add('tooltip-alert');
+            div.appendChild(text);
+            el.classList.add('tooltip-select')
+            el.append(div)
+         }
+      }
+   }
+   else {
+      for (let el of nodes) {
+         let div = el.getElementsByClassName('tooltip-alert');
+         if (div.length) div[0].remove()
+         el.classList.remove('tooltip-select')
+      }
+   }
+}

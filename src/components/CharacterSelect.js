@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo, createElement } from 'react';
 import { updateRace, updateSubrace, updateBackground, updateClass, updateSubclass, updateSelectedTraits, updateBaseAbilities, updateHitPoints } from './utilities/characterFunctions';
 import { characterOptions, getReferenceObject } from './utilities/helperFunctions';
+import { limitSelections } from './utilities/selectFunctions';
 import { SelectRace } from './select/SelectRace';
 import { SelectAbilities } from './select/SelectAbilities';
 import { SelectClass } from './select/SelectClass';
@@ -21,8 +22,8 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 	const { updateCharacter, character } = props;
 	
 	const [selectionDetails, setSelectionDetails] = useState(['',[]]);
-	const firstRender = useRef(true)
 	const selection_req = useRef(false)
+	const selection_arr = useRef([])
 	const characterRef = useRef()	
 	const [char, setChar] = useState(character);
 
@@ -47,6 +48,14 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		}
 		return results;
 	}
+
+	const filterSelections = (cat) => {
+		_.remove(selection_arr.current, (el => el === cat))
+		if (_.isEmpty(selection_arr.current)) {
+			selection_req.current = false;
+			confirmSelections();
+		}
+	}
 	
 	const checkSelection = (ref) => {
 		if (_.has(ref, 'select')) selection_req.current = true;
@@ -57,8 +66,15 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		if (selection_req.current) {
 			let selections = characterOptions(val, ref)
 			setSelectionDetails([cat, selections])
+			selection_arr.current = ref.map(arr => arr[0])
 		} else setSelectionDetails(['', []])
 	}
+
+	useEffect(() => {
+		let menus = document.querySelectorAll('.custom-dropdown');
+		let bool = selection_req.current;
+		limitSelections(menus, bool, selectionDetails[0])
+	}, [selectionDetails])
 	
 	const updateSelect = useCallback((val, cat, parent) => {
 		let update;
@@ -94,18 +110,20 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 			checkSelection(classRef)
 			confirmSelections(val, 'class', classRef.select)
 			update = updateClass(classRef, val, characterRef.current)
-			
 		}
 		else if (cat === 'subclass') {
 			update = {subclass: val}
 		}
-		else if (cat === 'bonusModifiers_race') {
+		else if (cat === 'abilities') {
+			filterSelections(cat);
 			update = updateSelectedTraits(val, 'abilities', characterRef.current, parent);			
 		}
 		else if (cat === 'language') {
+			filterSelections(cat);
 			update = updateSelectedTraits(val, 'languages', characterRef.current, parent);
 		}
 		else if (cat === 'skills') {
+			filterSelections(cat);
 			update = updateSelectedTraits(val, 'skills', characterRef.current, parent);
 		}
 		else if (cat === 'hit-points') {
@@ -127,19 +145,11 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 
 	return (
 		<div className='stat-box select'>
-			<SelectRace
-				updateSelect={updateSelect}
-			/>
-			{/* <SelectRaceAlt updateSelect={updateSelect}/> */}
+			<SelectRace updateSelect={updateSelect} />
 			<SelectAbilities updateSelect={updateSelect} />
 			<SelectClass updateSelect={updateSelect} />
-			<SelectBackground
-				updateSelect={updateSelect}
-			/>
-			<SelectOther
-				updateSelect={updateSelect}
-				selectionDetails={selectionDetails}
-			/>
+			<SelectBackground updateSelect={updateSelect} />
+			<SelectOther updateSelect={updateSelect} selectionDetails={selectionDetails} />
 			{/* <Counter val={0} arr={character.abilities.total} /> */}
 		</div>
 	);
