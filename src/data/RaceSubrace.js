@@ -53,7 +53,7 @@ const CharacterRaceSubrace = {
 			select: [
 				['skills', 2, ['deception', 'insight', 'intimidation', 'performance', 'persuasion']],
 				['language', 2, 'ALL'],
-				['bonusModifiers_race', 1, ['Dexterity', 'Intelligence']],
+				['bonusModifiers_race', 1, ['dexterity', 'intelligence']],
 			],
 		},
 		dragonborn: {
@@ -184,7 +184,7 @@ const CharacterRaceSubrace = {
 			extras: ['darkvision', 'fey ancestry', 'half-elf versatility'],
 			select: [
 				['skills', 2, 'ALL'],
-				['bonusModifiers_race', 2, ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom']],
+				['bonusModifiers_race', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']],
 			],
 		},
 		'half-orc': {
@@ -325,7 +325,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ["60' Darkvision", '+1 AC (w/o heavy armor)', 'Acid Spit', 'Animal Enhancements (at L1 and L5)'],
-			select: [['bonusModifiers_race', 1, ['Strength', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma']]],
+			select: [['bonusModifiers_race', 1, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']]],
 		},
 		tabaxi: {
 			size: 'S/M',

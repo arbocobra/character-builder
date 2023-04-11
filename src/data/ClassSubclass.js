@@ -6,7 +6,7 @@ const CharacterClassSubclass = {
 			subLevel: 3,
 			subArray: ['Alchemist', 'Armorer', 'Artillerist', 'Battle Smith'],
          hitDice: 'd8',
-         saves: ['Constitution', 'Intelligence'],
+         saves: ['constitution', 'intelligence'],
 			select: [['skills', 2, ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleight of hand']]],
 		},
 		Barbarian: {
@@ -23,7 +23,7 @@ const CharacterClassSubclass = {
 				'Path of Wild Magic',
 			],
          hitDice: 'd12',
-         saves: ['Strength', 'Constitution'],
+         saves: ['strength', 'constitution'],
 			select: [['skills', 2, ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival']]],
 		},
 		Bard: {
@@ -40,7 +40,7 @@ const CharacterClassSubclass = {
 				'College of Whispers',
 			],
          hitDice: 'd8',
-         saves: ['Dexterity', 'Charisma'],
+         saves: ['dexterity', 'charisma'],
 			select: [['skills', 3, 'ALL']],	
 		},
 		Cleric: {
@@ -63,7 +63,7 @@ const CharacterClassSubclass = {
 				'War Domain',
 			],
          hitDice: 'd8',
-         saves: ['Wisdom', 'Charisma'],
+         saves: ['wisdom', 'charisma'],
 			select: [['skills', 2, ['history', 'insight', 'medicine', 'persuasion', 'religion']]],
 		},
 		Druid: {
@@ -79,7 +79,7 @@ const CharacterClassSubclass = {
 				'Circle of Wildfire',
 			],
          hitDice: 'd8',
-         saves: ['Intelligence', 'Wisdom'],	
+         saves: ['intelligence', 'wisdom'],	
 			select: [['skills', 2, ['arcana', 'animal handling', 'insight', 'medicine', 'nature', 'perception', 'religion', 'survival']]],
 		},
 		Fighter: {
@@ -98,7 +98,7 @@ const CharacterClassSubclass = {
 				'Samurai',
 			],
          hitDice: 'd10',
-         saves: ['Strength', 'Constitution'],
+         saves: ['strength', 'constitution'],
 			select: [['skills', 2, ['acrobatics', 'animal handling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival']]],
 		},
 		Monk: {
@@ -117,7 +117,7 @@ const CharacterClassSubclass = {
 				'Way of the Sun Soul',
 			],
          hitDice: 'd8',
-         saves: ['Strength', 'Dexterity'],
+         saves: ['strength', 'dexterity'],
 			select: [['skills', 2, ['acrobatics', 'athletics', 'history', 'insight', 'religion', 'stealth']]],
 		},
 		Paladin: {
@@ -135,7 +135,7 @@ const CharacterClassSubclass = {
 				'Oathbreaker',
 			],
          hitDice: 'd10',
-         saves: ['Wisdom', 'Charisma'],	
+         saves: ['wisdom', 'charisma'],	
 			select: [['skills', 2, ['athletics', 'insight', 'intimidation', 'medicine', 'persuasion', 'religion']]],
 		},
 		Ranger: {
@@ -152,7 +152,7 @@ const CharacterClassSubclass = {
 				'Swarmkeeper',
 			],
          hitDice: 'd10',
-         saves: ['Strength', 'Dexterity'],
+         saves: ['strength', 'dexterity'],
 			select: [['skills', 3, ['animal handling', 'athletics', 'insight', 'investigation', 'nature', 'perception', 'stealth', 'survival']]],
 		},
 		Rogue: {
@@ -170,7 +170,7 @@ const CharacterClassSubclass = {
 				'Thief',
 			],
          hitDice: 'd8',
-         saves: ['Dexterity', 'Intelligence'],
+         saves: ['dexterity', 'intelligence'],
 			select: [['skills', 4, ['acrobatics', 'athletics', 'deception', 'insight', 'intimidation', 'investigation', 'perception', 'performance', 'persuasion', 'sleight of hand', 'stealth']]],
 		},
 		Sorcerer: {
@@ -187,7 +187,7 @@ const CharacterClassSubclass = {
 				'Wild Magic',
 			],
          hitDice: 'd6',
-         saves: ['Constitution', 'Charisma'],
+         saves: ['constitution', 'charisma'],
 			select: [['skills', 2, ['arcana', 'deception', 'insight', 'intimidation', 'persuasion', 'religion']]],
 		},
 		Warlock: {
@@ -205,7 +205,7 @@ const CharacterClassSubclass = {
 				'The Undying',
 			],
          hitDice: 'd8',
-         saves: ['Wisdom', 'Charisma'],
+         saves: ['wisdom', 'charisma'],
 			select: [['skills', 2, ['arcana', 'deception', 'history', 'intimidation', 'investigation', 'nature', 'religion']]],
 		},
 		Wizard: {
@@ -227,7 +227,7 @@ const CharacterClassSubclass = {
 				'School of War Magic',
 			],
          hitDice: 'd6',
-         saves: ['Intelligence', 'Wisdom'],
+         saves: ['intelligence', 'wisdom'],
 			select: [['skills', 2, ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion']]],
 		},
 	},

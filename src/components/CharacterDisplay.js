@@ -13,7 +13,7 @@ const _ = require('lodash');
   const { currentCharacter } = props;
 
   const firstRender = useRef(true)
-  const abilityRef = useRef(['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'])
+  const abilityRef = useRef(['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'])
   // const initialScores = useRef([[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]])
   const abilityObj = useRef({
     base: [0,0,0,0,0,0],
@@ -21,42 +21,8 @@ const _ = require('lodash');
     total: [0,0,0,0,0,0],
     modifiers: [0,0,0,0,0,0],
   })
-  // const characterRef = useRef({
-  //   background: '',
-  //   baseModifiers: [],
-  //   bonusModifiers_race: [],
-  //   bonusModifiers_class: [],
-  //   class: '',
-  //   extras_race: [],
-  //   extras_class: [],
-  //   extras_background: [],
-  //   language: [],
-  //   level: 0,
-  //   proficiency_bonus: 0,
-  //   race: '',
-  //   size: '',
-  //   skills: [],
-  //   speed: 0,
-  //   subclass: '',
-  //   subrace: '',
-  //   variant: '',
-  // });
   const [abilityScores, setAbilityScores] = useState(abilityObj.current)
-  // const [abilityScores, setAbilityScores] = useState(initialScores.current)
 
-  // useEffect(() => {
-  //   if (!firstRender.current) {
-  //     if (currentCharacter.baseModifiers.length > 0) {
-  //       updateAbilityScores('base', currentCharacter.baseModifiers)
-  //     }
-  //     if (currentCharacter.bonusModifiers_race.length > 0) {
-  //       updateAbilityScores('bonus_race', currentCharacter.bonusModifiers_race)
-  //     }
-  //     if (currentCharacter.bonusModifiers_class.length > 0) {
-  //       updateAbilityScores('bonus_class', currentCharacter.bonusModifiers_class)
-  //     }
-  //   }
-  // }, [currentCharacter])
 
   useEffect(() => {
     if (!firstRender.current && _.has(currentCharacter, 'abilities')) {
@@ -69,26 +35,40 @@ const _ = require('lodash');
     if (firstRender.current) firstRender.current = false
   }, [])
 
-  // const updateAbilityScores = (cat, val) => {
-  //   const update = [...abilityScores]
-  //   if (cat === 'base') {
-  //     val.map((el,i) => update[i][0] = el)
-  //   } else {
-  //     let bonusArr = [...new Array(6)].map(()=> [0,0]);
-  //     if (cat === 'bonus_race') val.map((el,i) => bonusArr[i][0] = el);
-  //     if (cat === 'bonus_class') val.map((el,i) => bonusArr[i][1] = el);
-  //     bonusArr.map((el,i) => update[i][1] = el[0] + el[1])
-  //   }
-  //   update.map(el => el[2] = el[0] + el[1])
-  //   update.map(el => el[3] = Math.floor((el[2] - 10) / 2))
-  //   setAbilityScores(update)
-  // }
 
   return (
     <div className="parent-grid">
       <DisplayBio currentCharacter={currentCharacter} />
+      <DisplaySavingThrows currentCharacter={currentCharacter} abilityRef={abilityRef.current} />
       <DisplayAbilities abilityScores={abilityScores} abilityRef={abilityRef.current} />
       <DisplaySkills currentCharacter={currentCharacter} scoreModifiers={abilityScores.modifiers} />    
     </div>
   )
 }
+
+const DisplaySavingThrows = memo(function DisplaySavingThrows(props) {
+  const {currentCharacter, abilityRef} = props;
+  
+  // useEffect(() => {
+  //   if (currentCharacter.skills.total.length) setCurrentSkills(currentCharacter.skills.total);
+  //   if (currentCharacter.skills.total.length !== currentSkills.length) setCurrentSkills(currentCharacter.skills.total);
+  //  }, [currentCharacter]);
+
+  return (
+    <div className='save-grid table-grid'>
+      <div className='save-row header'>
+        <div>P?</div>
+        <div>Skill</div>
+        <div>Modifier</div>
+      </div>
+    { abilityRef.map((el,i) => (
+      <div key={el} className='save-row'>
+        <div>X</div>
+        <div>{el}</div>
+        <div>X</div>
+      </div>
+    )) }
+    </div>
+  )
+
+})

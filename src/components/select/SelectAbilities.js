@@ -14,7 +14,7 @@ export const SelectAbilities = memo(function SelectAbilities(props) {
     }, []);
   
     const [selectionType, setSelectionType] = useState('No method selected');
-    const abilities = useRef(['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma',]);
+    const abilities = useRef(['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma',]);
 
     const selectAttributeOption = (event) => {
       setSelectionType(event.target.value);

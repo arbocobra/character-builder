@@ -7,7 +7,7 @@ export const DisplaySkills = memo(function DisplaySkills(props) {
 
    const [currentSkills, setCurrentSkills] = useState([]) 
    const [skillProf, setSkillProf] = useState([])
-   const abilityRef = useRef(['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'])
+   const abilityRef = useRef(['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'])
 
   //  const skillsName = skills.map(el => el[0]);
   //  const skillsAbility = skills.map(el => el[1]);

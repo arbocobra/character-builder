@@ -4,7 +4,7 @@ import { Background } from '../../data/Background';
 import ClassSubclass from '../../data/ClassSubclass';
 const _ = require('lodash'); 
 
-const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
+const abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 
 export const requiresSelection = (char, cat) => {
    const result = [false, []];
@@ -73,8 +73,8 @@ const getKeyByValue = (object) => Object.keys(object).find(key => object[key] ==
 
 export const setModifiersByName = (name, current) => {
    let index;
-   let ability = name.toLowerCase();
-   switch (ability) {
+   // let ability = name.toLowerCase();
+   switch (name) {
       case 'strength': 
          index = 0;
          break;

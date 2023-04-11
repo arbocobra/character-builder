@@ -16,8 +16,6 @@ export const DisplayAbilities = memo(function DisplayAbilities(props) {
      { abilityRef.map((el,i) => (
        <div key={el} className='ability-row'>
          <div>{el}</div>
-         {/* { !_.isEmpty(abilityScores.base ) && (<div>{abilityScores.base[i]}</div>)} */}
-         {/* { !_.isEmpty(abilityScores.base ) && (<div>{abilityScores.base[i]}</div>)} */}
          <div>{abilityScores.base[i]}</div>
          <div>{abilityScores.totalBonus[i]}</div>
          <div>{abilityScores.total[i]}</div>
