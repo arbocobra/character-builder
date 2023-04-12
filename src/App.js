@@ -20,6 +20,11 @@ const App = () => {
       // modifiers: [1,1,1,1,1,1],
       // ***
     },
+    armor_class: {
+      base: 0,
+      sheild: 0,
+      total: 0,
+    },
     background: '',
     class: '', 
     equipment: {
@@ -45,10 +50,24 @@ const App = () => {
     },
     level: 0,
     proficiencies: {
-      race: [],
-      class: [],
-      background: [],
-      total: [],
+      armor: {
+        race: [],
+        class: [],
+        background: [],
+        total: [],
+      },
+      tools: {
+        race: [],
+        class: [],
+        background: [],
+        total: [],
+      },
+      weapons: {
+        race: [],
+        class: [],
+        background: [],
+        total: [],
+      }
     },
     proficiency_bonus: 0,
     race: '',

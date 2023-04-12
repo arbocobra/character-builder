@@ -17,13 +17,21 @@ export const SelectOther = memo(function SelectOther(props) {
 	}, [selectionDetails]);
 
 	const handleSelect = (arr, i) => {
+
 		let displayBoxes = _.values(parentRef.current.querySelectorAll('.category-select'))
 		displayBoxes[i].classList.add('hidden')
 		if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
 			setActive(false) 
 		}
-		updateSelect(arr[1], arr[0], selectionDetails[0])
+		if (_.isNil(selectionDetails[1][i][3])) updateSelect(arr[1], arr[0], selectionDetails[0]);
+		else updateSelect(arr[1], arr[0], selectionDetails[0], selectionDetails[1][i][3]);
+		// else console.log(arr[1], arr[0], selectionDetails[0], selectionDetails[1][i][3]);		
 	};
+
+	const title = (val) => {
+		if (_.isNil(val[3])) return _.capitalize(val[0])
+		else return `${_.capitalize(val[0])}:\n${_.capitalize(val[4])}`
+	}
 
 	if (active && selectionDetails[1].length ) {
 		return (
@@ -31,8 +39,9 @@ export const SelectOther = memo(function SelectOther(props) {
 				<div ref={parentRef} id='SelectOther' className='stat-input'>
 				{selectionDetails[1].map((el, i) => (
 					<div className='category-select' key={el[0]}>
-						<p className='section-title'>Select {el[0]}</p>
-						<SelectOptions name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} />
+						{/* <p className='section-title'>Select {_.isNil(el[3]) ? _.capitalize(el[0]) : `${_.capitalize(el[0])}:\n${_.capitalize(el[4])}`}</p> */}
+						<p className='section-title line-break'>Select {title(el)}</p>
+						<SelectOptions name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} secondCat={el[3]}/>
 					</div>
 				))}
 				</div>
@@ -42,7 +51,7 @@ export const SelectOther = memo(function SelectOther(props) {
 });
 
 const SelectOptions = (props) => {
-	const {name, count, options, index, handleSelect} = props;
+	const {name, count, options, index, handleSelect, secondCat} = props;
 	
 	const [canSubmit, setCanSubmit] = useState(false)
 	const [selection, setSelection] = useState(['', Array(count).fill('')])

@@ -20,15 +20,6 @@ const _ = require('lodash');
     total: [0,0,0,0,0,0],
     modifiers: [0,0,0,0,0,0],
   })
-  // const [abilityScores, setAbilityScores] = useState(abilityObj.current)
-
-
-  // useEffect(() => {
-  //   if (!firstRender.current && _.has(currentCharacter, 'abilities')) {
-  //     const update = _.omit(currentCharacter.abilities, ['bonus'])
-  //     setAbilityScores(update);
-  //   }
-  // }, [currentCharacter])
 
   const abilityScores = _.omit(currentCharacter.abilities, ['bonus'])
 
@@ -38,7 +29,8 @@ const _ = require('lodash');
 
 
   return (
-    <div className="parent-grid">
+    // <div className="parent-grid">
+    <div>
       <DisplayBio currentCharacter={currentCharacter} />
       <DisplayAbilities abilityScores={abilityScores} abilityRef={abilityRef.current} />
       <div className='save-skill-grid display-grid'>

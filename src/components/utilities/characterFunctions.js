@@ -9,6 +9,7 @@ export const updateRace = (reference, val, current) => {
    
    let update = {
       race: val,
+      subrace: '',
       abilities: modifiedAbilities,
       features: modifiedFeatures,
       languages: modifiedLanguages,
@@ -41,9 +42,11 @@ export const updateSubrace = (reference, val, current, parentRef) => {
 
 export const updateClass = (reference, val, current) => {
    let modifiedSkills = updateReferenceObject(current.skills, reference.skills, 'class');
+   let modifiedProficiencies = updateProficienciesObject(current.proficiencies, reference.proficiencies, 'class')
    let update = {
       skills: modifiedSkills,
       class: val,
+      proficiencies: modifiedProficiencies,
       saving_throws: reference.saves,
       hit_dice: reference.hitDice,
       sub_name: reference.subName,
@@ -84,15 +87,20 @@ export const updateBackground = (reference, val, current) => {
    return update;
 }
 
-export const updateSelectedTraits = (val, trait, {...current}, cat) => {
+export const updateSelectedTraits = (val, trait, {...current}, ...cat) => {
    const ref = {...current[trait]}
    let modifiedTrait;
    if (trait === 'abilities') {
-      const currentAbility = [...current.abilities.bonus[cat]]
+      const currentAbility = [...current.abilities.bonus[cat[0]]]
       val.forEach(el => setModifiersByName(el, currentAbility))
-      modifiedTrait = updateBonusAbilities(ref, currentAbility, cat);
+      modifiedTrait = updateBonusAbilities(ref, currentAbility, cat[0]);
+   } else if (trait === 'proficiencies'){
+      const proficiencyRef = updateTraitObject(ref[cat[1]], val, cat[0]);
+      // console.log(proficiencyRef)
+      modifiedTrait = {...ref, [cat[1]]: proficiencyRef}
+      console.log(modifiedTrait)
    } else {
-      modifiedTrait = updateTraitObject(ref, val, cat)
+      modifiedTrait = updateTraitObject(ref, val, cat[0])
    }
    return { [trait]: modifiedTrait }
 }
@@ -118,10 +126,20 @@ export const updateHitPoints = (val, current) => {
    }
 }
 
+const updateProficienciesObject = (ref, val, cat) => {
+   const refCopy = JSON.parse(JSON.stringify(ref))
+   for (let pro in refCopy) {
+      refCopy[pro][cat] = val[pro] ? val[pro] : []
+      refCopy[pro].total = _.uniq([...refCopy[pro].race, ...refCopy[pro].class, ...refCopy[pro].background]) 
+   }
+   return refCopy;
+}
+
 const updateReferenceObject = (ref, val, cat) => {
-   ref[cat] = val ? [...val].map(word => word.toLowerCase()) : []
-   ref.total = _.uniq([...ref.race, ...ref.class, ...ref.background])
-   return ref;
+   const refCopy = JSON.parse(JSON.stringify(ref))
+   refCopy[cat] = val ? [...val].map(word => word.toLowerCase()) : []
+   refCopy.total = _.uniq([...refCopy.race, ...refCopy.class, ...refCopy.background])
+   return refCopy;
 }
 
 const updateTraitObject = (ref, val, cat) => {

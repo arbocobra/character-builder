@@ -76,15 +76,15 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		limitSelections(menus, bool, selectionDetails[0])
 	}, [selectionDetails])
 	
-	const updateSelect = useCallback((val, cat, parent) => {
+	const updateSelect = useCallback((val, cat, ...extra) => {
 		let update;
 		if (cat === 'race' || cat === 'subrace') {
-			const raceRef = getReferenceObject(val, cat, parent)
+			const raceRef = getReferenceObject(val, cat, extra[0])
 			checkSelection(raceRef)
 			confirmSelections(val, 'race', raceRef.select)
 			if (cat === 'race') update = updateRace(raceRef, val, characterRef.current)
 			if (cat === 'subrace') {
-				const parentRef = getReferenceObject(parent, 'race')
+				const parentRef = getReferenceObject(extra[0], 'race')
 				update = updateSubrace(raceRef, val, characterRef.current, parentRef)
 			}
 		}
@@ -116,15 +116,19 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		}
 		else if (cat === 'abilities') {
 			filterSelections(cat);
-			update = updateSelectedTraits(val, 'abilities', characterRef.current, parent);			
+			update = updateSelectedTraits(val, 'abilities', characterRef.current, extra[0]);			
 		}
 		else if (cat === 'language') {
 			filterSelections(cat);
-			update = updateSelectedTraits(val, 'languages', characterRef.current, parent);
+			update = updateSelectedTraits(val, 'languages', characterRef.current, extra[0]);
 		}
 		else if (cat === 'skills') {
 			filterSelections(cat);
-			update = updateSelectedTraits(val, 'skills', characterRef.current, parent);
+			update = updateSelectedTraits(val, 'skills', characterRef.current, extra[0]);
+		}
+		else if (cat === 'proficiencies') {
+			filterSelections(cat);
+			update = updateSelectedTraits(val, 'proficiencies', characterRef.current, extra[0], extra[1]);
 		}
 		else if (cat === 'hit-points') {
 			if (characterRef.current.abilities.base.length) {

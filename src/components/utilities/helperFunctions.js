@@ -1,4 +1,4 @@
-import { language, skills } from '../../data/CharacterDetails';
+import { language, skills, Tools } from '../../data/CharacterDetails';
 import RaceSubrace from '../../data/RaceSubrace';
 import { Background } from '../../data/Background';
 import ClassSubclass from '../../data/ClassSubclass';
@@ -44,6 +44,10 @@ export const characterOptions = (char, selections) => {
          charSelect.push(Object.keys(language))
       } else if (el[0] === 'abilities') {
          el[2] === 'ALL' ? charSelect.push(abilities) : charSelect.push(el[2])
+      } else if (el[0] === 'proficiencies') {
+         charSelect.push(Tools[el[2]])
+         charSelect.push(el[3])
+         charSelect.push(el[2])
       }
       result.push(charSelect)    
    })
