@@ -75,7 +75,7 @@ export const updateBackground = (reference, val, current) => {
    let modifiedSkills = updateReferenceObject(current.skills, reference.skills, 'background');
    let modifiedFeatures = updateReferenceObject(current.features, [reference.feature], 'background');
    let modifiedEquipment = updateReferenceObject(current.equipment, reference.equipment, 'background');
-   let modifiedProficiencies = updateReferenceObject(current.proficiencies, reference.proficiency, 'background');
+   let modifiedProficiencies = updateProficienciesObject(current.proficiencies, reference.proficiencies, 'background');
    const update = {
       background: val,
       skills: modifiedSkills,

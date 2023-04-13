@@ -23,8 +23,10 @@ export const language = {
 export const Tools = {
 	'artisan\'s tools': ['alchemist\'s supplies', 'brewer\'s supplies', 'calligrapher\'s supplies', 'carpenter\'s tools', 'cartographer\'s tools', 'cobbler\'s tools', 'cook\'s utensils', 'glassblower\'s tools', 'jeweler\'s tools', 'leatherworker\'s tools', 'mason\'s tools', 'painter\'s supplies', 'potter\'s tools', 'smith\'s tools', 'tinker\'s tools', 'weaver\'s tools', 'woodcarver\'s tools'],
 	'gaming set': ['dice set', 'dragonchess set', 'playing card set', 'three-dragon ante set'],
+	
 	'musical instrument': ['bagpipes', 'drum', 'dulcimer', 'flute', 'lute', 'lyre', 'horn', 'pan flute', 'shawm', 'viol'],
-	miscellaneous: ['disguise kit', 'forgery kit', 'herbalism kit', 'navigator\'s tools', 'poisoner\'s kit', 'thieves\' tools'],
+
+	miscellaneous: ['disguise kit', 'forgery kit', 'herbalism kit', 'land vehicle', 'navigator\'s tools', 'poisoner\'s kit', 'thieves\' tools', 'water vehicle'],
 }
 
 export const skills = [['acrobatics', 1], ['animal handling', 4], ['arcana', 3], ['athletics', 0], ['deception', 5], ['history', 3], ['insight', 4], ['intimidation', 5], ['investigation', 3], ['medicine', 4], ['nature', 3], ['perception', 4], ['performance', 5], ['persuasion', 5], ['religion', 3], ['sleight of hand', 1], ['stealth', 1], ['survival', 4]]

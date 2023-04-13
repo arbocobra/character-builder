@@ -90,9 +90,11 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		}
 		else if (cat === 'background') {
 			const backgroundRef = getReferenceObject(val, cat);
-			if (backgroundRef.language > 0) selection_req.current = true;
-			else selection_req.current = false;
-			confirmSelections(val, 'background', [['language', backgroundRef.language, 'ALL']])
+			// if (backgroundRef.language > 0) selection_req.current = true;
+			// else selection_req.current = false;
+			checkSelection(backgroundRef)
+			confirmSelections(val, 'race', backgroundRef.select)
+			// confirmSelections(val, 'background', [['language', backgroundRef.language, 'ALL']])
 			update = updateBackground(backgroundRef, val, characterRef.current);
 		}
 		else if (cat === 'base') {

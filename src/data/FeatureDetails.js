@@ -146,6 +146,16 @@ const Features = {
 		'city secrets':
 			'You know the secret patterns and flow to cities and can find passages through the urban sprawl that others would miss. When you are not in combat, you (and companions you lead) can travel between any two locations in the city twice as fast as your speed would normally allow.',
 	},
+      weapons: {
+            simple: 'melee: club, dagger, greatclub, handaxe, javelin, light hammer, mace, quarterstaff, sickle, spear\nranged: [crossbow, light, dart, shortbox, sling',
+            martial: 'melee: battleaxe, flail, glaive, greataxe, greatsword, halberd, lance, longsword, maul, morningstar, pike, rapier, scimitar, shortsword, trident, war pick, warhammer]\nranged: whip, blowgun, crossbow, hand, crossbow, heavy, longbow, net'
+      },
+      armor: {
+            light: 'padded, leather, studded leather',
+            medium: 'hide, chain shirt, scale mail, breastplate, half plate',
+            heavy: 'ring mail, chain mail, splint, plate',
+      },
+      tools: {},
 };
 
 export default Features;
