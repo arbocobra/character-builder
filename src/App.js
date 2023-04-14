@@ -5,21 +5,28 @@ import { CharacterSelect } from './components/CharacterSelect';
 
 const App = () => {
   const [character, setCharacter] = useState({
-    abilities: {
-      // ***Temp - swap back base/total/modifiers after testing ****
-      // base: [12,12,12,13,13,13],
-      base: [],
+    // abilities: {
+    //   base: [],
+    //   bonus: {
+    //     race: [],
+    //     class: [],
+    //   },
+    //   totalBonus: [],
+    //   total: [],
+    //   modifiers: [],
+    // },
+    // ***Temp - swap back after testing ****
+    abilities: { 
+      base: [12,12,12,13,13,13],
       bonus: {
         race: [],
         class: [],
       },
       totalBonus: [],
-      total: [],
-      // total: [12,12,12,13,13,13],
-      modifiers: [],
-      // modifiers: [1,1,1,1,1,1],
-      // ***
+      total: [12,12,12,13,13,13],
+      modifiers: [1,1,1,1,1,1],
     },
+    // ***
     armor_class: {
       base: 0,
       sheild: 0,

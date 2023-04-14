@@ -115,7 +115,7 @@ const FeaturesRow = (props) => {
         } else if (typeof el === 'object') {
           // console.log('array')
           let caps = el.map(e => _.capitalize(e))
-          console.log(caps)
+          // console.log(caps)
           row[1].push(caps)
           row[2].push(null)
         }
@@ -132,7 +132,7 @@ const FeaturesRow = (props) => {
 
   const DisplayFeatures = (index) => {
     let results = getDetails(cats[index]);
-    console.log(results)
+    // console.log(results)
     
     const rows = results[1].map((el,i) => {
       if (_.isArray(el)) {
@@ -150,7 +150,7 @@ const FeaturesRow = (props) => {
     })
 
     return ( 
-    <div id={name} className='row-grid' key={`${name}-${results[0]}`}>
+    <div className='row-grid' key={`${name}-${index}`}>
       <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div>
       <div>{ rows }</div>
     </div>

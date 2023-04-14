@@ -1,4 +1,5 @@
 import { checkForNull, setModifiersByName, rollDice } from "./helperFunctions";
+import CharacterClassSubclass from "../../data/ClassSubclass";
 const _ = require('lodash'); 
 
 export const updateRace = (reference, val, current) => {
@@ -43,7 +44,7 @@ export const updateSubrace = (reference, val, current, parentRef) => {
 export const updateClass = (reference, val, current) => {
    let modifiedSkills = updateReferenceObject(current.skills, reference.skills, 'class');
    let modifiedProficiencies = updateProficienciesObject(current.proficiencies, reference.proficiencies, 'class')
-   // if (current)
+   let modifiedFeatures = updateClassFeatures(current.features, val, 'class', current.level);
    let update = {
       skills: modifiedSkills,
       class: val,
@@ -167,4 +168,11 @@ const updateBonusAbilities = (ref, val, cat) => {
     }
 
    return ref;
+}
+
+const updateClassFeatures = (refCurr, val, cat, level) => {
+   // const ref = JSON.parse(JSON.stringify(refCurr));
+   // const classFeats = CharacterClassSubclass.features[val]
+   // console.log(classFeats[0])
+
 }

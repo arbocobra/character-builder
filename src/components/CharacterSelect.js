@@ -97,9 +97,7 @@ export const CharacterSelect = memo(function CharacterSelect(props) {
 		else if (cat === 'hit-points') {
 			if (characterRef.current.abilities.base.length) {
 				update = updateHitPoints(val, characterRef.current);
-			} else update = { 
-				hp_selection: val,
-				hit_points: 'Must select level, class and base ability', }
+			} else update = {hp_selection: val}
 		}
 		else {
 			console.log(val)

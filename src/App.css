@@ -59,6 +59,9 @@
 	flex-flow: row nowrap;
 	width: 100%;
 }
+.selectionRadio.column {
+	flex-flow: column nowrap;
+}
 .selectionRadio > div {
 	margin-right: 15px;
 }

@@ -1,4 +1,4 @@
-import { language, skills, Tools } from '../../data/CharacterDetails';
+import { language, skills, Proficiencies } from '../../data/CharacterDetails';
 import RaceSubrace from '../../data/RaceSubrace';
 import { Background } from '../../data/Background';
 import ClassSubclass from '../../data/ClassSubclass';
@@ -21,7 +21,15 @@ export const characterOptions = (char, selections) => {
       } else if (el[0] === 'abilities') {
          el[2] === 'ALL' ? charSelect.push(abilities) : charSelect.push(el[2])
       } else if (el[0] === 'proficiencies') {
-         charSelect.push(Tools[el[2]])
+         // will need to update to select other prof than tools
+         if (_.isArray(el[2])) {
+            el[2].shift();
+            let refArray = el[2].map(ref => Proficiencies[el[3]][ref]);
+            charSelect.push(refArray);
+            // charSelect.push([Tools[el[2][1]], Tools[el[2][2]]])
+         } else {
+            charSelect.push(Proficiencies[el[3]][el[2]])
+         }
          charSelect.push(el[3])
          charSelect.push(el[2])
       }
@@ -51,6 +59,13 @@ export const updateConnectedTraits = (update, current) => {
          Object.assign(results, hpUpdate)
       }
    }
+   // if (!_.isEmpty(_.intersection(updateArr, ['class', 'level']))) {
+
+   //    if (!_.isEmpty(current.hp_selection)) {
+   //       let hpUpdate = updateHitPoints(current.hp_selection, current);
+   //       Object.assign(results, hpUpdate)
+   //    }
+   // }
    return results;
 }
 
