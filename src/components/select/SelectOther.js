@@ -37,6 +37,7 @@ export const SelectOther = memo(function SelectOther(props) {
 		return (
 			<div className='stat-input-container other'>
 				<div ref={parentRef} id='SelectOther' className='stat-input'>
+					<p className='section-title'>Additional Selections</p>
 				{selectionDetails[1].map((el, i) => (
 					<div className='category-select' key={el[0]}>
 						{/* <p className='section-title'>Select {_.isNil(el[3]) ? _.capitalize(el[0]) : `${_.capitalize(el[0])}:\n${_.capitalize(el[4])}`}</p> */}

@@ -43,6 +43,7 @@ export const updateSubrace = (reference, val, current, parentRef) => {
 export const updateClass = (reference, val, current) => {
    let modifiedSkills = updateReferenceObject(current.skills, reference.skills, 'class');
    let modifiedProficiencies = updateProficienciesObject(current.proficiencies, reference.proficiencies, 'class')
+   // if (current)
    let update = {
       skills: modifiedSkills,
       class: val,

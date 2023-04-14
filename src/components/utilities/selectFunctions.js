@@ -1,3 +1,5 @@
+const _ = require('lodash'); 
+
 export const addDropdownEvent = (div) => {
 	let header = div.children[0]
 	let options = div.children[1]

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, memo } from 'react';
 import { clearSelection, resetSub } from '../utilities/selectFunctions'
 import RaceSubrace from '../../data/RaceSubrace';
 import { Dropdown } from '../Dropdown';
+const _ = require('lodash'); 
 
 export const SelectRace = memo(function SelectRace(props) {
 	const { updateSelect } = props;
@@ -17,7 +18,8 @@ export const SelectRace = memo(function SelectRace(props) {
 	const required = useRef(true)
 	const subraceInput = useRef([])
 
-	const handleSelect = (val, cat) => {
+	const handleSelect = (cap, cat) => {
+		const val = _.lowerCase(cap);
 		if (cat === 'race') {
 			if (subraceInput.current.length) resetSub(raceRef.current, subraceInput.current, initialOption.current, hasSubrace.current, 1)
 

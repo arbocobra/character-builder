@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { addDropdownEvent, addOptionEvent } from './utilities/selectFunctions';
+const _ = require('lodash'); 
 
 export const Dropdown = (props) => {
 	const {cat, handleSelect, optionsArray, initialOption, index } = props;
@@ -26,7 +27,7 @@ export const Dropdown = (props) => {
 			</div>
 			<ul className="value-list closed">
 				{optionsArray.map((el) => (
-					<li key={`{${cat}-${el}}`}>{el}</li>
+					<li key={`{${cat}-${el}}`}>{_.capitalize(el)}</li>
 				))}
 			</ul>
 		</div>

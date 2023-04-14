@@ -2,36 +2,12 @@ import { language, skills, Tools } from '../../data/CharacterDetails';
 import RaceSubrace from '../../data/RaceSubrace';
 import { Background } from '../../data/Background';
 import ClassSubclass from '../../data/ClassSubclass';
+import { updateHitPoints } from './characterFunctions';
 const _ = require('lodash'); 
 
 const abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 
-export const requiresSelection = (char, cat) => {
-   const result = [false, []];
-   if (cat === 'race') {
-      if (char.skills[0].includes('OR')) {
-         result[0] = true;
-         result[1].push('skills');
-      }
-      if (char.language[0].includes('+')) {
-         result[0] = true;
-         result[1].push('language');
-      }
-      if (char.bonusModifiers_race.includes('-')) {
-         result[0] = true;
-         result[1].push('abilities');
-      }
-   }
-   return result;
-}
-
-export const toggleList = (div) => {
-   let arrow = div.previousElementSibling.children[0];
-   div.classList.toggle('open');
-   div.classList.toggle('closed');
-   arrow.classList.toggle('arrow-down');
-   arrow.classList.toggle('arrow-up');
-};
+// Character Select
 
 export const characterOptions = (char, selections) => {
    const result = []
@@ -65,6 +41,21 @@ export const getReferenceObject = (val, cat, parent) => {
    return ref;
 }
 
+export const updateConnectedTraits = (update, current) => {
+   // const current = characterRef.current
+   let updateArr = Object.keys(update)
+   const results = {};
+   if (!_.isEmpty(_.intersection(updateArr, ['abilities', 'level', 'hit_dice']))) {
+      if (!_.isEmpty(current.hp_selection)) {
+         let hpUpdate = updateHitPoints(current.hp_selection, current);
+         Object.assign(results, hpUpdate)
+      }
+   }
+   return results;
+}
+
+// Character Functions
+
 export const checkForNull = (update, character) => {
    if (Object.values(update).includes(null)) {
       let key = getKeyByValue(update);
@@ -77,7 +68,6 @@ const getKeyByValue = (object) => Object.keys(object).find(key => object[key] ==
 
 export const setModifiersByName = (name, current) => {
    let index;
-   // let ability = name.toLowerCase();
    switch (name) {
       case 'strength': 
          index = 0;
@@ -112,8 +102,39 @@ export const rollDice = (num, dice, mod) => {
    return _.sum(result)
 }
 
+// Dropdown
+
+export const toggleList = (div) => {
+   let arrow = div.previousElementSibling.children[0];
+   div.classList.toggle('open');
+   div.classList.toggle('closed');
+   arrow.classList.toggle('arrow-down');
+   arrow.classList.toggle('arrow-up');
+};
+
+// Display Bio
+
 export const smartCase = (string) => {
    const noCaps = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'the', 'to']
    let corrected = _.words(string).map(word => noCaps.includes(word) ? word : _.capitalize(word))
    return corrected.join(' ');
 }
+// export const requiresSelection = (char, cat) => {
+   //    const result = [false, []];
+   //    if (cat === 'race') {
+   //       if (char.skills[0].includes('OR')) {
+   //          result[0] = true;
+   //          result[1].push('skills');
+   //       }
+   //       if (char.language[0].includes('+')) {
+   //          result[0] = true;
+   //          result[1].push('language');
+   //       }
+   //       if (char.bonusModifiers_race.includes('-')) {
+   //          result[0] = true;
+   //          result[1].push('abilities');
+   //       }
+   //    }
+   //    return result;
+   // }
+   

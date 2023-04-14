@@ -35,10 +35,16 @@ export const SelectClass = memo(function SelectClass(props) {
 		}
 	}
 
-   useEffect(() => {
-      if (levelSelect > 0) updateSelect(levelSelect, 'level');
+	useEffect(() => {
       if (classSelect) updateSelect(classSelect, 'class');
       if (classSelect && subclassSelect) clearSelection(setSubclassSelect)
+   }, [classSelect])
+
+	useEffect(() => {
+      if (levelSelect > 0) updateSelect(levelSelect, 'level');
+   }, [levelSelect])
+
+	useEffect(() => {
       if ( classSelect && levelSelect > 0) {
          if (levelSelect >= classObj.current.subLevel) {
             subInput.current = classObj.current.subArray;
@@ -71,7 +77,7 @@ export const SelectClass = memo(function SelectClass(props) {
 })
 
 const SelectHitPoints = (props) => {
-	const { updateSelect, levelSelect, classSelect, classObj } = props;
+	const { updateSelect, classObj } = props;
 
 	// const [pointsSelect, setPointsSelect] = useState('')
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import featDetails from './../../data/FeatureDetails';
 import { smartCase } from '../utilities/helperFunctions';
 const _ = require('lodash'); 
@@ -46,41 +46,61 @@ export const DisplayBio = memo(function DisplayBio(props) {
 
 const FeaturesRow = (props) => {
   const {name, bio} = props;
+  // const firstRender = useRef(true)
   // const [display, setDisplay] = useState({})
   // const [hover, setHover] = useState({})
 
   const count = Array(3).fill(null);
   const cats = Object.keys(bio)
 
-  // useEffect(() => {
-  //   console.log(bio)
-  //   count.forEach((_,i) => {
-  //     let sub = cats[i]
-  //     console.log(name)
-  //     name === 'Features' ? console.log(bio[sub]) : console.log(bio[sub].total)
-  //   }
-  // )}, [bio])
-
   const isTrue = bio.total?.length > 0 || cats.some(el => bio[el].total?.length);
-  // console.log(name + ': ' + isTrue)
 
-  // const catA = name === 'features' ? bio[cats[0]] : bio[cats[0]].total;
-  // const catB = name === 'features' ? bio[cats[1]] : bio[cats[1]].total;
-  // const catC = name === 'features' ? bio[cats[2]] : bio[cats[2]].total;
-  // console.log(catA)
-  // console.log(catB)
-  // console.log(catC)
+  // useEffect(() => {
+  //   const section = document.getElementById(name);
+  //   // if (section) section.replaceChildren()
+  //   // console.log(section.parentElement)
+  //   displayText(section)
 
+  // }, [bio])
   
-
-  const displayText = () => {
-    const result = [];
-    count.forEach((_,i) => {
-      let row = getDetails(cats[i]);
-      result.push(row)
-    }) 
-    console.log(result)
-  }
+  // const displayText = () => {
+  //   const result = [];
+  //   // const section = document.getElementById(name)
+  //   // console.log(section)
+  //   count.forEach((_,i) => {
+  //     let details = getDetails(cats[i]);
+  //     if (details[1].length) {
+  //       const row = document.createElement('ul');
+  //       if (name === 'proficiencies') {
+  //         let subtitle = document.createElement('div')
+  //         let text = document.createTextNode(details[0]);
+  //         subtitle.append(text)
+  //         // row.append(subtitle)
+  //         // subtitle.classList.add('subtitle')
+  //       }
+  //       details[1].forEach((el,j) => {
+  //         let list = document.createElement('li');
+  //         let div = document.createElement('div')
+  //         let innerA = document.createElement('div')
+  //         let innerB = document.createElement('div')
+  //         let text = document.createTextNode(el);
+  //         let description = document.createTextNode(details[2][j]);
+  //         innerA.append(text);
+  //         innerB.append(description)
+  //         div.append(innerA, innerB)
+  //         list.append(div)
+  //         row.append(list)
+  //         div.classList.add('tooltip')
+  //         innerB.classList.add('tooltiptext')
+  //       })
+  //       result.push(row)
+  //       // section.append(row)
+  //     }
+  //   }) 
+  //   if (!firstRender.current) return result
+  //   // console.log(row)
+  //   // return result;
+  // }
   const getDetails = (cat) => {
     let row = ['', [], []];
     const arr = name === 'features' ? bio[cat] : bio[cat].total;
@@ -93,30 +113,82 @@ const FeaturesRow = (props) => {
           let tip = Object.keys(featDetails[cat]).includes(el) ? featDetails[cat][el] : null;
           row[2].push(tip)
         } else if (typeof el === 'object') {
-          el.map(e => {
-            row[1].push(e)
-            row[2].push(null)
-          })
+          // console.log('array')
+          let caps = el.map(e => _.capitalize(e))
+          console.log(caps)
+          row[1].push(caps)
+          row[2].push(null)
         }
       })
     }
     return row;
   }
-  displayText();
+  // const list = displayText();
+  // console.log(list)
 
-  // const isTrue = true
+  // useEffect(() => {
+  //   firstRender.current = false
+  // }, [])
 
+  const DisplayFeatures = (index) => {
+    let results = getDetails(cats[index]);
+    console.log(results)
+    
+    const rows = results[1].map((el,i) => {
+      if (_.isArray(el)) {
+        return (<div key={i}>{el.join(', ')}</div>)
+      } else if (!results[2][i]) {
+        return (<div key={i}>{el}</div>)
+      } else {
+        return (
+          <div key={i} className='tooltip'>
+            <div>{el}</div>
+            <div className='tooltiptext'>{results[2][i]}</div>
+          </div>
+        )
+      }
+    })
+
+    return ( 
+    <div id={name} className='row-grid' key={`${name}-${results[0]}`}>
+      <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div>
+      <div>{ rows }</div>
+    </div>
+    )
+  }
+  
   if (isTrue) return (
-      <div className='row-grid'>
+      <div className='grid-features'>
         <div>{_.capitalize(name)}:</div>
-        <div className='grid-features'>
-          {/* { featureCats.map(el => features[el].length ? <FeaturesList key={el} cat={el} features={features[el]} /> : null )} */}
-        </div>
+        {count.map((_,i) => DisplayFeatures(i))}
       </div>
     )
 }
 
- // const FeaturesRow = (props) => {
+// Features
+// div - row-grid
+// div - (name) /div
+// div - grid-features
+// ul (each cat)
+// li (map cat array)
+// div -  tooltip
+// div - (el) /div
+// div - tooltiptext (hover) /div
+//  /div /li
+
+// Profs
+// div - row-grid
+// div - (name) /div
+// div - grid-features
+// div (each cat) /div
+// ul 
+// li (map cat array)
+// div -  tooltip
+// div - (el) /div
+// div - tooltiptext (hover) /div
+//  /div /li
+
+// const FeaturesRow = (props) => {
 //   const {features} = props;
 
 //   const total = features.total;
@@ -131,20 +203,14 @@ const FeaturesRow = (props) => {
 //         <div className='grid-features'>
 //           { featureCats.map(el => features[el].length ? <FeaturesList key={el} cat={el} features={features[el]} /> : null ) }
 
-//           {/* {features.race.length ? <FeaturesRace features={features.race} /> : null }
-//           {features.class.length ? <FeaturesClass features={features.class} /> : null }
-//           {features.background.length ? <FeaturesBackground features={features.background} /> : null } */}
-
-//           {/* { features.race.length ? (<ul>{ features.race.map((el,i) => (<li key={`features_race-${i}`}>{el}</li>)) }</ul>) : null}
-//           { features.background.length ? (<ul>{ features.background.map((el,i) => (<li key={`features_background-${i}`}>{el}</li>)) }</ul>) : null}
-//           { features.class.length ? (<ul>{ features.class.map((el,i) => (<li key={`features_class-${i}`}>{el}</li>)) }</ul>) : null} */}
+          
 //         </div>
 //       </div>
 //     )
 //   }
 // }
 
-//  const Row = (props) => {
+// const Row = (props) => {
 //     const {name, bio, type, list} = props;
 
 //     const bioBool = (type) => {
@@ -168,40 +234,41 @@ const FeaturesRow = (props) => {
 
 
 
-const FeaturesList = (props) => {
-  const {features, cat} = props;
-  const [display, setDisplay] = useState([])
-  const [hover, setHover] = useState([])
 
-  useEffect(() => {
-    const update = displayText();
-    setDisplay(update[0]);
-    setHover(update[1])
-  },[features])
+// const FeaturesList = (props) => {
+//   const {features, cat} = props;
+//   const [display, setDisplay] = useState([])
+//   const [hover, setHover] = useState([])
+
+//   useEffect(() => {
+//     const update = displayText();
+//     setDisplay(update[0]);
+//     setHover(update[1])
+//   },[features])
   
-  const displayText = () => {
-    const result = [[],[]];
-    features.map(el => {
-      let cap = smartCase(el);
-      if (Object.keys(featDetails[cat]).includes(el)) {
-        let tip = featDetails[cat][el];
-        result[1].push(tip);
-      } else result[1].push('-');
-      result[0].push(cap);
-    })
-    return result;
-  }
+//   const displayText = () => {
+//     const result = [[],[]];
+//     features.map(el => {
+//       let cap = smartCase(el);
+//       if (Object.keys(featDetails[cat]).includes(el)) {
+//         let tip = featDetails[cat][el];
+//         result[1].push(tip);
+//       } else result[1].push('-');
+//       result[0].push(cap);
+//     })
+//     return result;
+//   }
 
-  return (
+//   return (
 
-      <ul>
-        { display.map((el,i) => (<li key={`${cat}-feat${i}`}>
-          <div className="tooltip">
-            <div>{el}</div>
-            <div className="tooltiptext">{hover[i]}</div>
-          </div>
-        </li>)) }
-      </ul>
+//       <ul>
+//         { display.map((el,i) => (<li key={`${cat}-feat${i}`}>
+//           <div className="tooltip">
+//             <div>{el}</div>
+//             <div className="tooltiptext">{hover[i]}</div>
+//           </div>
+//         </li>)) }
+//       </ul>
 
-  )
-}
+//   )
+// }
