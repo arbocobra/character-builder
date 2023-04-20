@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { CharacterDisplay } from './components/CharacterDisplay';
 import { CharacterSelect } from './components/CharacterSelect';
 
@@ -33,7 +33,15 @@ const App = () => {
       total: 0,
     },
     background: '',
-    class: '', 
+    class: '',
+    class_asi_history:[],
+    class_scf_count: [],
+    class_special_1_name: '',
+    class_special_1_count: 0,
+    class_special_2_name: '',
+    class_special_2_count: 0,
+    class_special_3_name: '',
+    class_special_3_count: 0,
     equipment: {
       race: [],
       class: [],
@@ -56,25 +64,47 @@ const App = () => {
       total: [],
     },
     level: 0,
+    // proficiencies: {
+    //   armor: {
+    //     race: [],
+    //     class: [],
+    //     background: [],
+    //     total: [],
+    //   },
+    //   tools: {
+    //     race: [],
+    //     class: [],
+    //     background: [],
+    //     total: [],
+    //   },
+    //   weapons: {
+    //     race: [],
+    //     class: [],
+    //     background: [],
+    //     total: [],
+    //   }
+    // },
     proficiencies: {
-      armor: {
-        race: [],
-        class: [],
-        background: [],
-        total: [],
+      race: {
+        armor: [],
+        tools: [],
+        weapons: [],
       },
-      tools: {
-        race: [],
-        class: [],
-        background: [],
-        total: [],
+      class: {
+        armor: [],
+        tools: [],
+        weapons: [],
       },
-      weapons: {
-        race: [],
-        class: [],
-        background: [],
-        total: [],
-      }
+      background: {
+        armor: [],
+        tools: [],
+        weapons: [],
+      },
+      total: {
+        armor: [],
+        tools: [],
+        weapons: [],
+      },
     },
     proficiency_bonus: 0,
     race: '',
@@ -119,9 +149,98 @@ const App = () => {
       <div id="player-display" className="container-box display">
         <h2>Character Display</h2>
         <CharacterDisplay currentCharacter={character} />
+        {/* <SampleA />
+        <SampleB /> */}
       </div>
     </div>
   );
 };
+
+const SampleA = memo(function SampleA(props) {
+
+  const renderCount = useRef(0)
+  const [renderState, setRenderState] = useState(0)
+
+  useEffect(() => {
+    hasRerendered()
+  })
+
+  const hasRerendered = () => renderCount.current += 1;
+  const handleClick = (e) => {
+    e.preventDefault();
+    setRenderState((current) => current + 1)
+  }
+
+  return (
+    <div className='sample'>
+      <p>I am here to count A</p>
+      {renderCount.current}
+      <SampleChildA />
+      <SampleChildB />
+      <button onClick={(event) => handleClick(event)}>Click</button>
+    </div>
+  )
+})
+
+
+const SampleB = (props) => {
+
+  const renderCount = useRef(0)
+
+  useEffect(() =>{
+    hasRerendered()
+  })
+
+  const hasRerendered = () => renderCount.current += 1;
+
+
+  return (
+    <div className='sample'>
+      <p>I am here to count B</p>
+      {renderCount.current}
+      <SampleChildA />
+      <SampleChildB />
+    </div>
+  )
+}
+
+const SampleChildA = memo(function SampleChildA(props) {
+  // const {renderState, parentCount} = props;
+
+  const renderCount = useRef(0)
+
+  useEffect(() => {
+    hasRerendered()
+  })
+
+  const hasRerendered = () => renderCount.current += 1;
+
+  return (
+    <div className='sample'>
+      <p>I am A child</p>
+      {renderCount.current}
+    </div>
+  )
+})
+
+const SampleChildB = (props) => {
+  // const {renderState, parentCount} = props;
+  
+  const renderCount = useRef(0)
+
+  useEffect(() => {
+    hasRerendered()
+  })
+
+  const hasRerendered = () => renderCount.current += 1;
+
+  return (
+    <div className='sample'>
+      <p>I am B child</p>
+      {renderCount.current}
+
+    </div>
+  )
+}
 
 export default App;

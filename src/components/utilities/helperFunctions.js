@@ -9,7 +9,7 @@ const abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wis
 
 // Character Select
 
-export const characterOptions = (char, selections) => {
+export const characterOptions = (selections) => {
    const result = []
    selections.forEach((el, i) => {
       let charSelect = [el[0], el[1]]

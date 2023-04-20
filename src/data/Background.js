@@ -1,5 +1,5 @@
 export const Background = {
-	Acolyte: {
+	acolyte: {
 		skills: ['insight', 'religion'],
 		proficiencies: {
             armor: [],
@@ -11,7 +11,7 @@ export const Background = {
 		var: false,
         select: [['language', 2, 'ALL']], 
 	},
-	Charlatan: {
+	charlatan: {
 		skills: ['deception', 'sleight of hand'],
 		proficiencies: {
             armor: [],
@@ -23,7 +23,7 @@ export const Background = {
 		feature: 'false identity',
 		var: false,
 	},
-	Criminal: {
+	criminal: {
 		skills: ['deception', 'stealth'],
 		proficiencies: {
             armor: [],
@@ -36,7 +36,7 @@ export const Background = {
 		var: true,
         select: [['proficiencies', 1, 'gaming set', 'tools']]
 	},
-	Spy: {
+	spy: {
 		skills: ['deception', 'stealth'],
 		proficiencies: {
             armor: [],
@@ -49,7 +49,7 @@ export const Background = {
 		var: 'criminal',
         select: [['proficiencies', 1, 'gaming set', 'tools']]
 	},
-	Entertainer: {
+	entertainer: {
 		skills: ['acrobatics', 'performance'],
 		proficiencies: {
             armor: [],
@@ -62,7 +62,7 @@ export const Background = {
 		var: true,
         select: [['proficiencies', 1, 'musical instrument', 'tools']]
 	},
-	Gladiator: {
+	gladiator: {
 		skills: ['acrobatics', 'performance'],
 		proficiencies: {
             armor: [],
@@ -74,7 +74,7 @@ export const Background = {
 		feature: 'popular demand',
 		var: 'entertainer',
 	},
-	'Folk Hero': {
+	'folk hero': {
 		skills: ['animal handling', 'survival'],
 		proficiencies: {
             armor: [],
@@ -87,7 +87,7 @@ export const Background = {
 		var: false,
         select: [['proficiencies', 1, 'artisan\'s tools', 'tools']]
 	},
-	'Guild Artisan': {
+	'guild artisan': {
 		skills: ['insight', 'persuasion'],
 		proficiencies: {
             armor: [],
@@ -99,7 +99,7 @@ export const Background = {
 		var: true,
         select: [['language', 1, 'ALL'], ['proficiencies', 1, 'artisan\'s tools', 'tools']]
 	},
-	'Guild Merchant': {
+	'guild merchant': {
 		skills: ['insight', 'persuasion'],
 		proficiencies: {
             armor: [],
@@ -111,7 +111,7 @@ export const Background = {
 		var: 'guild artisan',
         select: [['language', 1, 'ALL']], 
 	},
-	Hermit: {
+	hermit: {
 		skills: ['medicine', 'religion'],
 		proficiencies: {
             armor: [],
@@ -123,7 +123,7 @@ export const Background = {
 		var: false,
         select: [['language', 1, 'ALL']], 
 	},
-	Noble: {
+	noble: {
 		skills: ['history', 'persuasion'],
 		proficiencies: {
             armor: [],
@@ -135,7 +135,7 @@ export const Background = {
 		var: true,
         select: [['language', 1, 'ALL'], ['proficiencies', 1, 'gaming set', 'tools']]
 	},
-	Knight: {
+	knight: {
 		skills: ['history', 'persuasion'],
 		proficiencies: {
             armor: [],
@@ -147,7 +147,7 @@ export const Background = {
 		var: 'noble',
         select: [['language', 1, 'ALL'], ['proficiencies', 1, 'gaming set', 'tools']]
 	},
-	Outlander: {
+	outlander: {
 		skills: ['athletics', 'survival'],
 		proficiencies: {
             armor: [],
@@ -159,7 +159,7 @@ export const Background = {
 		var: false,
         select: [['language', 1, 'ALL'], ['proficiencies', 1, 'musical instrument', 'tools']]
 	},
-	Sage: {
+	sage: {
 		skills: ['arcana', 'history'],
 		proficiencies: {
             armor: [],
@@ -171,50 +171,50 @@ export const Background = {
 		var: false,
         select: [['language', 2, 'ALL']], 
 	},
-	Sailor: {
+	sailor: {
 		skills: ['athletics', 'perception'],
 		proficiencies: {
-            armor: [],
-            tools: ['navigator\'s kit', 'water vehicle'],
-            weapons: [],
-        },
+				armor: [],
+				tools: ['navigator\'s kit', 'water vehicle'],
+				weapons: [],
+			},
 		language: 0,
 		equipment: ['club', '50\' of silk rope', 'lucky charm', 'clothes', 'belt pouch', '10 gp'],
 		feature: 'ship\'s passage',
 		var: true,
 	},
-	Pirate: {
+	pirate: {
 		skills: ['athletics', 'perception'],
-        proficiencies: {
-            armor: [],
-            tools: ['navigator\'s kit', 'water vehicle'],
-            weapons: [],
-        },
+		proficiencies: {
+			armor: [],
+			tools: ['navigator\'s kit', 'water vehicle'],
+			weapons: [],
+		},
 		language: 0,
 		equipment: ['club', '50\' of silk rope', 'lucky charm', 'clothes', 'belt pouch', '10 gp'],
 		feature: 'bad reputation',
 		var: 'sailor',
 	},
-	Soldier: {
+	soldier: {
 		skills: ['athletics', 'intimidation'],
-        proficiencies: {
-            armor: [],
-            tools: ['land vehicle'],
-            weapons: [],
-        },
+		proficiencies: {
+			armor: [],
+			tools: ['land vehicle'],
+			weapons: [],
+		},
 		language: 0,
 		equipment: ['rank insignia', 'trophy taken from enemy', 'set of dice or playing cards', 'clothes', 'belt pouch', '10 gp'],
 		feature: 'military rank',
 		var: false,
         select: [['proficiencies', 1, 'gaming set', 'tools']]
 	},
-	Urchin: {
+	urchin: {
 		skills: ['sleight of hand', 'stealth'],
-        proficiencies: {
-            armor: [],
-            tools: ['disguise kit', 'thieves\' tools'],
-            weapons: [],
-        },
+		proficiencies: {
+				armor: [],
+				tools: ['disguise kit', 'thieves\' tools'],
+				weapons: [],
+		},
 		language: 0,
 		equipment: ['small knife', 'map of city', 'pet', 'token of remembrance', 'clothes', 'belt pouch', '10 gp'],
 		feature: 'city secrets',

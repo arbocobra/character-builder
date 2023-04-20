@@ -46,64 +46,18 @@ export const DisplayBio = memo(function DisplayBio(props) {
 
 const FeaturesRow = (props) => {
   const {name, bio} = props;
-  // const firstRender = useRef(true)
-  // const [display, setDisplay] = useState({})
-  // const [hover, setHover] = useState({})
 
   const count = Array(3).fill(null);
-  const cats = Object.keys(bio)
+  const cats = name === 'features' ? Object.keys(bio) : Object.keys(bio.total)
 
-  const isTrue = bio.total?.length > 0 || cats.some(el => bio[el].total?.length);
+  // const isTrue = bio.total?.length > 0 || cats.some(el => bio[el].total?.length);
+  const isTrue = bio.total?.length > 0 || _.some(bio.total, (el) => el.length )
 
-  // useEffect(() => {
-  //   const section = document.getElementById(name);
-  //   // if (section) section.replaceChildren()
-  //   // console.log(section.parentElement)
-  //   displayText(section)
-
-  // }, [bio])
-  
-  // const displayText = () => {
-  //   const result = [];
-  //   // const section = document.getElementById(name)
-  //   // console.log(section)
-  //   count.forEach((_,i) => {
-  //     let details = getDetails(cats[i]);
-  //     if (details[1].length) {
-  //       const row = document.createElement('ul');
-  //       if (name === 'proficiencies') {
-  //         let subtitle = document.createElement('div')
-  //         let text = document.createTextNode(details[0]);
-  //         subtitle.append(text)
-  //         // row.append(subtitle)
-  //         // subtitle.classList.add('subtitle')
-  //       }
-  //       details[1].forEach((el,j) => {
-  //         let list = document.createElement('li');
-  //         let div = document.createElement('div')
-  //         let innerA = document.createElement('div')
-  //         let innerB = document.createElement('div')
-  //         let text = document.createTextNode(el);
-  //         let description = document.createTextNode(details[2][j]);
-  //         innerA.append(text);
-  //         innerB.append(description)
-  //         div.append(innerA, innerB)
-  //         list.append(div)
-  //         row.append(list)
-  //         div.classList.add('tooltip')
-  //         innerB.classList.add('tooltiptext')
-  //       })
-  //       result.push(row)
-  //       // section.append(row)
-  //     }
-  //   }) 
-  //   if (!firstRender.current) return result
-  //   // console.log(row)
-  //   // return result;
-  // }
   const getDetails = (cat) => {
     let row = ['', [], []];
-    const arr = name === 'features' ? bio[cat] : bio[cat].total;
+    // const arr = name === 'features' ? bio[cat] : bio[cat].total;
+    const arr = name === 'features' ? bio[cat] : bio.total[cat];
+
     if (arr.length) {
       row[0] = cat;
       arr.map(el => {
@@ -123,17 +77,10 @@ const FeaturesRow = (props) => {
     }
     return row;
   }
-  // const list = displayText();
-  // console.log(list)
-
-  // useEffect(() => {
-  //   firstRender.current = false
-  // }, [])
 
   const DisplayFeatures = (index) => {
     let results = getDetails(cats[index]);
     // console.log(results)
-    
     const rows = results[1].map((el,i) => {
       if (_.isArray(el)) {
         return (<div key={i}>{el.join(', ')}</div>)
@@ -151,7 +98,8 @@ const FeaturesRow = (props) => {
 
     return ( 
     <div className='row-grid' key={`${name}-${index}`}>
-      <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div>
+      {name === 'features' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
+      {name === 'proficiencies' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
       <div>{ rows }</div>
     </div>
     )

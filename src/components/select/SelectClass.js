@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, memo } from 'react';
 import { clearSelection, resetSub } from '../utilities/selectFunctions'
 import CharacterClassSubclass from '../../data/ClassSubclass';
 import { Dropdown } from '../Dropdown';
+const _ = require('lodash'); 
 
 export const SelectClass = memo(function SelectClass(props) {
 	const { updateSelect } = props;
@@ -27,9 +28,9 @@ export const SelectClass = memo(function SelectClass(props) {
 			let num = Number(val);
 			setLevelSelect(num);
 		} else if (cat === 'class') {
-			classObj.current = CharacterClassSubclass.class[val];
+			classObj.current = CharacterClassSubclass.class[_.lowerCase(val)];
          if (subInput.current.length) resetSub(classRef.current, subInput.current, initialOption.current, setSubValid, 2)
-			setClassSelect(val)	
+			setClassSelect(_.lowerCase(val));
 		} else if (cat === 'subclass') {
 			setSubclassSelect(val)
 		}

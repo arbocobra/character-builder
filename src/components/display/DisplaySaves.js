@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef, memo } from 'react';
 const _ = require('lodash'); 
 
 export const DisplaySaves = memo(function DisplaySaves(props) {
-   const {currentCharacter, abilityRef} = props;
+  const {currentCharacter, abilityRef} = props;
+  //  const {abilityRef, saveProps} = props;
+  //  const {mods, profBonus, saves} = saveProps;
  
    const mods = [...currentCharacter.abilities.modifiers];
    const profBonus = currentCharacter.proficiency_bonus > 0 ? currentCharacter.proficiency_bonus : 2;
@@ -23,7 +25,8 @@ export const DisplaySaves = memo(function DisplaySaves(props) {
          </div>
        { abilityRef.map((el,i) => (
          <div key={el} className='save-row'>
-           <div>{currentCharacter.saving_throws?.includes(el) ? 'X' : null}</div>
+           {/* <div>{currentCharacter.saving_throws?.includes(el) ? 'X' : null}</div> */}
+           <div>{saves.includes(el) ? 'X' : null}</div>
            <div>{_.capitalize(el)}</div>
            <div className='strong'>{displayModifiers.length ? displayModifiers[i] : null}</div>
          </div>

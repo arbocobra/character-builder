@@ -481,3 +481,8 @@ p.section-title {
 	margin: 0 2px;
 	justify-content: flex-start;
 } */
+.sample {
+	border: 1px black solid;
+	margin: 10px;
+	padding: 10px;
+}

@@ -104,11 +104,6 @@ const SelectOptions = (props) => {
 	
 
 	const radioSelection = () => {
-		// let headingText = (<div>Select {count} from EITHER {title.join(' OR ')}</div>)
-		// let headingDiv = document.getElementById(cat);
-		// headingDiv.innerHTML = headingText;
-		// headingDiv.classList.add('section-title')
-		// headingDiv.classList.remove('hidden')
 
 		return (
 			<form id="selection-form" name={cat} className='selectionRadio column'>
@@ -124,7 +119,7 @@ const SelectOptions = (props) => {
 
 	const dropSelect = (val, cat, num) => {
 		let arr = [...selection][1];
-		arr[num] = val;
+		arr[num] = _.lowerCase(val);
 		setSelection([cat, arr])
 	}
 	if (_.isArray(titleRef.current)) {

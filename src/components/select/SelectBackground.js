@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { Background } from '../../data/Background';
 import { Dropdown } from '../Dropdown';
+const _ = require('lodash'); 
 
 export const SelectBackground = memo(function SelectBackground(props) {
 	const { updateSelect } = props;
@@ -10,7 +11,7 @@ export const SelectBackground = memo(function SelectBackground(props) {
    const optionsArray = Object.keys(Background);
 
 	const handleSelect = (val, cat) => {
-		updateSelect(val, cat)
+		updateSelect(_.lowerCase(val), cat)
 	}
 
    return (
