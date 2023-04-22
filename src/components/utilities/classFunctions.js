@@ -252,6 +252,7 @@ export const abilityScoreImprovements = (current) => {
    const level = current.level;
    const asiLevels = [4,8,12,16,19];
    const classBonus = current.abilities.bonus.class;
+   // if (_.isEmpty(current.class) || level < 4) return {}
    if (_.isEmpty(classBonus)) {
       let count = 0;
       let ref = {select: []}

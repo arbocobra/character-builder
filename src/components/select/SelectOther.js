@@ -26,8 +26,7 @@ export const SelectOther = memo(function SelectOther(props) {
 			setActive(false) 
 		}
 		if (_.isNil(selectionDetails[1][i][3])) updateSelect(arr[1], arr[0], selectionDetails[0]);
-		else updateSelect(arr[1], arr[0], selectionDetails[0], selectionDetails[1][i][3]);
-		// else console.log(arr[1], arr[0], selectionDetails[0], selectionDetails[1][i][3]);		
+		else updateSelect(arr[1], arr[0], selectionDetails[0], selectionDetails[1][i][3]);	
 	};
 
 	const title = (val,i) => {
@@ -67,7 +66,6 @@ const SelectOptions = (props) => {
 
 	const selectionArr = Array(count).fill(options)
 	
-
 	useEffect(() => {
 		if (selection[0]) {
 			const divArr = parentRef.current.querySelectorAll('.custom-dropdown');
@@ -92,7 +90,6 @@ const SelectOptions = (props) => {
 			headingDiv.classList.remove('hidden')
 			const radios = document.getElementsByName(`${cat}-option`)
 			Array.from(radios).forEach(el => el.addEventListener('change', selectRadio))
-			// addEventListener('select'))
 		}
 	},[])
 
@@ -102,9 +99,7 @@ const SelectOptions = (props) => {
 		setCurrentOptions(options[i])
 	}
 	
-
 	const radioSelection = () => {
-
 		return (
 			<form id="selection-form" name={cat} className='selectionRadio column'>
 				{ title.map((el,i) => (
@@ -130,74 +125,9 @@ const SelectOptions = (props) => {
 		return (
 			<div className='select-other-container' ref={parentRef} >
 				{selectionArr.map((el,i) => <Dropdown key={`${name}_${i}`} cat={name} handleSelect={dropSelect} optionsArray={currentOptions} initialOption={initialOption.current} index={i} />)}
-				{/* <div className='button-container'>
-					<button onClick={() => handleSelect(selection, index)} disabled={!canSubmit}><span>&#10003;</span></button>
-				</div> */}
 				<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index]} />
 			</div>
 		)
 	}
 	
 }
-
-// const SelectBox = (props) => {
-// 	const {name, count, options, index, handleSelect} = props;
-	
-// 	const [canSubmit, setCanSubmit] = useState(false)
-// 	const [selection, setSelection] = useState(['', Array(count).fill('')])
-// 	const initialOption = useRef('-- select --');
-// 	const parentRef = useRef()
-
-// 	const selectionArr = Array(count).fill(options)
-
-// 	useEffect(() => {
-// 		const divArr = parentRef.current.querySelectorAll('.custom-dropdown');
-// 		for (let i = 0; i < count; i++) {
-// 			addDropdownEvent(divArr[i]);
-// 			addOptionEvent(divArr[i], dropSelect, [name, i])
-// 		}
-// 	}, [])
-
-// 	useEffect(() => {
-// 		if (selection[0]) {
-// 			const divArr = parentRef.current.querySelectorAll('.custom-dropdown');
-// 			if (_.compact(selection[1]).length === count) {
-// 				if (_.uniq(_.compact(selection[1])).length === count) {
-// 					[...divArr].map(div => div.children[0].classList.remove('red'))
-// 					setCanSubmit(true);
-// 				}
-// 				else {
-// 					[...divArr].map(div => div.children[0].classList.add('red'))
-// 					setCanSubmit(false)
-// 				}
-// 			}			
-// 		}
-// 	}, [selection])
-
-// 	const dropSelect = (val, cat, index) => {
-// 		let arr = [...selection][1];
-// 		arr[index] = val;
-// 		setSelection([cat, arr])
-// 	}
-
-// 	return (
-// 		<div ref={parentRef} >
-			
-// 			{ selectionArr.map((el,i) => 
-// 				( <div key={`${name}-${i}`} className="custom-dropdown">
-// 					<div className="value-header">
-// 						{initialOption.current}
-// 						<div className="arrow-down"></div>
-// 					</div>
-// 					<ul id="select-other" className="value-list closed">
-// 						{options.map((el) => (
-// 							<li key={`opt-${el}`}>{el}</li>
-// 						))}
-// 					</ul>
-// 				</div> )) }
-// 			<div className='button-container'>
-// 				<button onClick={() => handleSelect(selection, index)} disabled={!canSubmit}><span>&#10003;</span></button>
-// 			</div>
-// 		</div>
-// 	)
-// }
