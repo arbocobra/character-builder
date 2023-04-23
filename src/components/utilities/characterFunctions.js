@@ -47,18 +47,16 @@ export const updateSubrace = (reference, val, currentChar, parentRef) => {
 export const updateClass = (reference, val, currentChar) => {
    const current = JSON.parse(JSON.stringify(currentChar))
    let modifiedSkills = updateReferenceObject(reference.skills, current.skills, 'class');
-   let modifiedProficiencies = updateReferenceObject(reference.proficiencies, current.proficiencies, 'class', 'proficiencies');
-   // let modifiedFeatures = updateClassFeatures(val, current, 'class', current.level);
+   let modifiedProficiencies = setProficienciesObject(reference.proficiencies, current.proficiencies, 'class');
    let update = {
-      // features: modifiedFeatures,
       skills: modifiedSkills,
       class: val,
       proficiencies: modifiedProficiencies,
       saving_throws: reference.saves,
       hit_dice: reference.hitDice,
       sub_name: reference.subName,
-      class_asi: 0,
-      class_scf: 0,
+      subclass: '',
+      class_scf_count: reference.class_scf_count,
    }
    return update;
 }
@@ -71,7 +69,8 @@ export const updateBackground = (reference, val, currentChar) => {
    let modifiedFeatures = updateReferenceObject([reference.feature], current.features, 'background');
    let modifiedEquipment = updateReferenceObject(reference.equipment, current.equipment, 'background');
    // let modifiedProficiencies = updateProficienciesObject(reference.proficiencies, current.proficiencies, 'background');
-   let modifiedProficiencies = updateReferenceObject(reference.proficiencies, current.proficiencies, 'background', 'proficiencies');
+   // let modifiedProficiencies = updateReferenceObject(reference.proficiencies, current.proficiencies, 'background', 'proficiencies');
+   let modifiedProficiencies = setProficienciesObject(reference.proficiencies, current.proficiencies, 'background');
    
    const update = {
       background: val,
@@ -135,6 +134,7 @@ export const updateLevel = (val, current) => {
    //    Object.assign(result, modifiedFeatures)
    //    console.log(result)
    // } 
+
    return result;
 }
 
@@ -160,10 +160,11 @@ export const updateSelectedTraits = (val, trait, charCurrent, ...cat) => {
       modifiedTrait = updateBonusAbilities(current.abilities, currentAbility, charCat);
    } else if (trait === 'proficiencies'){
       let secondaryCat = cat?.[1];
-      
       modifiedTrait = updateProficienciesObject(val, current[trait], charCat, secondaryCat);
       console.log(modifiedTrait)
-
+   } else if (trait === 'asi') {
+      modifiedTrait = updateBonusAbilities(current.abilities, val, 'class');
+      trait = 'abilities'
    } else {
       modifiedTrait = updateTraitObject(val, current[trait], charCat)
    }
@@ -177,42 +178,34 @@ const updateTraitObject = (val, ref, cat) => {
    return ref;
 }
 
-const updateProficienciesObject = (val, ref, ...cats) => {
-   let charCat = cats[0]
-
-   // if ADD
-   if (cats?.[1]) {
-      let init = Object.assign({armor: [], tools: [], weapons: []}, {[cats[1]]: val})
-      for (let pro in init) {
-         if (init[pro].length) ref[charCat][pro] = [...init[pro], ...ref[charCat][pro]]
-      }
+const updateProficienciesObject = (val, ref, cat, type) => {
+   // if Specific type of proficiency
+   let init = Object.assign({armor: [], tools: [], weapons: []}, {[type]: val})
+   for (let pro in init) {
+      if (init[pro].length) ref[cat][pro] = [...init[pro], ...ref[cat][pro]]
    }
-   
-   // if SET
-   else {
-      for (let pro in val) {
-         if (val[pro].length) ref[charCat][pro] = val[pro]
-      }
-   }
-
    for (let cat in ref.total) {
       ref.total[cat] = _.uniq([...ref.race[cat], ...ref.background[cat], ...ref.class[cat]])
    }
    return ref;
 }
 
-const updateReferenceObject = (val, current, ...cat) => {
-   if (cat?.[1] === 'proficiencies') {
-      let modifiedProficiencies = updateProficienciesObject(val, current, cat[0]);
-      // console.log(modifiedProficiencies)
-      return modifiedProficiencies;
+const setProficienciesObject = (val, ref, cat) => {
+   for (let pro in val) {
+      if (val[pro].length) ref[cat][pro] = val[pro];
+      else ref[cat][pro] = [];
    }
-   else {
-      current[cat[0]] = val ? val : []
-      current.total = _.uniq([...current.race, ...current.class, ...current.background])
-      return current;
+   for (let cat in ref.total) {
+      ref.total[cat] = _.uniq([...ref.race[cat], ...ref.background[cat], ...ref.class[cat]])
    }
+   return ref;
 
+}
+
+const updateReferenceObject = (val, current, ...cat) => {
+   current[cat[0]] = val ? val : []
+   current.total = _.uniq([...current.race, ...current.class, ...current.background])
+   return current;
 }
 
 const updateBonusAbilities = (ref, val, cat) => {
@@ -239,16 +232,11 @@ export const updateClassFeatures = (currentChar) => {
    const current = JSON.parse(JSON.stringify(currentChar));
    const level = current.level;
    const charClass = current.class;
-   // let asi = [];
-   // let scf = [];
    if (level > 0 && charClass.length > 0) {
-      // console.log(charClass + ': ' + level)
       const classFeats = CharacterClassSubclass.features[charClass][0];
       const special = CharacterClassSubclass.features[charClass][1];
-      // console.log(special)
       const byLevel = classFeats.slice(1, level + 1)
       const arr = byLevel.flat()
-      // const arr = byLevel.flat().filter(el => el !== 'asi' && el !== 'scf')
       let modifiedFeatures = updateReferenceObject(arr, current.features, 'class');
       const update = {features: modifiedFeatures}
       
@@ -260,8 +248,6 @@ export const updateClassFeatures = (currentChar) => {
          update[specNameKey] = specNameVal;
          update[specCountKey] = specCountVal;
       })
-      
-      // console.log(update)
       return update
 
    } else return null;

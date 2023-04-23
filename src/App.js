@@ -34,7 +34,6 @@ const App = () => {
     },
     background: '',
     class: '',
-    class_asi_history:[],
     class_scf_count: [],
     class_special_1_name: '',
     class_special_1_count: 0,
@@ -64,26 +63,6 @@ const App = () => {
       total: [],
     },
     level: 0,
-    // proficiencies: {
-    //   armor: {
-    //     race: [],
-    //     class: [],
-    //     background: [],
-    //     total: [],
-    //   },
-    //   tools: {
-    //     race: [],
-    //     class: [],
-    //     background: [],
-    //     total: [],
-    //   },
-    //   weapons: {
-    //     race: [],
-    //     class: [],
-    //     background: [],
-    //     total: [],
-    //   }
-    // },
     proficiencies: {
       race: {
         armor: [],
@@ -121,14 +100,6 @@ const App = () => {
     subclass: '',
     subrace: '',
     variant: '',
-    // baseModifiers: [],
-    // bonusModifiers_race: [],
-    // bonusModifiers_class: [],
-    // extras_race: [],
-    // extras_class: [],
-    // extras_background: [],
-    // skill: [],
-    // language: [],
   });
 
   // useEffect(() => console.log(character), [character])

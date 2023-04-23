@@ -8,23 +8,23 @@ export const SelectOther = memo(function SelectOther(props) {
 	const { updateSelect, selectionDetails } = props;
 	
 	const parentRef = useRef();
+	const [active, setActive] = useState(false);
 	
-	// const [active, setActive] = useState(false);
-	// useEffect(() => {
-	// 	if (selectionDetails[1].length) {
-	// 		setActive(true);
-	// 	} else setActive(false)
-	// }, [selectionDetails]);
+	useEffect(() => {
+		if (selectionDetails[1].length) {
+			setActive(true);
+		} else setActive(false)
+	}, [selectionDetails]);
 
-	const handleSelect = (arr, i, cat) => {
-		// let displayBoxes = _.values(parentRef.current.querySelectorAll('.category-select'))
-		// displayBoxes[i].classList.add('hidden')
-		// if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
-		// 	setActive(false) 
-		// }
-		// if (_.isNil(selectionDetails[1][i][3])) updateSelect(arr[1], arr[0], selectionDetails[0]);
-		if (_.isNil(selectionDetails[cat][i][3])) updateSelect(arr[1], arr[0], cat);
-		else updateSelect(arr[1], arr[0], cat, selectionDetails[cat][i][3]);	
+	const handleSelect = (arr, i) => {
+
+		let displayBoxes = _.values(parentRef.current.querySelectorAll('.category-select'))
+		displayBoxes[i].classList.add('hidden')
+		if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
+			setActive(false) 
+		}
+		if (_.isNil(selectionDetails[1][i][3])) updateSelect(arr[1], arr[0], selectionDetails[0]);
+		else updateSelect(arr[1], arr[0], selectionDetails[0], selectionDetails[1][i][3]);	
 	};
 
 	const title = (val,i) => {
@@ -33,25 +33,21 @@ export const SelectOther = memo(function SelectOther(props) {
 		else return (<p className='section-title line-break'>{`Select ${_.capitalize(val[0])}:\n${_.capitalize(val[4])}`}</p>)
 	}
 
-	const sectionTitles = (el) => el.length > 4 ? [el?.[3], el?.[4]] : undefined;
-	
-	return (
-		<div className='stat-input-container other'>
-			<div ref={parentRef} id='SelectOther' className='stat-input'>
-				<p className='section-title'>Additional Selections</p>
-				{ Object.keys(selectionDetails).map(cat => 
-				<div className='select-other-inner-row' key={`select-other-${cat}`}>
-					{selectionDetails[cat].map((el,i) => (
-						<div className='category-select' key={el[0]}>
-							{ title(el, i) }
-							<SelectOptions name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} cat={cat} title={sectionTitles(el)}/>
-						</div>
-					))}
-				</div>)}
+	if (active && selectionDetails[1].length ) {
+		return (
+			<div className='stat-input-container other'>
+				<div ref={parentRef} id='SelectOther' className='stat-input'>
+					<p className='section-title'>Additional Selections</p>
+				{selectionDetails[1].map((el, i) => (
+					<div className='category-select' key={el[0]}>
+						{ title(el, i) }
+						<SelectOptions name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} cat={el?.[3]} title={el?.[4]}/>
+					</div>
+				))}
+				</div>
 			</div>
-		</div>
-	)
-	
+		)
+	}
 });
 
 const SelectOptions = (props) => {
@@ -61,12 +57,10 @@ const SelectOptions = (props) => {
 	const [selection, setSelection] = useState(['', Array(count).fill('')])
 	const initialOption = useRef('-- select --');
 	const parentRef = useRef()
-	const titleRef = useRef(title?.[1]);
+	const titleRef = useRef(title);
 	const [currentOptions, setCurrentOptions] = useState(options)
 
 	const selectionArr = Array(count).fill(options)
-	
-	const titleName = _.isArray(title) ? title[0] : null;
 	
 
 	useEffect(() => {
@@ -87,28 +81,27 @@ const SelectOptions = (props) => {
 
 	useEffect(() => {
 		if (_.isArray(titleRef.current)) {
-			const headingDiv = document.getElementById(titleName);
-			headingDiv.innerHTML = `Select ${count}: ${titleRef.current.join('\nOR ')}`
+			const headingDiv = document.getElementById(cat);
+			headingDiv.innerHTML = `Select ${count}: ${title.join('\nOR ')}`
 			headingDiv.classList.add('section-title', 'line-break')
 			headingDiv.classList.remove('hidden')
-			const radios = document.getElementsByName(`${titleName}-option`)
+			const radios = document.getElementsByName(`${cat}-option`)
 			Array.from(radios).forEach(el => el.addEventListener('change', selectRadio))
 		}
-	},[options])
+	},[])
 
 	const selectRadio = (event) => {
 		let i = event.target.value;
-		titleRef.current = title[1][i];
+		titleRef.current = title[i];
 		setCurrentOptions(options[i])
 	}
-
+	
 	const radioSelection = () => {
 		return (
-			
-			<form id="selection-form" name={titleName} className='selectionRadio column'>
-				{ titleRef.current.map((el,i) => (
-					<div key={`radio-${i}`}>
-						<input type="radio" id={el} name={`${titleName}-option`} value={i}/>
+			<form id="selection-form" name={cat} className='selectionRadio column'>
+				{ title.map((el,i) => (
+					<div>
+						<input type="radio" id={el} name={`${cat}-option`} value={i}/>
 						<label htmlFor={el}>{_.capitalize(el)}</label>
 					</div>
 				)) }
@@ -116,19 +109,20 @@ const SelectOptions = (props) => {
 		)
 	}
 
-	const dropSelect = (val, catName, num) => {
+	const dropSelect = (val, cat, num) => {
 		let arr = [...selection][1];
 		arr[num] = _.lowerCase(val);
-		setSelection([catName, arr])
+		setSelection([cat, arr])
 	}
 	if (_.isArray(titleRef.current)) {
+		console.log('two!')
 		return radioSelection()
 		
 	} else {
 		return (
 			<div className='select-other-container' ref={parentRef} >
 				{selectionArr.map((el,i) => <Dropdown key={`${name}_${i}`} cat={name} handleSelect={dropSelect} optionsArray={currentOptions} initialOption={initialOption.current} index={i} />)}
-				<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index, cat]} />
+				<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index]} />
 			</div>
 		)
 	}
