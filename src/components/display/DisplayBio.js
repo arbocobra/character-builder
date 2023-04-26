@@ -5,218 +5,118 @@ const _ = require('lodash');
 
 export const DisplayBio = memo(function DisplayBio(props) {
    const {currentCharacter} = props;
-  //  const skills = currentCharacter.skills.total;
-  //  const languages = currentCharacter.languages.total;
-  //  const titles = ['race', 'subrace', 'size', 'speed', 'background', 'proficiency_bonus', 'class', 'subclass', 'level', 'hit_points', 'hit_dice', 'saving_throws', 'languages', 'skills']
 
-   const Row = (title, bio, type) => {
-    const isTrue = type === 'num' ? bio > 0 : bio.length > 0;
-    if (isTrue) return (
-      <div className='row-grid'>
-        <div>{title}:</div>
-        { type === 'array' ? (<div>{bio.map(el => _.capitalize(el)).join(', ')}</div>) : null }
-        { type !== 'array' ? (<div>{_.capitalize(bio)}</div>) : null }
+  //  const Row = (title, bio, type) => {
+  //   const isTrue = type === 'num' ? bio > 0 : bio.length > 0;
+  //   // if (isTrue) return (
+  //     return (
+  //     <div className='row-grid'>
+  //       <div>{title}:</div>
+  //       { type === 'array' ? (<div>{bio.map(el => _.capitalize(el)).join(', ')}</div>) : null }
+  //       { type !== 'array' ? (<div>{smartCase(bio)}</div>) : null }
+  //     </div>
+  //   )
+  //  }
+  //  const RowDouble = (bioA,bioB,nameA,nameB) => {
+    
+  //   return (
+  //     <div className='row-line double'>
+  //       <div>
+  //         <div className='bio-info'>{bioA}</div>
+  //         <div className='bio-name'>{nameA}</div>
+  //       </div>
+  //       <div>
+  //         <div className='bio-info'>{bioB}</div>
+  //         <div className='bio-name'>{nameB}</div>
+  //       </div>
+  //     </div>
+  //   )
+  //  }
+   const Row = (colCount, bioArr, nameArr) => {
+    const modArr = bioArr.map(el => _.isArray(el) ? (el.map((e,i) => <span key={e}>{e}</span>)) : el)
+    return (
+      <div className={`row-line ${colCount}`}>
+        { modArr.map((el,i) => (
+          <div key={`${el}-${i}`}>
+            <div className='bio-info'>{el}</div>
+            <div className='bio-name'>{nameArr[i]}</div>
+          </div>
+        ))}
+        {/* { bioArr.forEach((el,i) => {
+          if (_.isArray(el)) el = (<><span>{el[0]}</span><span>{el[1]}</span></>)
+          return (
+            <div>
+              <div className='bio-info'>{el}</div>
+              <div className='bio-name'>{nameArr[i]}</div>
+          </div>
+          )
+        }) } */}
       </div>
     )
    }
   //  useEffect(() => console.log(currentCharacter.proficiencies), [currentCharacter])
+   
+  let charClass,level, subclass, subclassName, race, subrace, subraceName, hitDice, hitPoints, saves, background, size, speed, languages, skills;
+  
+  [charClass, subclass, race, subrace, hitDice, background, size] = [
+    _.capitalize(currentCharacter.class), 
+    smartCase(currentCharacter.subclass), 
+    _.capitalize(currentCharacter.race), 
+    smartCase(currentCharacter.subrace), 
+    currentCharacter.hit_dice,
+    _.capitalize(currentCharacter.background),
+    currentCharacter.size,
+  ]
+
+  level = currentCharacter.level > 0 ? currentCharacter.level : null;
+  subclassName = currentCharacter.sub_name.length ? smartCase(currentCharacter.sub_name) : 'Subclass';
+  subraceName = currentCharacter.subrace.length ? 'Subrace' : null;
+  hitPoints = currentCharacter.hit_points > 0 ? currentCharacter.hit_points : null;
+  saves = currentCharacter.saving_throws.map(el => _.capitalize(el));
+  speed = currentCharacter.speed > 0 ? currentCharacter.speed : null;
+  languages = currentCharacter.languages.total.map(el => _.capitalize(el));
+  skills = currentCharacter.skills.total.map(el => _.capitalize(el));
 
    return (
-    <div className="display-parent">
-      { Row('Race', currentCharacter.race, 'string') }
-      { Row('Subrace', currentCharacter.subrace, 'string') }
-      { Row('Class', currentCharacter.class, 'string') }
-      { Row(currentCharacter.sub_name, currentCharacter.subclass, 'string') }
-      { Row('Level', currentCharacter.level, 'num') }
-      { Row('Prof. Bonus', currentCharacter.proficiency_bonus, 'num') }
-      { Row('Hit Dice', currentCharacter.hit_dice, 'string') }
-      { Row('Hit Points', currentCharacter.hit_points, 'num') }
-      { Row('Speed', currentCharacter.speed, 'num') }
-      { Row('Size', currentCharacter.size, 'string') }
-      { Row('Background', currentCharacter.background, 'string') }
-      { Row('Saving Throws', currentCharacter.saving_throws, 'array') }
-      { Row('Languages', currentCharacter.languages.total, 'array') }
-      { Row('Skills', currentCharacter.skills.total, 'array') }
-      <FeaturesRow name='features' bio={currentCharacter.features}/>
-      <FeaturesRow name='proficiencies' bio={currentCharacter.proficiencies}/>
+    <div className="display-container">
+      <div className='display-heading open'>
+        <p className='section-title'>Character Details</p>
+		  </div>
+      
+      <div className='display-box bio-container'>
+        { Row('double', [[charClass, level], subclass], ['Class & Level', subclassName]) }
+        { Row('double', [race, subrace], ['Race', subraceName]) }
+        { Row('triple', [hitDice, hitPoints, saves], ['Hit Dice', 'HP', 'Saves']) }
+        { Row('triple', [background, size, speed], ['Background', 'Size', 'Speed']) }
+        { Row('single', [languages], ['Language(s)']) }
+        { Row('single', [skills], ['Skill(s)']) }
+        {/* { Row('triple',[special_1_count, special_2_count, special_3_count] , [special_1_name, special_2_name, special_3_name]) } */}
+
+
+        {/* { Row('Race', currentCharacter.race, 'string') }
+        { Row('Subrace', currentCharacter.subrace, 'string') }
+        { Row('Class', currentCharacter.class, 'string') }
+        { Row(currentCharacter.sub_name, currentCharacter.subclass, 'string') }
+        { Row('Level', currentCharacter.level, 'num') } */}
+
+        {/* { Row('Hit Dice', currentCharacter.hit_dice, 'string') }
+        { Row('Hit Points', currentCharacter.hit_points, 'num') }
+        { Row('Saving Throws', currentCharacter.saving_throws, 'array') } */}
+
+        {/* { Row('Prof. Bonus', currentCharacter.proficiency_bonus, 'num') }
+
+        { Row('Speed', currentCharacter.speed, 'num') }
+        { Row('Size', currentCharacter.size, 'string') }
+        { Row('Background', currentCharacter.background, 'string') }
+        
+        { Row('Languages', currentCharacter.languages.total, 'array') }
+        { Row('Skills', currentCharacter.skills.total, 'array') }
+        { Row(currentCharacter.class_special_1_name, currentCharacter.class_special_1_count, 'string') }
+        { Row(currentCharacter.class_special_2_name, currentCharacter.class_special_2_count, 'string') }
+        { Row(currentCharacter.class_special_3_name, currentCharacter.class_special_3_count, 'string') } */}
+        
+      </div>
 
     </div>
    )
  })
-
-const FeaturesRow = (props) => {
-  const {name, bio} = props;
-
-  const count = Array(3).fill(null);
-  const cats = name === 'features' ? Object.keys(bio) : Object.keys(bio.total)
-
-  // const isTrue = bio.total?.length > 0 || cats.some(el => bio[el].total?.length);
-  const isTrue = bio.total?.length > 0 || _.some(bio.total, (el) => el.length )
-
-  const getDetails = (cat) => {
-    let row = ['', [], []];
-    // const arr = name === 'features' ? bio[cat] : bio[cat].total;
-    const arr = name === 'features' ? bio[cat] : bio.total[cat];
-
-    if (arr.length) {
-      row[0] = cat;
-      arr.map(el => {
-        if (typeof el === 'string') {
-          let cap = smartCase(el);
-          row[1].push(cap)
-          let tip = Object.keys(featDetails[cat]).includes(el) ? featDetails[cat][el] : null;
-          row[2].push(tip)
-        } else if (typeof el === 'object') {
-          // console.log('array')
-          let caps = el.map(e => _.capitalize(e))
-          // console.log(caps)
-          row[1].push(caps)
-          row[2].push(null)
-        }
-      })
-    }
-    return row;
-  }
-
-  const DisplayFeatures = (index) => {
-    let results = getDetails(cats[index]);
-    // console.log(results)
-    const rows = results[1].map((el,i) => {
-      if (_.isArray(el)) {
-        return (<div key={i}>{el.join(', ')}</div>)
-      } else if (!results[2][i]) {
-        return (<div key={i}>{el}</div>)
-      } else {
-        return (
-          <div key={i} className='tooltip'>
-            <div>{el}</div>
-            <div className='tooltiptext'>{results[2][i]}</div>
-          </div>
-        )
-      }
-    })
-
-    return ( 
-    <div className='row-grid' key={`${name}-${index}`}>
-      {name === 'features' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
-      {name === 'proficiencies' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
-      <div>{ rows }</div>
-    </div>
-    )
-  }
-  
-  if (isTrue) return (
-      <div className='grid-features'>
-        <div>{_.capitalize(name)}:</div>
-        {count.map((_,i) => DisplayFeatures(i))}
-      </div>
-    )
-}
-
-// Features
-// div - row-grid
-// div - (name) /div
-// div - grid-features
-// ul (each cat)
-// li (map cat array)
-// div -  tooltip
-// div - (el) /div
-// div - tooltiptext (hover) /div
-//  /div /li
-
-// Profs
-// div - row-grid
-// div - (name) /div
-// div - grid-features
-// div (each cat) /div
-// ul 
-// li (map cat array)
-// div -  tooltip
-// div - (el) /div
-// div - tooltiptext (hover) /div
-//  /div /li
-
-// const FeaturesRow = (props) => {
-//   const {features} = props;
-
-//   const total = features.total;
-//   const isTrue = total.length > 0;
-//   const featureCats = ['race', 'class', 'background']
-
-//   if (isTrue) {
-
-//     return (
-//       <div className='row-grid'>
-//         <div>Features:</div>
-//         <div className='grid-features'>
-//           { featureCats.map(el => features[el].length ? <FeaturesList key={el} cat={el} features={features[el]} /> : null ) }
-
-          
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
-// const Row = (props) => {
-//     const {name, bio, type, list} = props;
-
-//     const bioBool = (type) => {
-//       if (type === 'string' || type === 'array') return bio.length > 0;
-//       if (type === 'num') return bio > 0;
-//     }
-
-//     const isTrue = bioBool(type);
-
-//     if (isTrue) {
-//       return (
-//         <div className='row-grid'>
-//           <div>{name}:</div>
-//           { list ? (<ul>{bio.map((el,i) => (<li key={`${name}-${i}`}>{el}</li>))}</ul>) : null }
-//           { !list && type === 'array' ? (<div>{bio.join(', ')}</div>) : null }
-//           { !list && type !== 'array' ? (<div>{bio}</div>) : null }
-//         </div>
-//       )
-//     }
-//  }
-
-
-
-
-// const FeaturesList = (props) => {
-//   const {features, cat} = props;
-//   const [display, setDisplay] = useState([])
-//   const [hover, setHover] = useState([])
-
-//   useEffect(() => {
-//     const update = displayText();
-//     setDisplay(update[0]);
-//     setHover(update[1])
-//   },[features])
-  
-//   const displayText = () => {
-//     const result = [[],[]];
-//     features.map(el => {
-//       let cap = smartCase(el);
-//       if (Object.keys(featDetails[cat]).includes(el)) {
-//         let tip = featDetails[cat][el];
-//         result[1].push(tip);
-//       } else result[1].push('-');
-//       result[0].push(cap);
-//     })
-//     return result;
-//   }
-
-//   return (
-
-//       <ul>
-//         { display.map((el,i) => (<li key={`${cat}-feat${i}`}>
-//           <div className="tooltip">
-//             <div>{el}</div>
-//             <div className="tooltiptext">{hover[i]}</div>
-//           </div>
-//         </li>)) }
-//       </ul>
-
-//   )
-// }

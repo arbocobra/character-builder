@@ -131,8 +131,12 @@ export const toggleList = (div) => {
 
 export const smartCase = (string) => {
    const noCaps = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'the', 'to']
-   let corrected = _.words(string).map(word => noCaps.includes(word) ? word : _.capitalize(word))
-   return corrected.join(' ');
+   let count = _.split(string, ' ').length;
+   if (count > 1) {
+      let corrected = _.words(string).map((word,i) => i === 0 ? _.capitalize(word) : noCaps.includes(word) ? word : _.capitalize(word))
+      return corrected.join(' ');
+   } else return _.capitalize(string)
+   
 }
 // export const requiresSelection = (char, cat) => {
    //    const result = [false, []];

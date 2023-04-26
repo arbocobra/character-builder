@@ -16,8 +16,10 @@ export const SelectBackground = memo(function SelectBackground(props) {
 
    return (
 		<div ref={backgroundRef} className="stat-input-container">
-         <div id="SelectBackground" className="stat-input">
-            <p className='section-title'>Select Background</p>
+			<div className='section-heading'>
+				<p className='section-title'>Select Background</p>
+			</div>
+         <div id="SelectBackground" className="stat-input hidden">
             <Dropdown cat='background' handleSelect={handleSelect} optionsArray={optionsArray} initialOption={initialOption.current} />
          </div>
       </div>

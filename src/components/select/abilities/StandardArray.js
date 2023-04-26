@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { addDropdownEvent, addOptionEvent } from '../../utilities/selectFunctions';
 import { SubmitButton } from '../../SubmitButton';
+const _ = require('lodash'); 
 
 export const StandardArray = (props) => {
 	// const { abilities } = props;
-	const { abilities, submit } = props;
+	const { abilities, submit, reset } = props;
 
 	const [selectedArr, setSelectedArr] = useState([0, 0, 0, 0, 0, 0]);
 	const [canSubmit, setCanSubmit] = useState(false);
@@ -25,7 +26,7 @@ export const StandardArray = (props) => {
 			{abilities.map((ability, i) => (
 				<Stat key={ability} index={i} ability={ability} selectedArr={selectedArr} setSelectedArr={setSelectedArr} standardArray={standardArray.current} />
 			))}
-			<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} />
+			<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} reset={reset} />
 		</div>
 	);
 };
@@ -74,7 +75,8 @@ const Stat = (props) => {
 	return (
 		<div ref={parentRef} id={`${ability}-dropdown`} className='ability-dropdown'>
 			<p>
-				{ability}: {selected === 0 ? '-' : selected}
+				{/* {ability}: {selected === 0 ? '-' : selected} */}
+				{_.capitalize(ability)}:
 			</p>
 			<div ref={selectRef} className='custom-dropdown'>
 				<div className='value-header small'>

@@ -4,6 +4,7 @@ import CharacterClassSubclass from '../../data/ClassSubclass';
 import { setModifiersByName } from '../utilities/helperFunctions';
 import { Dropdown } from '../Dropdown';
 import { SubmitButton } from '../SubmitButton';
+
 const _ = require('lodash'); 
 
 export const SelectClass = memo(function SelectClass(props) {
@@ -25,7 +26,7 @@ export const SelectClass = memo(function SelectClass(props) {
 	const levelNum = [...Array(20).keys()].map(el => el + 1);
 	const classTitles = Object.keys(CharacterClassSubclass.class)
 
-	useEffect(() => document.getElementById('select-level').children[0].classList.add('small'), [])
+	// useEffect(() => document.getElementById('select-level').children[0].classList.add('small'), [])
 	
 	const handleSelect = (val, cat) => {
 		if (cat === 'level') {
@@ -76,8 +77,10 @@ export const SelectClass = memo(function SelectClass(props) {
 
 	return (
 		<div className="stat-input-container">
-			<div id="SelectClass" ref={classRef} className="stat-input">
+			<div className='section-heading'>
 				<p className='section-title'>Select Class</p>
+			</div>
+			<div id="SelectClass" ref={classRef} className="stat-input hidden">
 				<Dropdown cat='level' handleSelect={handleSelect} optionsArray={levelNum} initialOption='- level -' />
 				<Dropdown cat='class' handleSelect={handleSelect} optionsArray={classTitles} initialOption={initialOption.current} />
 
@@ -108,7 +111,9 @@ const SelectHitPoints = (props) => {
     };
 
 	return (
-			<div>
+		<>
+		<div className='border-line'></div>
+			<div className='hit-points'>
 				<p className='section-title'>Select Hit Points</p>
 				<form id="selection-form" name="hpSelect" className='selectionRadio'>
 					<div>
@@ -121,6 +126,7 @@ const SelectHitPoints = (props) => {
 					</div>
 				</form>
 			</div>
+			</>
 	)
 	
 }
@@ -158,6 +164,8 @@ const SelectASI = (props) => {
 	
 	
 	return (
+		<>
+		<div className='border-line'></div>
 		<div ref={parentRef} className='asi-container'>
 			<p className='section-title'>Ability Score Improvements by Level</p>
 			<div className='asi-inner'>
@@ -166,6 +174,7 @@ const SelectASI = (props) => {
 			{/* {canSubmit ? <SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[]} /> : null} */}
 			<SubmitButton canSubmit={canSubmit} submit={handleSubmit} args={[]} />
 		</div>
+		</>
 	)
 }
 const ASIOption = (props) => {

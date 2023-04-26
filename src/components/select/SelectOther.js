@@ -8,6 +8,26 @@ export const SelectOther = memo(function SelectOther(props) {
 	const { updateSelect, selectionDetails } = props;
 	
 	const parentRef = useRef();
+	const headingRef = useRef();
+
+	useEffect(() => {
+		const div = headingRef.current;
+		div.addEventListener('click', () => {
+			div.classList.toggle('open');
+			div.nextElementSibling.classList.toggle('hidden')
+		})
+	 },[])
+
+	const toggleSection = (div, index, arr) => {
+		div.classList.toggle('open')
+		div.nextElementSibling.classList.toggle('hidden')
+		arr.forEach((el,i) => {
+		  if (i !== index) {
+			 el.classList.remove('open')
+			 el.nextElementSibling.classList.add('hidden')
+		  }
+		})}
+
 	
 	// const [active, setActive] = useState(false);
 	// useEffect(() => {
@@ -37,8 +57,10 @@ export const SelectOther = memo(function SelectOther(props) {
 	
 	return (
 		<div className='stat-input-container other'>
-			<div ref={parentRef} id='SelectOther' className='stat-input'>
+			<div ref={headingRef} className='section-heading open'>
 				<p className='section-title'>Additional Selections</p>
+			</div>
+			<div ref={parentRef} id='SelectOther' className='stat-input'>
 				{ Object.keys(selectionDetails).map(cat => 
 				<div className='select-other-inner-row' key={`select-other-${cat}`}>
 					{selectionDetails[cat].map((el,i) => (
@@ -128,7 +150,7 @@ const SelectOptions = (props) => {
 		return (
 			<div className='select-other-container' ref={parentRef} >
 				{selectionArr.map((el,i) => <Dropdown key={`${name}_${i}`} cat={name} handleSelect={dropSelect} optionsArray={currentOptions} initialOption={initialOption.current} index={i} />)}
-				<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index, cat]} />
+				<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index, cat]} reset={null} />
 			</div>
 		)
 	}

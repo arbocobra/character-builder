@@ -25,11 +25,15 @@ export const SelectAbilities = memo(function SelectAbilities(props) {
     const selectAttributeOption = (event) => {
       setSelectionType(event.target.value);
     };
+
+    const reset = () => setSelectionType('No method selected')
   
     return (
       <div className="stat-input-container">
-        <div id="SelectAbilities" className="stat-input">
+        <div className='section-heading'>
           <p className='section-title'>Select Abilities</p>
+        </div>
+        <div id="SelectAbilities" className="stat-input hidden">
             <form id="selection-form" name="attributeSelect" className='selectionRadio'>
               <div>
                 <input type="radio" id="point-buy" name="attributes" value="point-buy"/>
@@ -45,11 +49,11 @@ export const SelectAbilities = memo(function SelectAbilities(props) {
               </div>
             </form>
             {selectionType === 'point-buy' ? (
-              <PointBuy abilities={abilities.current} submit={handleSelect} />
+              <PointBuy abilities={abilities.current} submit={handleSelect} reset={reset} />
             ) : selectionType === 'standard-array' ? (
-              <StandardArray abilities={abilities.current} submit={handleSelect} />
+              <StandardArray abilities={abilities.current} submit={handleSelect} reset={reset} />
             ) : selectionType === 'random-roll' ? (
-              <RandomRoll abilities={abilities.current} submit={handleSelect} />
+              <RandomRoll abilities={abilities.current} submit={handleSelect} reset={reset} />
             ) : (
               <p>{selectionType}</p>
             )}

@@ -51,7 +51,6 @@ export const clearSelection = (setCat) => setCat(null);
 export const resetSub = (div, arr, init, ref, i) => {
    div.querySelectorAll('.value-header')[i].childNodes[0].nodeValue = init;
    arr = [];
-   console.log(typeof ref)
    if (typeof ref === 'boolean') ref = false;
    if (typeof ref === 'function') ref(false);
 }

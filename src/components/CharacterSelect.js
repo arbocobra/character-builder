@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { updateRace, updateSubrace, updateBackground, updateClass, updateSubclass, updateSelectedTraits, updateBaseAbilities, updateHitPoints, updateLevel, updateClassFeatures } from './utilities/characterFunctions';
 import { characterOptions, getReferenceObject } from './utilities/helperFunctions';
-import { abilityScoreImprovements } from './utilities/classFunctions';
+import { ClassSpells } from './utilities/classFunctions';
 import { SelectRace } from './select/SelectRace';
 import { SelectAbilities } from './select/SelectAbilities';
 import { SelectClass } from './select/SelectClass';
@@ -15,6 +15,7 @@ export const CharacterSelect = (props) => {
 	const { updateCharacter, character } = props;
 	
 	const [selectionDetails, setSelectionDetails] = useState({});
+	const [selectSpecial, setSelectSpecial] = useState([]);
 	const selection_req = useRef(false)
 	const characterRef = useRef()	
 	const prevChar = useRef()
@@ -42,6 +43,10 @@ export const CharacterSelect = (props) => {
 				}
 			} else if (current[cat] !== prev[cat]) changed.push(cat);
 		})
+		updateIntersect(changed, current);
+	}
+
+	const updateIntersect = (changed, current) => {
 		// console.log(changed)
 		const update = {}
 		if (_.intersection(changed, ['class', 'abilities', 'level']).length) {
@@ -52,11 +57,17 @@ export const CharacterSelect = (props) => {
 		if (_.intersection(changed, ['level', 'class']).length) {
 			let result = updateClassFeatures(current)
 			if (result) Object.assign(update, result)
-			let ref = abilityScoreImprovements(current);
-			// if (ref.select.length) confirmSelections('class', ref)
-			// console.log(update)
+			getSpecial(current);
+			// let ref = abilityScoreImprovements(current);
 		}
 		if (!_.isEmpty(update)) updateCharacter(update)
+	}
+	const getSpecial = (current) => {
+		const level = current.level > 0 ? current.level : null;
+		const charClass = current.class.length ? current.class : null;
+		// if (level && charClass) {
+		// 	console.log(ClassSpells[charClass].slice(1, level + 1))
+		// }
 	}
 
 	const filterSelections = (...args) => {
@@ -79,6 +90,7 @@ export const CharacterSelect = (props) => {
 		if (_.has(ref, 'select')) {
 			selection_req.current = true;
 			let selections = characterOptions(ref.select);
+			if (cat === 'subrace') cat = 'race'
 			setSelectionDetails((current) => ({...current, [cat]: selections}))
 		} else {
 			setSelectionDetails((current) => {
@@ -153,7 +165,7 @@ export const CharacterSelect = (props) => {
 	}, [])
 
 	return (
-		<div className='stat-box select'>
+		<div className='stat-box'>
 			<SelectRace updateSelect={updateSelect} />
 			<SelectAbilities updateSelect={updateSelect} />
 			<SelectClass updateSelect={updateSelect} />

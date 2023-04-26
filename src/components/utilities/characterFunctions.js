@@ -1,5 +1,5 @@
 import { checkForNull, setModifiersByName, rollDice } from "./helperFunctions";
-import { abilityScoreImprovements } from "./classFunctions";
+import { getClassFeaturesFunctions } from "./classFunctions";
 import CharacterClassSubclass from "../../data/ClassSubclass";
 const _ = require('lodash'); 
 
@@ -28,8 +28,8 @@ export const updateRace = (reference, val, currentChar) => {
 export const updateSubrace = (reference, val, currentChar, parentRef) => {
    const current = JSON.parse(JSON.stringify(currentChar));
    let modifiedAbilities = updateBonusAbilities(current.abilities, reference.modifiers, 'race');
-   let languageRef = reference.language ? [...parentRef.language, ...reference.language].flat() : current.languages.race;
-   let featureRef = reference.extras ? [...parentRef.extras, ...reference.extras].flat() : current.features.race;
+   let languageRef = reference.language ? [...parentRef.language, ...reference.language].flat() : parentRef.language;
+   let featureRef = reference.extras ? [...current.features.race, ...reference.extras].flat() : current.features.race;
    let modifiedLanguages = updateReferenceObject(languageRef, current.languages, 'race');
    let modifiedFeatures = updateReferenceObject(featureRef, current.features, 'race');
    
@@ -151,7 +151,7 @@ export const updateSelectedTraits = (val, trait, charCurrent, ...cat) => {
    // console.log(trait)
    // console.log(current)
    // console.log(...cat)
-   let charCat = cat[0];
+   let charCat = cat[0] === 'subrace' ? 'race' : cat[0];
    
    let modifiedTrait;
    if (trait === 'abilities') {
@@ -239,15 +239,18 @@ export const updateClassFeatures = (currentChar) => {
       const arr = byLevel.flat()
       let modifiedFeatures = updateReferenceObject(arr, current.features, 'class');
       const update = {features: modifiedFeatures}
-      
-      special.forEach((el,i) => {
-         let specNameKey = `class_special_${i + 1}_name`;
-         let specNameVal = special[i][0];
-         let specCountKey = `class_special_${i + 1}_count`;
-         let specCountVal = special[i][1][level];
-         update[specNameKey] = specNameVal;
-         update[specCountKey] = specCountVal;
-      })
+
+      getClassFeaturesFunctions(current, CharacterClassSubclass.class[charClass])
+
+
+      // special.forEach((el,i) => {
+      //    let specNameKey = `class_special_${i + 1}_name`;
+      //    let specNameVal = special[i][0];
+      //    let specCountKey = `class_special_${i + 1}_count`;
+      //    let specCountVal = special[i][1][level];
+      //    update[specNameKey] = specNameVal;
+      //    update[specCountKey] = specCountVal.toString();
+      // })
       return update
 
    } else return null;

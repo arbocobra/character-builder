@@ -8,7 +8,7 @@ export const SelectRace = memo(function SelectRace(props) {
 	const { updateSelect } = props;
 
 	const initialOption = useRef('-- select --');
-	const raceRef = useRef()
+	const raceRef = useRef();
 	const optionsArray = Object.keys(RaceSubrace.race);
 
 	const [raceSelect, setRaceSelect] = useState(null);
@@ -49,8 +49,10 @@ export const SelectRace = memo(function SelectRace(props) {
 
 	return (
 		<div ref={raceRef} className="stat-input-container">
-			<div id="SelectRace" className="stat-input">
+			<div className='section-heading'>
 				<p className='section-title'>Select Race</p>
+			</div>
+			<div id="SelectRace" className="stat-input hidden">
 				<Dropdown cat='race' handleSelect={handleSelect} optionsArray={optionsArray} initialOption={initialOption.current} />
 				{ hasSubrace.current ? 
 				<Dropdown cat='subrace' handleSelect={handleSelect} optionsArray={subraceInput.current} initialOption={initialOption.current} /> : null }

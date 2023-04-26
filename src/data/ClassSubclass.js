@@ -1,6 +1,4 @@
-
-
-import { calcSorceryPoints, calcSpellSlots, calcSpellsKnown } from "../components/utilities/classFunctions";
+// import { calcSorceryPoints, calcSpellSlots, calcSpellsKnown } from "../components/utilities/classFunctions";
 const CharacterClassSubclass = {
 	class: {
 		artificer: {
@@ -16,6 +14,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [3, 13],
          saves: ['constitution', 'intelligence'],
+			spell_save: 3,
 			select: [['skills', 2, ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleight of hand']], ['proficiencies', 1, 'artisan\'s tools', 'tools']],
 		},
 		barbarian: {
@@ -40,6 +39,7 @@ const CharacterClassSubclass = {
          hitDice: 'd12',
 			multiclass: [0, 13],
          saves: ['strength', 'constitution'],
+			spell_save: null,
 			select: [['skills', 2, ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival']]],
 		},
 		bard: {
@@ -64,6 +64,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [5, 13],
          saves: ['dexterity', 'charisma'],
+			spell_save: 5,
 			select: [['skills', 3, 'ALL'], ['proficiencies', 3, 'musical instrument', 'tools']],	
 		},
 		cleric: {
@@ -94,6 +95,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [4, 13],
          saves: ['wisdom', 'charisma'],
+			spell_save: 4,
 			select: [['skills', 2, ['history', 'insight', 'medicine', 'persuasion', 'religion']]],
 		},
 		druid: {
@@ -117,6 +119,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [4, 13],
          saves: ['intelligence', 'wisdom'],
+			spell_save: 4,
 			extras: ['will not wear armour/shiels made of metal']	,
 			select: [['skills', 2, ['arcana', 'animal handling', 'insight', 'medicine', 'nature', 'perception', 'religion', 'survival']]],
 		},
@@ -144,6 +147,7 @@ const CharacterClassSubclass = {
          hitDice: 'd10',
 			multiclass: [0, 13, 'OR', 1, 13],
          saves: ['strength', 'constitution'],
+			spell_save: null,
 			select: [['skills', 2, ['acrobatics', 'animal handling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival']]],
 		},
 		monk: {
@@ -170,6 +174,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [1, 13, 'AND', 4, 13],
          saves: ['strength', 'dexterity'],
+			spell_save: null,
 			select: [['skills', 2, ['acrobatics', 'athletics', 'history', 'insight', 'religion', 'stealth']],['proficiencies', 1, ['OR', 'artisan\'s tools', 'musical instrument'], 'tools']],
 		},
 		paladin: {
@@ -195,6 +200,7 @@ const CharacterClassSubclass = {
          hitDice: 'd10',
 			multiclass: [0, 13, 'AND', 5, 13],
          saves: ['wisdom', 'charisma'],	
+			spell_save: 5,
 			select: [['skills', 2, ['athletics', 'insight', 'intimidation', 'medicine', 'persuasion', 'religion']]],
 		},
 		ranger: {
@@ -219,6 +225,7 @@ const CharacterClassSubclass = {
          hitDice: 'd10',
 			multiclass: [1, 13, 'AND', 4, 13],
          saves: ['strength', 'dexterity'],
+			spell_save: 4,
 			select: [['skills', 3, ['animal handling', 'athletics', 'insight', 'investigation', 'nature', 'perception', 'stealth', 'survival']]],
 		},
 		rogue: {
@@ -244,6 +251,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [1, 13],
          saves: ['dexterity', 'intelligence'],
+			spell_save: 3,
 			select: [['skills', 4, ['acrobatics', 'athletics', 'deception', 'insight', 'intimidation', 'investigation', 'perception', 'performance', 'persuasion', 'sleight of hand', 'stealth']]],
 		},
 		sorcerer: {
@@ -268,7 +276,7 @@ const CharacterClassSubclass = {
          hitDice: 'd6',
 			multiclass: [5, 13],
          saves: ['constitution', 'charisma'],
-			
+			spell_save: 5,
 			select: [['skills', 2, ['arcana', 'deception', 'insight', 'intimidation', 'persuasion', 'religion']]],
 		},
 		warlock: {
@@ -294,6 +302,7 @@ const CharacterClassSubclass = {
          hitDice: 'd8',
 			multiclass: [5, 13],
          saves: ['wisdom', 'charisma'],
+			spell_save: 5,
 			select: [['skills', 2, ['arcana', 'deception', 'history', 'intimidation', 'investigation', 'nature', 'religion']]],
 		},
 		wizard: {
@@ -323,58 +332,60 @@ const CharacterClassSubclass = {
          hitDice: 'd6',
 			multiclass: [3, 13],
          saves: ['intelligence', 'wisdom'],
+			spell_save: 3,
 			select: [['skills', 2, ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion']]],
 		},
 	},
 	features: {
 		artificer: [
 			[[],['magical tinkering', 'spellcasting'], ['infuse item'], ['artificer specialist', 'the right tool for the job'], [], [], ['tool expertise'], ['flash of genius'], [], [], ['magic item adept'], ['spell-storing item'], [], [], ['magic item savant'], [], [], [], ['magic item master'], [], ['soul of artifice']],
-			[['infusions known', [0, 0, 4, 4, 4, 4, 6, 6, 6, 6, 8, 8, 8, 8, 10, 10, 10, 10, 12, 12, 12]], 
-			['infused items', [0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6]]]
 		],
 		barbarian: [
-			[[],['rage','unarmored defense'],['danger sense','reckless attack'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[['brutal critical', ['','', '', '', '', '', '', '', '', '1 dice', '1 dice', '1 dice', '1 dice', '2 dice', '2 dice', '2 dice', '2 dice', '3 dice', '3 dice', '3 dice', '3 dice']],
-			['rages',[0, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 'unlimited']],
-			['rage damage',['','+2', '+2', '+2', '+2', '+2', '+2', '+2', '+2', '+3', '+3', '+3', '+3', '+3', '+3', '+3', '+4', '+4', '+4', '+4', '+4']]]
+			[[],['rage', 'unarmored defense'], ['reckless attack', 'danger sense'], ['primal path', 'primal knowledge'], [], ['extra attack', 'fast movement'], [], ['feral instinct', 'instinctive pounce'], [], ['brutal critical'], [], ['relentless rage'], [], [], [], ['persistent rage'], [], [], ['indomitable might'], [], ['primal champion']],
 		],
 		bard: [
-			[[],['spellcasting'],['jack of all trades'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['spellcasting', 'bardic inspiration'], ['jack of all trades', 'song of rest', 'magical inspiration'], ['bard college', 'expertise'], ['bardic versatility'], ['font of inspiration'], ['countercharm'], [], [], [], ['magical secrets'], [], [], [], [], [], [], [], [], [], ['superior inspiration']],
+		],
 		cleric: [
-			[[],['spellcasting','divine domain'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['spellcasting', 'divine domain'], ['channel divinity', 'harness divine power'], [], ['cantrip versatility'], ['destroy undead'], [], [], [], [], ['divine intervention'], [], [], [], [], [], [], [], [], [], []],
+		],
 		druid: [
-			[[],['druidic','spellcasting'],['wild shape'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['spellcasting', 'druidic'], ['druid circle', 'wild shape', 'wild companion'], [], ['cantrip versatility'], [], [], [], [], [], [], [], [], [], [], [], [], [], ['beast spells', 'timeless body'], [], ['archdruid']],
+		],
 		fighter: [
-			[[],['fighting style', 'second wind'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]
+			[[],['fighting style', 'second wind'], ['action surge'], ['martial archetype'], ['martial versatility'], ['extra attack'], [], [], [], ['indomitable'], [], [], [], [], [], [], [], [], [], [], []],
+			// []
 		],
 		monk: [
-			[[],['martial arts','unarmored defense'], ['ki', 'unarmored movement'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['unarmored defense', 'martial arts'], ['ki', 'dedicated weapon (optional)', 'unarmored movement'], ['monastic tradition', 'deflect missiles', 'ki-fueled attack'], ['slow fall', 'quickened healing'], ['extra attack', 'stunning strike', 'focused aim'], ['ki-empowered strikes'], ['evasion', 'stillness of mind'], [], [], ['purity of body'], [], [], ['tongue of the sun and moon'], ['diamond soul'], ['timeless body'], [], [], ['empty body'], [], ['perfect self']],
+			// []
+		],
 		paladin: [
-			[[],['divine sense', 'lay on hands'],['fighting style', 'spellcasting', 'divine smite'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['divine sense', 'lay on hands'], ['fighting style', 'spellcasting', 'divine smite'], ['divine health', 'sacred oath', 'harness divine power'], ['martial versatility'], ['extra attack'], ['aura of protection'], [], [], [], ['aura of courage'], ['improved divine smite'], [], [], ['cleansing touch'], [], [], [], [], [], []],
+			// []
+		],
 		ranger: [
-			[[],['favored enemy', 'natural explorer'],[	'fighting style', 'spellcasting'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['favored enemy', 'natural explorer', 'deft explore', 'favored foe'], ['fighting style', 'spellcasting', 'spellcasting focus'], ['primeval awareness', 'ranger conclave', 'primal awareness'], ['martial versatility'], ['extra attack'], [], [], ['land\'s stride'], [], ['hide in plain sight', 'nature\'s veil (optional)'], [], [], [], ['vanish'], [], [], [], ['feral senses'], [], ['foe slayer']],
+			// []
+		],
 		rogue: [
-			[[],['expertise', 'sneak attack', 'thieves\' cant'],['cunning action'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['expertise', 'sneak attack', 'thieves\' cant'], ['cunning action'], ['roguish archetype', 'steady aim'], [], ['uncanny dodge'], [], ['evasion'], [], [], ['ability score improvement'], ['reliable talent'], [], [], ['blindsense'], ['slippery mind'], [], [], ['elusive'], [], ['stroke of luck']],
+			// []
+		],
 		sorcerer: [
-			[[],['spellcasting', 'sorcerous origins', 'scf'], ['font of magic'], ['metamagic'], ['asi'], [], ['scf'], [], ['asi'], [], ['metamagic'], [], ['asi'], [], ['scf'], [], ['asi'], ['metamagic'], ['scf'], ['asi'], ['sorcerous restoration']], 
-			['sorcery points', calcSorceryPoints]
+			[[],['spellcasting', 'sorcerous origin'], ['font of magic'], ['metamagic'], ['sorcerous versatility'], ['magical guidance'], [], [], [], [], [], [], [], [], [], [], [], [], [], [], ['sorcerous restoration']], 
+			// ['sorcery points', calcSorceryPoints]
 		],
 		warlock: [
-			[[],['otherworldly patron', 'pact magic'],['	eldritch invocations'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['otherworldly patron', 'pact magic'], ['eldritch invocations'], ['pact boon'], ['eldritch versatility'], [], [], [], [], [], [], ['mystic arcanum'], [], [], [], [], [], [], [], [], ['eldritch master']],
+			// []
+		],
 		wizard: [
-			[[],[	'spellcasting', 'arcane recovery'],['arcane tradition'],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
-			[]],
+			[[],['spellcasting', 'arcane recovery'], ['arcane tradition'], ['cantrip formulas (optional)'], [], [], [], [], [], [], [], [], [], [], [], [], [], [], ['spell mastery'], [], ['signature spells']],
+			[]
+		],
 	},
-	utilities: [calcSpellsKnown, calcSpellSlots]
+	// utilities: [calcSpellsKnown, calcSpellSlots]
 };
 
 // console.log(CharacterClassSubclass.utilities[1]('Sorcerer', 10))
@@ -383,43 +394,3 @@ const CharacterClassSubclass = {
 // features - ASI = ability score improvement, SCF = subclass feature update
 
 export default CharacterClassSubclass;
-
-// Artificer
-// class_scf_a_name: 'infusions known',
-// class_scf_b_name: '',
-// Barbarian
-// class_scf_a_name: 'rage',
-// class_scf_b_name: 'brutal critical',
-// Bard
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Cleric
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Druid
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Fighter
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Monk
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Paladin
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Ranger
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Rogue
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Sorcerer
-// class_scf_a_name: 'sorcery points',
-// class_scf_b_name: 'metamagic',
-// Warlock
-// class_scf_a_name: '',
-// class_scf_b_name: '',
-// Wizard
-// class_scf_a_name: '',
-// class_scf_b_name: '',

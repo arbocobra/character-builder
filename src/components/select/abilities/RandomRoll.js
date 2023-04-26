@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toggleList } from '../../utilities/helperFunctions';
 import { addDropdownEvent, addOptionEventIndex } from '../../utilities/selectFunctions';
 import { SubmitButton } from '../../SubmitButton';
+const _ = require('lodash'); 
 
 export const RandomRoll = (props) => {
 	// const { updateSelect, abilities, setSelectionType } = props;
-	const { abilities, submit } = props;
+	const { abilities, submit, reset } = props;
 
 	const [selectedArr, setSelectedArr] = useState([0, 0, 0, 0, 0, 0]);
 	const [randomArray, setRandomArray] = useState([]);
@@ -52,7 +53,7 @@ export const RandomRoll = (props) => {
 					/>
 				))}
 				{/* <SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} /> */}
-				<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} />
+				<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} reset={reset} />
 			</div>
 		);
 	}
@@ -96,6 +97,7 @@ const Stat = (props) => {
 			let dup = displayIndexAll.filter((el, i) => displayIndexAll.indexOf(el) !== i && el !== null);
 			if (dup.includes(displayIndex)) {
 				parentRef.current.firstElementChild.classList.add('red');
+				// selectRef.current.firstElementChild.classList.add('red');
 			} else {
 				parentRef.current.firstElementChild.classList.remove('red');
 			}
@@ -105,7 +107,8 @@ const Stat = (props) => {
 	return (
 		<div ref={parentRef} id={`${ability}-dropdown`} className='ability-dropdown'>
 			<p>
-				{ability}: {selected === 0 ? '-' : selected}
+				{/* {ability}: {selected === 0 ? '-' : selected} */}
+				{_.capitalize(ability)}:
 			</p>
 			<div ref={selectRef} className='custom-dropdown'>
 				<div className='value-header small'>

@@ -16,9 +16,12 @@ export const DisplaySkills = memo(function DisplaySkills(props) {
    const profDisplay = !skillProf ? null : skillProf.map(num => num > 0 ? `+${num}` : num);
  
    return (
-     <div>
+    <div className='skill-display'>
+      <div className='display-heading open'>
       <p className='section-title'>Skills</p>
-       <div className='skill-grid table-grid'>
+		</div>
+    { charSkills.length ? (
+      <div className='skill-grid display-box'>
          <div className='skill-row header'>
            <div>PB</div>
            <div>Skill</div>
@@ -26,15 +29,15 @@ export const DisplaySkills = memo(function DisplaySkills(props) {
          </div>
          { skills.map((el,i) => (
          <div key={el[0]} className='skill-row'>
-           {/* <div>{ currentSkills.includes(el[0]) ? 'X' : null}</div> */}
            <div>{ charSkills.includes(el[0]) ? 'X' : null}</div>
            <div>{_.capitalize(el[0])} <span className='skill-ability'>({abilityRef.current[el[1]].slice(0,3)})</span></div>
-           {/* <div className='strong'>{skillProf[i]}</div> */}
-           {/* <div className='strong'>{ charSkills.includes(el[0]) ? 'X' : null}</div> */}
            <div className='strong'>{ skillProf ? profDisplay[i] : null }</div>
          </div>
        )) }
        </div>
+    ) : <div className='display-box'><p>No skills selected</p></div>}
+      
+       
      </div>
    )
  })

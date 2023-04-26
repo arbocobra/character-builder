@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { addDropdownEvent, addOptionEvent } from '../../utilities/selectFunctions';
 import { SubmitButton } from '../../SubmitButton';
+const _ = require('lodash'); 
 
 export const PointBuy = (props) => {
-	const { abilities, submit } = props;
+	const { abilities, submit, reset } = props;
 
 	const [total, setTotal] = useState(27);
 	const [selectedArr, setSelectedArr] = useState([0, 0, 0, 0, 0, 0]);
@@ -29,7 +30,7 @@ export const PointBuy = (props) => {
 				<Stat key={ability} index={i} pointsObj={costValue.current} total={total} ability={ability} setSelectedArr={setSelectedArr} />
 			))}
 			{/* <SubmitButton {...props} canSubmit={canSubmit} selectedArr={selectedArr} /> */}
-			<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} />
+			<SubmitButton canSubmit={canSubmit} submit={submit} args={[selectedArr]} reset={reset} />
 		</div>
 	);
 };
@@ -83,7 +84,8 @@ const Stat = (props) => {
 	return (
 		<div ref={parentRef} id={`${ability}-dropdown`} className='ability-dropdown'>
 			<p>
-				{ability}: {selected === 0 ? '-' : selected}
+				{/* {ability}: {selected === 0 ? '-' : selected} */}
+				{_.capitalize(ability)}:
 			</p>
 			<div ref={selectRef} className='custom-dropdown'>
 				<div className='value-header small'>

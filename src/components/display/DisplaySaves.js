@@ -15,9 +15,12 @@ export const DisplaySaves = memo(function DisplaySaves(props) {
    const displayModifiers = proficiencies ? proficiencies.map(num => num > 0 ? `+${num}` : num) : []
  
    return (
-     <div>
-       <p className='section-title'>Saving Throws</p>
-       <div className='save-grid table-grid'>        
+     <div className='save-display'>
+      <div className='display-heading open'>
+        <p className='section-title'>Saving Throws</p>
+		  </div>
+      { proficiencies ? (
+        <div className='save-grid display-box'>        
          <div className='save-row header'>
            <div>PB</div>
            <div>Skill</div>
@@ -32,6 +35,8 @@ export const DisplaySaves = memo(function DisplaySaves(props) {
          </div>
        )) }
        </div>
+      ) : <div className='display-box'><p>Saves unknown</p></div> }
+       
      </div>
    )
  
