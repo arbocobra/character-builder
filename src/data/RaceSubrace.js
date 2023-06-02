@@ -9,6 +9,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['flight', 'talons', 'wind caller'],
+			select: false,
 		},
 		aasimar: {
 			size: 'Medium',
@@ -19,6 +20,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['darkvision', 'celestial resistance', 'healing hands', 'light bearer'],
+			select: false,
 		},
 		bugbear: {
 			size: 'Medium',
@@ -29,6 +31,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['darkvision', 'fey ancestry', 'long-limbed', 'powerful build', 'sneaky', 'surprise attack'],
+			select: false,
 		},
 		centaur: {
 			size: 'Medium',
@@ -39,7 +42,8 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['charge', 'equine build', 'hooves', 'natural affinity'],
-			select: [['skills', 1, ['animal handling', 'medicine', 'nature', 'survival']]],
+			// select: [['skills', 1, ['animal handling', 'medicine', 'nature', 'survival']]],
+			select: true,
 		},
 		changeling: {
 			size: 'Medium',
@@ -50,11 +54,12 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['changeling instincts', 'shapechanger'],
-			select: [
-				['skills', 2, ['deception', 'insight', 'intimidation', 'performance', 'persuasion']],
-				['language', 2, 'ALL'],
-				['abilities', 1, ['dexterity', 'intelligence']],
-			],
+			select: true,
+			// select: [
+			// 	['skills', 2, ['deception', 'insight', 'intimidation', 'performance', 'persuasion']],
+			// 	['language', 2, 'ALL'],
+			// 	['abilities', 1, ['dexterity', 'intelligence']],
+			// ],
 		},
 		dragonborn: {
 			size: 'Medium',
@@ -65,6 +70,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['breath weapon', 'damage resistance', 'draconic ancestry'],
+			select: false,
 		},
 		dwarf: {
 			size: 'Medium',
@@ -76,6 +82,7 @@ const CharacterRaceSubrace = {
 			subrace: ['hill', 'mountain', 'gray (duergar)'],
 			subrace_req: true,
 			extras: ['darkvision', 'dwarven combat training', 'dwarven resilience', 'stonecunning', 'tool proficiency'],
+			select: ['proficiencies', 1, ['smith\'s tools', 'brewer\'s supplies', 'mason\'s tools'], 'tools']
 		},
 		elf: {
 			size: 'Medium',
@@ -87,6 +94,7 @@ const CharacterRaceSubrace = {
 			subrace: ['high', 'wood', 'drow', 'eladrin', 'sea elf', 'shadar kai'],
 			subrace_req: true,
 			extras: ['darkvision', 'fey ancestry', 'keen sense', 'trance'],
+			select: false,
 		},
 		firbolg: {
 			size: 'Medium',
@@ -97,6 +105,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['firborg magic', 'hidden step', 'powerful build', 'speech of beast and leaf'],
+			select: false,
 		},
 		genasi: {
 			size: 'Small / Medium',
@@ -108,6 +117,7 @@ const CharacterRaceSubrace = {
 			subrace: ['air', 'earth', 'fire', 'water'],
 			subrace_req: true,
 			extras: ['darkvision'],
+			select: false,
 		},
 		gith: {
 			size: 'Medium',
@@ -119,6 +129,7 @@ const CharacterRaceSubrace = {
 			subrace: ['githyanki', 'githzerai'],
 			subrace_req: true,
 			extras: ['psychic resilience'],
+			select: false,
 		},
 		gnome: {
 			size: 'Small',
@@ -130,6 +141,7 @@ const CharacterRaceSubrace = {
 			subrace: ['forest', 'rock', 'deep (svirfneblin)'],
 			subrace_req: true,
 			extras: ['darkvision', 'gnome cunning'],
+			select: false,
 		},
 		goblin: {
 			size: 'Small',
@@ -140,6 +152,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['darkvision', 'fey ancestry', 'fury of the small', 'nimble escape'],
+			select: false,
 		},
 		goliath: {
 			size: 'Medium',
@@ -150,6 +163,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['little giant', 'mountain born', 'stone\'s endurance'],
+			select: false,
 		},
 		grung: {
 			size: 'Small',
@@ -160,6 +174,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['amphibious', 'arboreal alertness', 'poison immunity', 'poisonous skin', 'standing leap', 'water dependency'],
+			select: false,
 		},
 		halfling: {
 			size: 'Small',
@@ -171,6 +186,7 @@ const CharacterRaceSubrace = {
 			subrace: ['lightfoot', 'stout'],
 			subrace_req: true,
 			extras: ['brave', 'lucky', 'nimble'],
+			select: false,
 		},
 		'half-elf': {
 			size: 'Medium',
@@ -196,6 +212,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['darkvision', 'menacing', 'relentless endurance', 'savage attacks'],
+			select: false,
 		},
 		hobgoblin: {
 			size: 'Medium',
@@ -206,6 +223,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['darkvision', 'fey ancestry', 'fey gift', 'fortune from the many'],
+			select: false,
 		},
 		human: {
 			size: 'Medium',
@@ -250,6 +268,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['darkvision', 'draconic cry', 'kobold legacy'],
+			select: false,
 		},
 		lizardfolk: {
 			size: 'Medium',
@@ -277,6 +296,7 @@ const CharacterRaceSubrace = {
 				'Adv. against Charmed/Frightened',
 				'Adv. on Perception, Survival, Investigation checks involving smell',
 			],
+			select: false,
 		},
 		minotaur: {
 			size: 'Medium',
@@ -303,6 +323,7 @@ const CharacterRaceSubrace = {
 				'Powerful Build',
 				'Relentless Endurance',
 			],
+			select: false,
 		},
 		shifter: {
 			size: 'Medium',
@@ -348,6 +369,7 @@ const CharacterRaceSubrace = {
 			subrace: ['variant', 'feral'],
 			subrace_req: false,
 			extras: ["60' Darkvision", 'Infernal Legacy (spells)', 'Fire res.'],
+			select: false,
 		},
 		tortle: {
 			size: 'Medium',
@@ -374,6 +396,7 @@ const CharacterRaceSubrace = {
 				'Control Air/Water (spells)',
 				'Emissary of the Sea,\nGuardians of the Depths (prim. Cold res.)',
 			],
+			select: false,
 		},
 		vedalken: {
 			size: 'Medium',
@@ -396,6 +419,7 @@ const CharacterRaceSubrace = {
 			subrace: ['envoy', 'juggernaut', 'skirmisher'],
 			subrace_req: true,
 			extras: ['Warforged Resilience', "Sentry's Rest", 'Integrated Protection'],
+			select: false,
 		},
 		'yuan-ti': {
 			size: 'Medium',
@@ -411,6 +435,7 @@ const CharacterRaceSubrace = {
 				'Adv. on saves against magic',
 				'Immune to Poison/Poisoned',
 			],
+			select: false,
 		},
 	},
 	subrace: {
@@ -421,6 +446,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['dwarven toughness'],
+				select: false,
 			},
 			mountain: {
 				modifiers: [2, 0, 2, 0, 0, 0],
@@ -428,6 +454,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['dwarven armor training'],
+				select: false,
 			},
 			'gray (duergar)': {
 				modifiers: [1, 0, 2, 0, 0, 0],
@@ -435,6 +462,7 @@ const CharacterRaceSubrace = {
 				language: ['undercommon'],
 				speed: null,
 				extras: ['duergar magic', 'psionic fortitude'],
+				select: false,
 			},
 		},
 		elf: {
@@ -452,6 +480,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: 35,
 				extras: ['elf weapon training', 'fleet of foot', 'mask of the wild'],
+				select: false,
 			},
 			drow: {
 				modifiers: [0, 2, 0, 0, 0, 1],
@@ -459,6 +488,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['drow magic', 'drow weapon training', 'sunlight sensitivity'],
+				select: false,
 			},
 			eladrin: {
 				modifiers: [0, 2, 0, 0, 0, 1],
@@ -466,6 +496,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['fey step'],
+				select: false,
 			},
 			'sea elf': {
 				modifiers: [0, 2, 1, 0, 0, 0],
@@ -473,6 +504,7 @@ const CharacterRaceSubrace = {
 				language: ['aquan'],
 				speed: null,
 				extras: ['child of the sea', 'friend of the sea'],
+				select: false,
 			},
 			'shadar kai': {
 				modifiers: [0, 2, 1, 0, 0, 0],
@@ -480,6 +512,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['blessing of the raven queen', 'necrotic resistance'],
+				select: false,
 			},
 		},
 		genasi: {
@@ -489,6 +522,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['lightning resistance', 'mingle with the wind', 'unending breath'],
+				select: false,
 			},
 			earth: {
 				modifiers: [1, 0, 2, 0, 0, 0],
@@ -496,6 +530,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['earth walk', 'merge with stone'],
+				select: false,
 			},
 			fire: {
 				modifiers: [0, 0, 2, 1, 0, 0],
@@ -503,6 +538,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['fire resistance', 'reach to the blaze'],
+				select: false,
 			},
 			water: {
 				modifiers: [0, 0, 2, 0, 1, 0],
@@ -510,6 +546,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['acid resistance', 'call to the wave'],
+				select: false,
 			},
 		},
 		gith: {
@@ -519,6 +556,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['astral knowledge', 'githyanki psionics'],
+				select: false,
 			},
 			githzerai: {
 				modifiers: [0, 0, 0, 1, 2, 0],
@@ -526,6 +564,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['githzerai psionics', 'mentail discipline'],
+				select: false,
 			},
 		},
 		gnome: {
@@ -535,6 +574,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['natural illusionist', 'speak with small beasts'],
+				select: false,
 			},
 			rock: {
 				modifiers: [0, 0, 1, 2, 0, 0],
@@ -542,6 +582,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['artificer\'s lore', 'tinker'],
+				select: false,
 			},
 			'deep (svirfneblin)': {
 				modifiers: [0, 1, 0, 2, 0, 0],
@@ -549,6 +590,7 @@ const CharacterRaceSubrace = {
 				language: ['undercommon'],
 				speed: null,
 				extras: ['gift of the svirfneblin', 'svirfneblin camouflage'],
+				select: false,
 			},
 		},
 		halfling: {
@@ -558,6 +600,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['naturally stealthy'],
+				select: false,
 			},
 			stout: {
 				modifiers: [0, 2, 1, 0, 0, 0],
@@ -565,6 +608,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['stout resilience'],
+				select: false,
 			},
 			// ghostwise: {
 			// 	modifiers: [0, 2, 0, 0, 1, 0],
@@ -629,6 +673,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ["60' darkvision", 'shifting', 'while shifted: 1d6 temp hp and +1 ac'],
+				select: false,
 			},
 			longtooth: {
 				modifiers: [2, 1, 0, 0, 0, 0],
@@ -636,6 +681,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ["60' darkvision", 'shifting', 'while shifted: unarmed strike w fangs (1d6 + str -> piercing)'],
+				select: false,
 			},
 			swiftstride: {
 				modifiers: [0, 2, 0, 0, 0, 1],
@@ -643,6 +689,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: 35,
 				extras: ["60' darkvision", 'shifting', "while shifted: +10 speed, +10 reaction in 5' proximity (no oa)"],
+				select: false,
 			},
 			wildhunt: {
 				modifiers: [0, 1, 0, 0, 2, 0],
@@ -654,6 +701,7 @@ const CharacterRaceSubrace = {
 					'shifting',
 					'while shifted: adv on wis, no attacks on you with adv (unless incapacitated)',
 				],
+				select: false,
 			},
 		},
 		tiefling: {
@@ -663,6 +711,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ["60' darkvision", 'fire res.', "devil's tongue or hellfire or winged"],
+				select: false,
 			},
 			feral: {
 				modifiers: [0, 2, 0, 1, 0, 0],
@@ -670,6 +719,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ["60' darkvision", 'fire res.', "devil's tongue or hellfire or winged"],
+				select: false,
 			},
 		},
 		warforged: {
@@ -697,6 +747,7 @@ const CharacterRaceSubrace = {
 					'powerful build',
 					'unarmed strike w/ extra damage (bludgeoning)',
 				],
+				select: false,
 			},
 			skirmisher: {
 				modifiers: [0, 2, 1, 0, 0, 0],
@@ -705,8 +756,51 @@ const CharacterRaceSubrace = {
 				speed: 35,
 				extras: ['warforged resilience', "sentry's rest", 'integrated protection', 'light step'],
 			},
+			select: false,
 		},
 	},
+	select: {
+		centaurSelect: [
+			{
+				type: 'list',
+				cat: ['race', 'skills'],
+				count: 1,
+				ref: 'arr',
+				list: ['animal handling', 'medicine', 'nature', 'survival'],
+				result: [],
+				name: ['proficiency', 'skills'],
+			},
+		],
+		changelingSelect: [
+			{
+				type: 'list',
+				cat: ['race', 'skills'],
+				count: 1,
+				ref: 'arr',
+				list: ['deception', 'insight', 'intimidation', 'performance', 'persuasion'],
+				result: [],
+				name: ['proficiency', 'skills'],
+			},
+			{
+				type: 'list',
+				cat: ['race', 'language'],
+				count: 2,
+				ref: 'obj',
+				list: ['language'],
+				result: [],
+				name: ['language'],
+			},
+			{
+				type: 'list',
+				cat: ['abilities', 'bonus', 'race'],
+				count: 1,
+				ref: 'arr',
+				list: ['dexterity', 'intelligence'],
+				result: [],
+				name: ['abilities'],
+			},
+		]
+	}
 };
 
 export default CharacterRaceSubrace;

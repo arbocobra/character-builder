@@ -38,6 +38,22 @@ export const addOptionEventIndex = (div, handleSelect) => {
    }
 }
 
+export const addOptionEventSpecial = (div, handleSelect, countIndex) => {
+   const options = div.children[1].children;
+   const header = div.children[0];
+   for (let i = 0; i < options.length; i++) {
+      if (!Array.from(options[i].classList).includes('event')) {
+         options[i].addEventListener('click', () => {
+            let val = options[i].innerHTML;
+            header.childNodes[0].nodeValue = val;
+            toggleList(div.children[1]);
+            handleSelect(countIndex, i);
+         });
+         options[i].classList.add('event');
+      }
+   }
+}
+
 const toggleList = (div) => {
    let arrow = div.previousElementSibling.children[0];
    div.classList.toggle('open');
@@ -77,3 +93,21 @@ export const limitSelections = (nodes, bool, cat) => {
       }
    }
 }
+
+export const toggleSection = (div ) => {
+   div.classList.toggle('open')
+   div.nextElementSibling.classList.toggle('hidden')
+   let parent = div.closest('.container-box');
+   let arr = parent.querySelectorAll('.section-heading');
+   arr.forEach((el,i) => {
+     if (el !== div) {
+     // if (i !== index) {
+       el.classList.remove('open')
+       el.nextElementSibling.classList.add('hidden')
+     }
+   })}
+
+ export const toggleHeading = (div) => {
+   div.classList.toggle('open')
+   div.nextElementSibling.classList.toggle('hidden')
+ }

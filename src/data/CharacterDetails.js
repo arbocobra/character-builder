@@ -23,9 +23,12 @@ export const language = {
 export const Proficiencies = {
 	tools: {
 		'artisan\'s tools': ['alchemist\'s supplies', 'brewer\'s supplies', 'calligrapher\'s supplies', 'carpenter\'s tools', 'cartographer\'s tools', 'cobbler\'s tools', 'cook\'s utensils', 'glassblower\'s tools', 'jeweler\'s tools', 'leatherworker\'s tools', 'mason\'s tools', 'painter\'s supplies', 'potter\'s tools', 'smith\'s tools', 'tinker\'s tools', 'weaver\'s tools', 'woodcarver\'s tools'],
+		
 		'gaming set': ['dice set', 'dragonchess set', 'playing card set', 'three-dragon ante set'],
 		
 		'musical instrument': ['bagpipes', 'drum', 'dulcimer', 'flute', 'lute', 'lyre', 'horn', 'pan flute', 'shawm', 'viol'],
+
+		'gear': ['burglar\'s pack', 'diplomat\'s pack', 'dungeoneer\'s pack', 'entertainer\'s pack', 'explorer\'s pack', 'priest\'s pack', 'scholar\'s pack'],
 
 		miscellaneous: ['disguise kit', 'forgery kit', 'herbalism kit', 'land vehicle', 'navigator\'s tools', 'poisoner\'s kit', 'thieves\' tools', 'water vehicle'],
 	},
@@ -97,21 +100,16 @@ export const Proficiencies = {
 				class: [2],
 			}
 		}
-	}
+	},
+	skills: ['acrobatics','animal handling', 'arcana', 'athletics', 'deception', 'history', 'insight', 'intimidation', 'investigation', 'medicine', 'nature', 'perception', 'performance', 'persuasion', 'religion', 'sleight of hand', 'stealth', 'survival'],
+	languages: ['celestial', 'common', 'deep speech', 'draconic', 'druidic', 'dwarvish', 'elvish', 'giant', 'gnomish', 'goblin', 'gnoll', 'halfling', 'ignan', 'infernal', 'orc', 'primordial', 'sylvan', 'terran', 'undercommon']
 }
 export const skills = [['acrobatics', 1], ['animal handling', 4], ['arcana', 3], ['athletics', 0], ['deception', 5], ['history', 3], ['insight', 4], ['intimidation', 5], ['investigation', 3], ['medicine', 4], ['nature', 3], ['perception', 4], ['performance', 5], ['persuasion', 5], ['religion', 3], ['sleight of hand', 1], ['stealth', 1], ['survival', 4]]
 
-// export const Weapons = {
-// 	simple: {
-// 		melee: ['club', 'dagger', 'greatclub', 'handaxe', 'javelin', 'light hammer', 'mace', 'quarterstaff', 'sickle', 'spear'],
-// 		ranged: ['crossbow, light', 'dart', 'shortbox', 'sling'],
-// 	},
-// 	martial: {
-// 		melee: ['battleaxe', 'flail', 'glaive', 'greataxe', 'greatsword', 'halberd', 'lance', 'longsword', 'maul', 'morningstar', 'pike', 'rapier', 'scimitar', 'shortsword', 'trident', 'war pick', 'warhammer'],
-// 		ranged: ['whip', 'blowgun', 'crossbow, hand', 'crossbow, heavy', 'longbow', 'net'],
-// 	}
-// }
-
+export const Select = {
+	skills: ['acrobatics','animal handling', 'arcana', 'athletics', 'deception', 'history', 'insight', 'intimidation', 'investigation', 'medicine', 'nature', 'perception', 'performance', 'persuasion', 'religion', 'sleight of hand', 'stealth', 'survival'],
+	languages: ['celestial', 'common', 'deep speech', 'draconic', 'druidic', 'dwarvish', 'elvish', 'giant', 'gnomish', 'goblin', 'gnoll', 'halfling', 'ignan', 'infernal', 'orc', 'primordial', 'sylvan', 'terran', 'undercommon']
+}
 // export const Armor = {
 // 	light: {
 // 		padded: {

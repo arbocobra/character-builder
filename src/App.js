@@ -3,30 +3,31 @@ import './Character.css'
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { CharacterDisplay } from './components/CharacterDisplay';
 import { CharacterSelect } from './components/CharacterSelect';
+import { toggleSection, toggleHeading } from './components/utilities/selectFunctions';
 
 const App = () => {
   const [character, setCharacter] = useState({
-    abilities: {
-      base: [],
-      bonus: {
-        race: [],
-        class: [],
-      },
-      totalBonus: [],
-      total: [],
-      modifiers: [],
-    },
-    // ***Temp - swap back after testing ****
-    // abilities: { 
-    //   base: [12,12,12,13,13,13],
+    // abilities: {
+    //   base: [],
     //   bonus: {
     //     race: [],
     //     class: [],
     //   },
     //   totalBonus: [],
-    //   total: [12,12,12,13,13,13],
-    //   modifiers: [1,1,1,1,1,1],
+    //   total: [],
+    //   modifiers: [],
     // },
+    // ***Temp - swap back after testing ****
+    abilities: { 
+      base: [12,12,12,13,13,13],
+      bonus: {
+        race: [],
+        class: [],
+      },
+      totalBonus: [],
+      total: [12,12,12,13,13,13],
+      modifiers: [1,1,1,1,1,1],
+    },
     // ***
     armor_class: {
       base: 0,
@@ -36,17 +37,33 @@ const App = () => {
     background: '',
     class: '',
     class_scf_count: [],
-    class_special_1_name: '',
-    class_special_1_count: 0,
-    class_special_2_name: '',
-    class_special_2_count: 0,
-    class_special_3_name: '',
-    class_special_3_count: 0,
+    class_feature_special: {},
+    class_spellcasting: {},
     equipment: {
-      race: [],
-      class: [],
-      background: [],
-      total: [],
+      race: {
+        armor: [],
+        tools: [],
+        weapons: [],
+        other: [],
+      },
+      class: {
+        armor: [],
+        tools: [],
+        weapons: [],
+        other: [],
+      },
+      background: {
+        armor: [],
+        tools: [],
+        weapons: [],
+        other: [],
+      },
+      total: {
+        armor: [],
+        tools: [],
+        weapons: [],
+        other: [],
+      },
     },
     features: {
       race: [],
@@ -97,6 +114,7 @@ const App = () => {
       total: [],
     },
     speed: 0,
+    spellcaster: false,
     sub_name: '',
     subclass: '',
     subrace: '',
@@ -112,23 +130,23 @@ const App = () => {
     Array.from(displayArr).map(div => div.addEventListener('click', () => toggleHeading(div)))
   },[])
 
-  const toggleSection = (div, ) => {
-    div.classList.toggle('open')
-    div.nextElementSibling.classList.toggle('hidden')
-    let parent = div.closest('.container-box');
-    let arr = parent.querySelectorAll('.section-heading');
-    arr.forEach((el,i) => {
-      if (el !== div) {
-      // if (i !== index) {
-        el.classList.remove('open')
-        el.nextElementSibling.classList.add('hidden')
-      }
-    })}
+  // export const toggleSection = (div ) => {
+  //   div.classList.toggle('open')
+  //   div.nextElementSibling.classList.toggle('hidden')
+  //   let parent = div.closest('.container-box');
+  //   let arr = parent.querySelectorAll('.section-heading');
+  //   arr.forEach((el,i) => {
+  //     if (el !== div) {
+  //     // if (i !== index) {
+  //       el.classList.remove('open')
+  //       el.nextElementSibling.classList.add('hidden')
+  //     }
+  //   })}
 
-  const toggleHeading = (div) => {
-    div.classList.toggle('open')
-    div.nextElementSibling.classList.toggle('hidden')
-  }
+  // export const toggleHeading = (div) => {
+  //   div.classList.toggle('open')
+  //   div.nextElementSibling.classList.toggle('hidden')
+  // }
 
   const updateCharacter = (val) => {
     setCharacter((prev) => ({

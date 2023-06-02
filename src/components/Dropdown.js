@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { addDropdownEvent, addOptionEvent } from './utilities/selectFunctions';
+import { addDropdownEvent, addOptionEvent, addOptionEventSpecial } from './utilities/selectFunctions';
 const _ = require('lodash'); 
 
 export const Dropdown = (props) => {
-	const {cat, handleSelect, optionsArray, initialOption, index } = props;
+	const {cat, handleSelect, optionsArray, initialOption, index, returnSelectIndex } = props;
 	const dropdown = useRef();
 
 	useEffect(() => {
@@ -13,9 +13,10 @@ export const Dropdown = (props) => {
 
 	useEffect(() => {
 		const div = dropdown.current
-		if (index !== null) {
-			addOptionEvent(div, handleSelect, [cat, index])}
-		else {
+	if (index !== null) {
+		if (returnSelectIndex) {addOptionEventSpecial(div, handleSelect, index)}
+		else addOptionEvent(div, handleSelect, [cat, index])
+		} else {
 			addOptionEvent(div, handleSelect, [cat])}
 	}, [optionsArray]);
 

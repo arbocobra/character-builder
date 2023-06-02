@@ -1,5 +1,5 @@
 import { checkForNull, setModifiersByName, rollDice } from "./helperFunctions";
-import { getClassFeaturesFunctions } from "./classFunctions";
+import { spellcastingAlt, getClassFeaturesFunctions } from "./classFunctions";
 import CharacterClassSubclass from "../../data/ClassSubclass";
 const _ = require('lodash'); 
 
@@ -40,6 +40,7 @@ export const updateSubrace = (reference, val, currentChar, parentRef) => {
       languages: modifiedLanguages,
    }
    
+   
    checkForNull(update, current)
    return update;
 }
@@ -48,7 +49,10 @@ export const updateClass = (reference, val, currentChar) => {
    const current = JSON.parse(JSON.stringify(currentChar))
    let modifiedSkills = updateReferenceObject(reference.skills, current.skills, 'class');
    let modifiedProficiencies = setProficienciesObject(reference.proficiencies, current.proficiencies, 'class');
+   let modifiedFeatures = updateClassFeatures(val, current)
+   
    let update = {
+      class_spell_save: reference.spell_save,
       skills: modifiedSkills,
       class: val,
       proficiencies: modifiedProficiencies,
@@ -57,6 +61,14 @@ export const updateClass = (reference, val, currentChar) => {
       sub_name: reference.subName,
       subclass: '',
       class_scf_count: reference.class_scf_count,
+      spellcaster: reference.spellcaster,
+   }
+
+   if (modifiedFeatures) {
+      // if (update.spellcaster) update.class_spellcasting = spellcastingAlt(current.level, val, update.class_spell_save, current.proficiency_bonus, current)
+      
+      Object.assign(update, modifiedFeatures)
+      // console.log(update)
    }
    return update;
 }
@@ -67,9 +79,7 @@ export const updateBackground = (reference, val, currentChar) => {
    const isVariant = typeof reference.var === 'boolean' ? false : true;
    let modifiedSkills = updateReferenceObject(reference.skills, current.skills, 'background');
    let modifiedFeatures = updateReferenceObject([reference.feature], current.features, 'background');
-   let modifiedEquipment = updateReferenceObject(reference.equipment, current.equipment, 'background');
-   // let modifiedProficiencies = updateProficienciesObject(reference.proficiencies, current.proficiencies, 'background');
-   // let modifiedProficiencies = updateReferenceObject(reference.proficiencies, current.proficiencies, 'background', 'proficiencies');
+   let modifiedEquipment = setProficienciesObject(reference.equipment, current.equipment, 'background');
    let modifiedProficiencies = setProficienciesObject(reference.proficiencies, current.proficiencies, 'background');
    
    const update = {
@@ -122,18 +132,19 @@ export const updateHitPoints = (val, current) => {
    }
 }
 
-export const updateLevel = (val, current) => {
+export const updateLevel = (val, charCurrent) => {
+   const current = JSON.parse(JSON.stringify(charCurrent))
+   let modifiedFeatures = updateClassFeatures(val, current)
    const bonus = Math.ceil(val / 4) + 1;
    let result = {
       level: Number(val),
 		proficiency_bonus: bonus,
    }
-
-   // if (current.class.length) {
-   //    let modifiedFeatures = updateClassFeatures(current, current.class, 'class', val);
-   //    Object.assign(result, modifiedFeatures)
-   //    console.log(result)
-   // } 
+   if (modifiedFeatures) {
+      // if (current.spellcaster) result.class_spellcasting = spellcastingAlt(val, current.class, result.proficiency_bonus, current.class_spell_save, current)
+      Object.assign(result, modifiedFeatures)
+      // console.log(result)
+   }
 
    return result;
 }
@@ -158,9 +169,9 @@ export const updateSelectedTraits = (val, trait, charCurrent, ...cat) => {
       const currentAbility = current.abilities.bonus[charCat]
       val.forEach(el => setModifiersByName(el, currentAbility))
       modifiedTrait = updateBonusAbilities(current.abilities, currentAbility, charCat);
-   } else if (trait === 'proficiencies'){
+   } else if (['proficiencies', 'equipment'].includes(trait)){
       let secondaryCat = cat?.[1];
-      modifiedTrait = updateProficienciesObject(val, current[trait], charCat, secondaryCat);
+      modifiedTrait = updateProficienciesObject(val, current[trait], charCat, secondaryCat, trait);
       console.log(modifiedTrait)
    } else if (trait === 'asi') {
       modifiedTrait = updateBonusAbilities(current.abilities, val, 'class');
@@ -178,9 +189,12 @@ const updateTraitObject = (val, ref, cat) => {
    return ref;
 }
 
-const updateProficienciesObject = (val, ref, cat, type) => {
+const updateProficienciesObject = (val, ref, cat, type, trait) => {
    // if Specific type of proficiency
-   let init = Object.assign({armor: [], tools: [], weapons: []}, {[type]: val})
+   let init = {armor: [], tools: [], weapons: []};
+   if (trait === 'equipment') init.other = [];
+   Object.assign(init, {[type]: val})
+
    for (let pro in init) {
       if (init[pro].length) ref[cat][pro] = [...init[pro], ...ref[cat][pro]]
    }
@@ -228,10 +242,18 @@ const updateBonusAbilities = (ref, val, cat) => {
    return ref;
 }
 
-export const updateClassFeatures = (currentChar) => {
+export const updateClassFeatures = (val, currentChar) => {
    const current = JSON.parse(JSON.stringify(currentChar));
-   const level = current.level;
-   const charClass = current.class;
+   let level, charClass;
+   if (typeof val === 'string') {
+      level = current.level;
+      charClass = val;
+   } else if (typeof val === 'number') {
+      level = val;
+      charClass = current.class;
+   }
+   // const level = current.level;
+   // const charClass = current.class;
    if (level > 0 && charClass.length > 0) {
       const classFeats = CharacterClassSubclass.features[charClass][0];
       const special = CharacterClassSubclass.features[charClass][1];
@@ -239,19 +261,12 @@ export const updateClassFeatures = (currentChar) => {
       const arr = byLevel.flat()
       let modifiedFeatures = updateReferenceObject(arr, current.features, 'class');
       const update = {features: modifiedFeatures}
-
-      getClassFeaturesFunctions(current, CharacterClassSubclass.class[charClass])
-
-
-      // special.forEach((el,i) => {
-      //    let specNameKey = `class_special_${i + 1}_name`;
-      //    let specNameVal = special[i][0];
-      //    let specCountKey = `class_special_${i + 1}_count`;
-      //    let specCountVal = special[i][1][level];
-      //    update[specNameKey] = specNameVal;
-      //    update[specCountKey] = specCountVal.toString();
-      // })
+      
       return update
 
    } else return null;
 }
+
+// const updateArmor = (val, className) => {
+
+// }

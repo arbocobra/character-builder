@@ -11,49 +11,30 @@ export const SelectOther = memo(function SelectOther(props) {
 	const headingRef = useRef();
 
 	useEffect(() => {
-		const div = headingRef.current;
-		div.addEventListener('click', () => {
-			div.classList.toggle('open');
-			div.nextElementSibling.classList.toggle('hidden')
-		})
+		// const div = headingRef.current;
+		// div.addEventListener('click', () => {
+		// 	div.classList.toggle('open');
+		// 	div.nextElementSibling.classList.toggle('hidden')
+		// })
 	 },[])
 
-	const toggleSection = (div, index, arr) => {
-		div.classList.toggle('open')
-		div.nextElementSibling.classList.toggle('hidden')
-		arr.forEach((el,i) => {
-		  if (i !== index) {
-			 el.classList.remove('open')
-			 el.nextElementSibling.classList.add('hidden')
-		  }
-		})}
 
 	
-	// const [active, setActive] = useState(false);
-	// useEffect(() => {
-	// 	if (selectionDetails[1].length) {
-	// 		setActive(true);
-	// 	} else setActive(false)
-	// }, [selectionDetails]);
+	
 
-	const handleSelect = (arr, i, cat) => {
-		// let displayBoxes = _.values(parentRef.current.querySelectorAll('.category-select'))
-		// displayBoxes[i].classList.add('hidden')
-		// if (_.every(displayBoxes, el => _.includes(_.values(el.classList), 'hidden'))) { 
-		// 	setActive(false) 
-		// }
-		// if (_.isNil(selectionDetails[1][i][3])) updateSelect(arr[1], arr[0], selectionDetails[0]);
-		if (_.isNil(selectionDetails[cat][i][3])) updateSelect(arr[1], arr[0], cat);
-		else updateSelect(arr[1], arr[0], cat, selectionDetails[cat][i][3]);	
-	};
+	// const handleSelect = (arr, i, cat) => {
+	// 	if (_.isNil(selectionDetails[cat][i][3])) updateSelect(arr[1], arr[0], cat);
+	// 	else updateSelect(arr[1], arr[0], cat, selectionDetails[cat][i][3]);	
+	// };
 
-	const title = (val,i) => {
-		if (_.isNil(val[3])) return (<p className='section-title line-break'>{`Select ${_.capitalize(val[0])}`}</p>)
-		else if (_.isArray(val[4])) return (<p id={`${val[3]}`} className='hidden'></p>);
-		else return (<p className='section-title line-break'>{`Select ${_.capitalize(val[0])}:\n${_.capitalize(val[4])}`}</p>)
-	}
+	// const title = (val,i) => {
+	// 	if (_.isNil(val[3])) return (<p className='section-title line-break'>{`Select ${_.capitalize(val[0])}`}</p>)
+	// 	else if (_.isArray(val[4])) return (<p id={`${val[3]}`} className='hidden'></p>);
+	// 	else if (_.isNil(val[4])) return (<p className='section-title line-break'>{`Select ${_.capitalize(val[0])}:\n${_.capitalize(val[3])}`}</p>)
+	// 	else return (<p className='section-title line-break'>{`Select ${_.capitalize(val[0])}:\n${_.capitalize(val[4])}`}</p>)
+	// }
 
-	const sectionTitles = (el) => el.length > 4 ? [el?.[3], el?.[4]] : undefined;
+	// const sectionTitles = (el) => el.length > 4 ? [el?.[3], el?.[4]] : undefined;
 	
 	return (
 		<div className='stat-input-container other'>
@@ -61,7 +42,7 @@ export const SelectOther = memo(function SelectOther(props) {
 				<p className='section-title'>Additional Selections</p>
 			</div>
 			<div ref={parentRef} id='SelectOther' className='stat-input'>
-				{ Object.keys(selectionDetails).map(cat => 
+				{/* { Object.keys(selectionDetails).map(cat => 
 				<div className='select-other-inner-row' key={`select-other-${cat}`}>
 					{selectionDetails[cat].map((el,i) => (
 						<div className='category-select' key={el[0]}>
@@ -69,7 +50,7 @@ export const SelectOther = memo(function SelectOther(props) {
 							<SelectOptions name={el[0]} count={el[1]} options={el[2]} index={i} handleSelect={handleSelect} cat={cat} title={sectionTitles(el)}/>
 						</div>
 					))}
-				</div>)}
+				</div>)} */}
 			</div>
 		</div>
 	)
@@ -81,9 +62,12 @@ const SelectOptions = (props) => {
 	
 	const [canSubmit, setCanSubmit] = useState(false)
 	const [selection, setSelection] = useState(['', Array(count).fill('')])
+	const [radio, setRadio] = useState(false)
+	
 	const initialOption = useRef('-- select --');
 	const parentRef = useRef()
-	const titleRef = useRef(title?.[1]);
+	// const titleRef = useRef(title?.[1]);
+	const titleRef = useRef();
 	const [currentOptions, setCurrentOptions] = useState(options)
 
 	const selectionArr = Array(count).fill(options)
@@ -108,14 +92,16 @@ const SelectOptions = (props) => {
 	}, [selection])
 
 	useEffect(() => {
+		titleRef.current = title?.[1];
 		if (_.isArray(titleRef.current)) {
+			setRadio(true)
 			const headingDiv = document.getElementById(titleName);
 			headingDiv.innerHTML = `Select ${count}: ${titleRef.current.join('\nOR ')}`
 			headingDiv.classList.add('section-title', 'line-break')
 			headingDiv.classList.remove('hidden')
 			const radios = document.getElementsByName(`${titleName}-option`)
 			Array.from(radios).forEach(el => el.addEventListener('change', selectRadio))
-		}
+		} else setRadio(false)
 	},[options])
 
 	const selectRadio = (event) => {
@@ -143,13 +129,14 @@ const SelectOptions = (props) => {
 		arr[num] = _.lowerCase(val);
 		setSelection([catName, arr])
 	}
-	if (_.isArray(titleRef.current)) {
+	// if (_.isArray(titleRef.current)) {
+	if (radio) {
 		return radioSelection()
 		
 	} else {
 		return (
 			<div className='select-other-container' ref={parentRef} >
-				{selectionArr.map((el,i) => <Dropdown key={`${name}_${i}`} cat={name} handleSelect={dropSelect} optionsArray={currentOptions} initialOption={initialOption.current} index={i} />)}
+				{selectionArr.map((el,i) => <Dropdown key={`${name}_${index}_${i}`} cat={name} handleSelect={dropSelect} optionsArray={currentOptions} initialOption={initialOption.current} index={i} />)}
 				<SubmitButton canSubmit={canSubmit} submit={handleSelect} args={[selection, index, cat]} reset={null} />
 			</div>
 		)

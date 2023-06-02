@@ -1,4 +1,7 @@
-// import { calcSorceryPoints, calcSpellSlots, calcSpellsKnown } from "../components/utilities/classFunctions";
+import { spellcastingArtificer, spellcastingBard, spellcastingCleric, spellcastingDruid, spellcastingPaladin, spellcastingRanger, spellcastingRogue, spellcastingSorcerer, spellcastingWarlock, spellcastingWizard } from "../components/utilities/classFunctions";
+import { Proficiencies } from "./CharacterDetails";
+
+
 const CharacterClassSubclass = {
 	class: {
 		artificer: {
@@ -10,12 +13,26 @@ const CharacterClassSubclass = {
 				tools: ['thieves\' tools', 'tinker\'s tools'],
 				weapons: ['simple'],
 			},
+			equipment: {
+				armor: [],
+				tools: ['thieves\' tools', 'dungeoneer\'s pack'],
+				weapons: ['light crossbow + 20 bolts'],
+				other: [],
+			},
+			spellcaster: true,
 			class_scf_count: [3,5,9,15],
          hitDice: 'd8',
 			multiclass: [3, 13],
          saves: ['constitution', 'intelligence'],
 			spell_save: 3,
-			select: [['skills', 2, ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleight of hand']], ['proficiencies', 1, 'artisan\'s tools', 'tools']],
+			select: true,
+			// select: [
+			// 	['skills', 2, ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleight of hand']], 
+			
+			// 	['proficiencies-ref', 1, 'artisan\'s tools', 'tools'], 
+			// 	['equipment-ref', 1, 'simple.all', 'weapons'], 
+			// 	['equipment-list', 1, ['studded leather', 'scale mail'], 'armor']
+			// ],
 		},
 		barbarian: {
 			subName: 'Primal Path',
@@ -35,12 +52,31 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple', 'martial'],
 			},
+			equipment: {
+				armor: [],
+				tools: ['explorer\'s pack'],
+				weapons: ['javelin x4'],
+				other: [],
+			},
+			spellcaster: false,
 			class_scf_count: [3,6,10,14],
          hitDice: 'd12',
 			multiclass: [0, 13],
          saves: ['strength', 'constitution'],
 			spell_save: null,
-			select: [['skills', 2, ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival']]],
+			select: true,
+			// [
+			// 	['skills', 2, ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival']],
+			// 	[{
+			// 		init: ['TWO Handaxes', 'ANY Simple Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [['equipment',['handaxe x2'], 'weapons'], ['equipment-ref', 1, 'simple.all', 'weapons']]
+			// 	}],[{
+			// 		init: ['Greataxe', 'ANY Martial Melee Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [['equipment',['greataxe'], 'weapons'], ['equipment-ref', 1, 'martial.melee', 'weapons']],
+			// 	}]
+			// ]
 		},
 		bard: {
 			subName: 'Bard College',
@@ -60,12 +96,37 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple', ['crossbow, hand', 'longsword', 'rapier', 'shortsword']],
 			},
+			equipment: {
+				armor: ['leather'],
+				tools: [],
+				weapons: ['dagger'],
+				other: [],
+			},
+			spellcaster: true,
 			class_scf_count: [3,6,14],
          hitDice: 'd8',
 			multiclass: [5, 13],
          saves: ['dexterity', 'charisma'],
 			spell_save: 5,
-			select: [['skills', 3, 'ALL'], ['proficiencies', 3, 'musical instrument', 'tools']],	
+			select: true,
+		// 	select: [
+		// 		['skills', 3, 'ALL'], 
+		// 		['proficiencies-ref', 3, 'musical instrument', 'tools'], 
+		// 		['equipment-list', 1, ['diplomat\'s pack', 'entertainer\'s pack'], 'tools.gear'],
+
+		// 		// ['OR' ,'equipment', 1, ['rapier', 'longsword', 'simple'], 'weapons'], 
+		// 		// ['OR' ,'equipment', 1, ['lute', 'musical instrument'], 'tools'], 
+		// 		[{
+		// 		init: ['Rapier', 'Longsword', 'ANY Simple Weapon'],
+		// 		result: ['return','return','select'],
+		// 		return: [['equipment',['rapier'], 'weapons'], ['equipment',['longsword'], 'weapons'], ['equipment-ref','simple.all', 'weapons']],
+		// 		}],[{
+		// 		init: ['Lute', 'ANY Other Musical Instrument'],
+		// 		result: ['return', 'select'],
+		// 		return: [
+		// 			['equipment',['lute'], 'tools[\'musical instrument\']'], ['equipment-ref', 1, 'musical instrument', 'tools']]
+		// 	}],
+		// ], 		
 		},
 		cleric: {
 			subName: 'Divine Domain',
@@ -86,17 +147,36 @@ const CharacterClassSubclass = {
 				'Twilight Domain',
 				'War Domain',
 			],
+			spellcaster: true,
 			proficiencies: {
 				armor: ['light', 'medium', 'shields'],
 				tools: [],
 				weapons: ['simple'],
+			},
+			equipment: {
+				armor: ['sheild'],
+				tools: [],
+				weapons: [],
+				other: ['holy symbol'],
 			},
 			class_scf_count: [1,6,8,17],
          hitDice: 'd8',
 			multiclass: [4, 13],
          saves: ['wisdom', 'charisma'],
 			spell_save: 4,
-			select: [['skills', 2, ['history', 'insight', 'medicine', 'persuasion', 'religion']]],
+			select: true,
+			// select: [
+			// 	['skills', 2, ['history', 'insight', 'medicine', 'persuasion', 'religion']], 
+			// 	['IF', 'equipment-list', 1, ['mace', 'warhammer'], 'weapons'], 
+			// 	['IF', 'equipment-list', 1, ['scale mail', 'leather', 'chain mail'], 'armor'], 
+			// 	['equipment-list', 1, ['priest\'s pack', 'explorer\'s pack'], 'tools.gear'],
+			// 	[{
+			// 		init: ['Light Crossbow and 20 Bolts', 'ANY Simple Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment',['light crossbow + 20 bolts'], 'weapons'], ['equipment-ref', 1, 'simple.all', 'weapons']]
+			// 	}],
+			// 	],
 		},
 		druid: {
 			subName: 'Druid Circle',
@@ -110,10 +190,17 @@ const CharacterClassSubclass = {
 				'Circle of Stars',
 				'Circle of Wildfire',
 			],
+			spellcaster: true,
 			proficiencies: {
 				armor: ['light', 'medium', 'shields'],
 				tools: ['herbalism kit'],
 				weapons: [['club', 'dagger', 'dart', 'javelin', 'mace', 'quarterstaff', 'scimitar', 'sickle', 'sling', 'spear']],
+			},
+			equipment: {
+				armor: ['leather'],
+				tools: ['explorer\'s pack'],
+				weapons: [],
+				other: ['druidic focus'],
 			},
 			class_scf_count: [2,6,10,14],
          hitDice: 'd8',
@@ -121,7 +208,23 @@ const CharacterClassSubclass = {
          saves: ['intelligence', 'wisdom'],
 			spell_save: 4,
 			extras: ['will not wear armour/shiels made of metal']	,
-			select: [['skills', 2, ['arcana', 'animal handling', 'insight', 'medicine', 'nature', 'perception', 'religion', 'survival']]],
+			select: false,
+			// select: [
+			// 	['skills', 2, ['arcana', 'animal handling', 'insight', 'medicine', 'nature', 'perception', 'religion', 'survival']], 
+			// 	// ['OR' ,'equipment', 1, ['shield', 'simple'],['armor','weapons']], 
+			// 	// ['OR' ,'equipment', 1, ['scimitar', 'simple.melee'], 'weapons'],
+			// 	[{
+			// 		init: ['Wooden Shield', 'ANY Simple Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment',['shield'], 'armor'], ['equipment-ref', 1, 'simple.all', 'weapons']]
+			// 	}],[{
+			// 		init: ['Scimitar', 'ANY Simple Melee Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment',['scimitar'], 'weapons'], ['equipment-ref', 1, 'simple.melee', 'weapons']]
+			// 	}],
+			// ],	
 		},
 		fighter: {
 			subName: 'Martial Archetype',
@@ -143,12 +246,32 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple', 'martial'],
 			},
+			equipment: {
+				armor: [],
+				tools: [],
+				weapons: [],
+				other: [],
+			},
+			spellcaster: false,
 			class_scf_count: [3,7,10,15,18],
          hitDice: 'd10',
 			multiclass: [0, 13, 'OR', 1, 13],
          saves: ['strength', 'constitution'],
 			spell_save: null,
-			select: [['skills', 2, ['acrobatics', 'animal handling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival']]],
+			select: true,
+			// [
+				// ['skills', 2, ['acrobatics', 'animal handling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival']], 
+				// ['equipment-list', 1, ['chain mail', 'leather armour AND longbow + 20 arrows'], ['armor', ['armor', 'weapons']]],
+				// ['equipment-list', 1, ['light crossbox + 20 bolts', 'handaxe x2'], 'weapons'],
+				// ['equipment-list', 1, ['dungeoneer\'s pack', 'explorer\'s pack'], 'tools.gear'],
+				// [{
+				// 	init: ['ANY Martial Weapon AND a Shield', 'TWO Martial Weapons (any)'],
+				// 	result: [['select', 'return'], 'select'],
+				// 	return: [
+				// 		[['equipment-ref', 1, 'martial.all', 'weapons'], ['equipment',['shield'], 'armor']], 
+				// 		['equipment-ref', 2, 'martial.all', 'weapons']]
+				// }]
+			// ],
 		},
 		monk: {
 			subName: 'Monastic Tradition',
@@ -170,12 +293,36 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple', ['shortsword']],
 			},
+			equipment: {
+				armor: [],
+				tools: [],
+				weapons: ['darts x10'],
+				other: [],
+			},
+			spellcaster: false,
 			class_scf_count: [3,6,11,17],
          hitDice: 'd8',
 			multiclass: [1, 13, 'AND', 4, 13],
          saves: ['strength', 'dexterity'],
 			spell_save: null,
-			select: [['skills', 2, ['acrobatics', 'athletics', 'history', 'insight', 'religion', 'stealth']],['proficiencies', 1, ['OR', 'artisan\'s tools', 'musical instrument'], 'tools']],
+			select: false,
+			// select: [
+			// 	['skills', 2, ['acrobatics', 'athletics', 'history', 'insight', 'religion', 'stealth']],
+			// 	['equipment', 1, ['dungeoneer\'s pack', 'explorer\'s pack'], 'tools.gear'],
+			// 	[{
+			// 		init: ['ANY Artisan\'s Tools', 'ANY Musical Instrument'],
+			// 		result: ['select', 'select'],
+			// 		return: [
+			// 			['proficiencies-ref', 1, 'artisan\'s tools', 'tools'], 
+			// 			['proficiencies-ref', 1, 'musical instruments', 'tools'], ]
+			// 	}], [{
+			// 		init: ['Shortsword', 'ANY Simple Weapons'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment',['shortsword'], 'weapons'], 
+			// 			['equipment-ref', 1, 'simple.all', 'weapons']]
+			// 	}],
+			// ],
 		},
 		paladin: {
 			subName: 'Sacred Oath',
@@ -196,12 +343,36 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple', 'martial'],
 			},
+			equipment: {
+				armor: ['chain mail'],
+				tools: [],
+				weapons: [],
+				other: ['holy symbol'],
+			},
+			spellcaster: true,
 			class_scf_count: [3,7,15,20],
          hitDice: 'd10',
 			multiclass: [0, 13, 'AND', 5, 13],
          saves: ['wisdom', 'charisma'],	
 			spell_save: 5,
-			select: [['skills', 2, ['athletics', 'insight', 'intimidation', 'medicine', 'persuasion', 'religion']]],
+			select: false,
+			// select: [
+			// 	['skills', 2, ['athletics', 'insight', 'intimidation', 'medicine', 'persuasion', 'religion']],
+			// 	['equipment-list', 1, ['dungeoneer\'s pack', 'explorer\'s pack'], 'tools.gear'],
+			// 	[{
+			// 		init: ['ANY Martial Weapon AND a Shield', 'TWO Martial Weapons (any)'],
+			// 		result: [['select', 'return'], 'select'],
+			// 		return: [
+			// 			[['equipment-ref', 1, 'martial.all', 'weapons'], ['equipment',['shield'], 'armor']], 
+			// 			['equipment-ref', 2, 'martial.all', 'weapons']]
+			// 	}], [{
+			// 		init: ['FIVE Javelins', 'ANY Simple Melee Weapon'],
+			// 		result: ['select', 'select'],
+			// 		return: [
+			// 			['equipment', 1, 'javelin x5', 'weapons'], 
+			// 			['equipment-ref', 1, 'simple.melee', 'weapons']]
+			// 	}]
+			// ],
 		},
 		ranger: {
 			subName: 'Ranger Conclave',
@@ -221,12 +392,31 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple', 'martial'],
 			},
+			equipment: {
+				armor: [],
+				tools: [],
+				weapons: ['longbow w quiver + 20 arrows'],
+				other: [],
+			},
+			spellcaster: true,
 			class_scf_count: [3,7,11,15],
          hitDice: 'd10',
 			multiclass: [1, 13, 'AND', 4, 13],
          saves: ['strength', 'dexterity'],
 			spell_save: 4,
-			select: [['skills', 3, ['animal handling', 'athletics', 'insight', 'investigation', 'nature', 'perception', 'stealth', 'survival']]],
+			select: false,
+			// select: [
+			// 	['skills', 3, ['animal handling', 'athletics', 'insight', 'investigation', 'nature', 'perception', 'stealth', 'survival']],
+			// 	['equipment-list', 1, ['scale mail', 'leather'], 'armor'],
+			// 	['equipment-list', 1, ['dungeoneer\'s pack', 'explorer\'s pack'], 'tools.gear'],
+			// 	[{
+			// 		init: ['TWO Shortswords', 'TWO Simple Melee Weapon (any)'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment', ['shortsword x2'], 'weapons'], 
+			// 			['equipment-ref', 2, 'simple.melee', 'weapons']]
+			// 	}]
+			// ],
 		},
 		rogue: {
 			subName: 'Roguish Archetype',
@@ -247,12 +437,24 @@ const CharacterClassSubclass = {
 				tools: ['thieves\' tools'],
 				weapons: ['simple', ['crossbow, hand', 'longsword', 'rapier', 'shortsword']],
 			},
+			equipment: {
+				armor: ['leather'],
+				tools: ['thieves\s tools'],
+				weapons: ['dagger x2'],
+				other: [],
+			},
+			spellcaster: false,
 			class_scf_count: [3,9,13,17],
          hitDice: 'd8',
 			multiclass: [1, 13],
          saves: ['dexterity', 'intelligence'],
 			spell_save: 3,
-			select: [['skills', 4, ['acrobatics', 'athletics', 'deception', 'insight', 'intimidation', 'investigation', 'perception', 'performance', 'persuasion', 'sleight of hand', 'stealth']]],
+			select: false,
+			// select: [
+			// 	['skills', 4, ['acrobatics', 'athletics', 'deception', 'insight', 'intimidation', 'investigation', 'perception', 'performance', 'persuasion', 'sleight of hand', 'stealth']],
+			// 	['equipment-list', 1, ['rapier', 'shortsword'], 'weapon'],
+			// 	['equipment-list', 1, ['burglar\'s pack', 'dungeoneer\'s pack', 'explorer\'s pack'], 'tools.gear'],
+			// ],
 		},
 		sorcerer: {
 			subName: 'Sorcerous Origin',
@@ -272,12 +474,30 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: [['crossbow, light', 'dagger', 'dart', 'sling', 'quarterstaff']],
 			},
+			equipment: {
+				armor: [],
+				tools: [],
+				weapons: ['dagger x2'],
+				other: [],
+			},
+			spellcaster: true,
 			class_scf_count: [1,6,14,18],
          hitDice: 'd6',
 			multiclass: [5, 13],
          saves: ['constitution', 'charisma'],
 			spell_save: 5,
-			select: [['skills', 2, ['arcana', 'deception', 'insight', 'intimidation', 'persuasion', 'religion']]],
+			select: false,
+			// select: [
+			// 	['skills', 2, ['arcana', 'deception', 'insight', 'intimidation', 'persuasion', 'religion']],
+			// 	['equipment-list', 1, ['dungeoneer\'s pack', 'explorer\'s pack'], 'tools.gear'],
+			// 	['equipment-list', 1, ['component pouch', 'arcane focus'], 'other'],
+			// 	[{
+			// 		init: ['Light Crossbow and 20 Bolts', 'ANY Simple Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment',['light crossbow + 20 bolts'], 'weapons'], ['equipment-ref', 1, 'simple.all', 'weapons']]
+			// 	}],
+			// ],
 		},
 		warlock: {
 			subName: 'Otherworldly Patron',
@@ -298,12 +518,31 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: ['simple'],
 			},
+			equipment: {
+				armor: ['leather'],
+				tools: [],
+				weapons: ['dagger x2'],
+				other: [],
+			},
+			spellcaster: true,
 			class_scf_count: [1,6,10,14],
          hitDice: 'd8',
 			multiclass: [5, 13],
          saves: ['wisdom', 'charisma'],
 			spell_save: 5,
-			select: [['skills', 2, ['arcana', 'deception', 'history', 'intimidation', 'investigation', 'nature', 'religion']]],
+			select: false,
+			// select: [
+			// 	['skills', 2, ['arcana', 'deception', 'history', 'intimidation', 'investigation', 'nature', 'religion']],
+			// 	['equipment-list', 1, ['component pouch', 'arcane focus'], 'other'],
+			// 	['equipment-list', 1, [ 'scholar\'s pack', 'dungeoneer\'s pack'], 'tools.gear'],
+			// 	['equipment-ref', 1, 'simple.all', 'weapons']
+			// 	[{
+			// 		init: ['Light Crossbow and 20 Bolts', 'ANY Simple Weapon'],
+			// 		result: ['return', 'select'],
+			// 		return: [
+			// 			['equipment',['light crossbow + 20 bolts'], 'weapons'], ['equipment-ref', 1, 'simple.all', 'weapons']]
+			// 	}],
+			// ],
 		},
 		wizard: {
 			subName: 'Arcane Tradition',
@@ -328,12 +567,26 @@ const CharacterClassSubclass = {
 				tools: [],
 				weapons: [['crossbow, light', 'dagger', 'dart', 'sling', 'quarterstaff']],
 			},
+			equipment: {
+				armor: [],
+				tools: [],
+				weapons: [],
+				other: ['spellbook'],
+			},
+			spellcaster: true,
 			class_scf_count: [2,6,10,14],
          hitDice: 'd6',
 			multiclass: [3, 13],
          saves: ['intelligence', 'wisdom'],
 			spell_save: 3,
-			select: [['skills', 2, ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion']]],
+			select: true,
+			// select: [
+			// 	['skills', 2, ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion']],
+			// 	['equipment-ref', 1, 'simple.all', 'weapons']
+			// 	['equipment-list', 1, ['quarterstaff', 'dagger'], 'weapons'],
+			// 	['equipment-list', 1, [ 'scholar\'s pack', 'dungeoneer\'s pack'], 'tools.gear'],
+			// 	['equipment-ref', 1, 'simple.all', 'weapons']
+			// ],
 		},
 	},
 	features: {
@@ -341,7 +594,7 @@ const CharacterClassSubclass = {
 			[[],['magical tinkering', 'spellcasting'], ['infuse item'], ['artificer specialist', 'the right tool for the job'], [], [], ['tool expertise'], ['flash of genius'], [], [], ['magic item adept'], ['spell-storing item'], [], [], ['magic item savant'], [], [], [], ['magic item master'], [], ['soul of artifice']],
 		],
 		barbarian: [
-			[[],['rage', 'unarmored defense'], ['reckless attack', 'danger sense'], ['primal path', 'primal knowledge'], [], ['extra attack', 'fast movement'], [], ['feral instinct', 'instinctive pounce'], [], ['brutal critical'], [], ['relentless rage'], [], [], [], ['persistent rage'], [], [], ['indomitable might'], [], ['primal champion']],
+			[[],['rage', 'unarmored defense (barbarian)'], ['reckless attack', 'danger sense'], ['primal path', 'primal knowledge'], [], ['extra attack', 'fast movement'], [], ['feral instinct', 'instinctive pounce'], [], ['brutal critical'], [], ['relentless rage'], [], [], [], ['persistent rage'], [], [], ['indomitable might'], [], ['primal champion']],
 		],
 		bard: [
 			[[],['spellcasting', 'bardic inspiration'], ['jack of all trades', 'song of rest', 'magical inspiration'], ['bard college', 'expertise'], ['bardic versatility'], ['font of inspiration'], ['countercharm'], [], [], [], ['magical secrets'], [], [], [], [], [], [], [], [], [], ['superior inspiration']],
@@ -353,11 +606,11 @@ const CharacterClassSubclass = {
 			[[],['spellcasting', 'druidic'], ['druid circle', 'wild shape', 'wild companion'], [], ['cantrip versatility'], [], [], [], [], [], [], [], [], [], [], [], [], [], ['beast spells', 'timeless body'], [], ['archdruid']],
 		],
 		fighter: [
-			[[],['fighting style', 'second wind'], ['action surge'], ['martial archetype'], ['martial versatility'], ['extra attack'], [], [], [], ['indomitable'], [], [], [], [], [], [], [], [], [], [], []],
+			[[],['fighting style', 'second wind'], ['action surge'], ['martial archetype'], ['martial versatility'], ['extra attack - fighter'], [], [], [], ['indomitable'], [], [], [], [], [], [], [], [], [], [], []],
 			// []
 		],
 		monk: [
-			[[],['unarmored defense', 'martial arts'], ['ki', 'dedicated weapon (optional)', 'unarmored movement'], ['monastic tradition', 'deflect missiles', 'ki-fueled attack'], ['slow fall', 'quickened healing'], ['extra attack', 'stunning strike', 'focused aim'], ['ki-empowered strikes'], ['evasion', 'stillness of mind'], [], [], ['purity of body'], [], [], ['tongue of the sun and moon'], ['diamond soul'], ['timeless body'], [], [], ['empty body'], [], ['perfect self']],
+			[[],['unarmored defense (monk)', 'martial arts'], ['ki', 'dedicated weapon', 'unarmored movement'], ['monastic tradition', 'deflect missiles', 'ki-fueled attack'], ['slow fall', 'quickened healing'], ['extra attack', 'stunning strike', 'focused aim'], ['ki-empowered strikes'], ['evasion', 'stillness of mind'], [], [], ['purity of body'], [], [], ['tongue of the sun and moon'], ['diamond soul'], ['timeless body'], [], [], ['empty body'], [], ['perfect self']],
 			// []
 		],
 		paladin: [
@@ -385,6 +638,348 @@ const CharacterClassSubclass = {
 			[]
 		],
 	},
+	spellcasting: {
+		artificer: spellcastingArtificer,
+		bard: spellcastingBard,
+		cleric: spellcastingCleric,
+		druid: spellcastingDruid,
+		paladin: spellcastingPaladin,
+		ranger: spellcastingRanger,
+		rogue: spellcastingRogue,
+		sorcerer: spellcastingSorcerer,
+		warlock: spellcastingWarlock,
+		wizard: spellcastingWizard,
+	},
+	select: {
+		artificerSelect: [
+			{
+				type: 'list',
+				cat: ['class', 'skills'],
+				count: 2,
+				ref: 'arr',
+				list: ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleight of hand'],
+				result: [],
+				name: ['proficiency', 'skills'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'proficiencies', 'tools'],
+				count: 1,
+				ref: 'obj',
+				list: ['tools', 'artisan\'s tools'],
+				result: [],
+				name: ['proficiency', 'artisan\'s tools'],
+			},
+			{
+				type: 'list',
+				cat: [ 'class', 'equipment','weapons'],
+				count: 1,
+				ref: 'obj',
+				list: [['weapons', 'simple', 'melee'],['weapons', 'simple', 'ranged']],
+				result: [],
+				name: ['equipment','weapon'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'armor'],
+				count: 1,
+				ref: 'arr',
+				list: ['studded leather', 'scale mail'],
+				result: [],
+				name: ['equipment', 'armor'],
+			},
+		],
+		barbarianSelect: [
+			{
+				type: 'list',
+				cat: ['class', 'skills'],
+				count: 2,
+				ref: 'arr',
+				list: ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival'],
+				result: [],
+				name: ['proficiency', 'skills']
+			},
+			{
+				type: 'multi',
+				init: ['TWO Handaxes', 'ANY Simple Weapon'],
+				name: ['equipment', 'weapon'],
+				options: {
+					opt1: {
+						type: 'single',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 0,
+						ref: 'string',
+						result: ['handaxe x2'],
+					},
+					opt2: {
+						type: 'list',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 1,
+						ref: 'obj',
+						list: [['weapons', 'simple', 'melee'],['weapons', 'simple', 'ranged']],
+						result: [],
+					}
+				}
+			},
+			{
+				type: 'multi',
+				init: ['Greataxe', 'ANY Martial Melee Weapon'],
+				name: ['equipment', 'weapon'],
+				options: {
+					opt1: {
+						type: 'single',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 0,
+						ref: 'string',
+						result: ['greataxe'],
+					},
+					opt2: {
+						type: 'list',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 1,
+						ref: 'obj',
+						list: ['weapons', 'martial', 'melee'],
+						result: []
+					}
+				}
+			},
+		],
+		bardSelect: [
+			{
+				type: 'list',
+				cat: ['class', 'skills'],
+				count: 4,
+				ref: 'obj',
+				list: ['skills'],
+				result: [],
+				name: ['proficiency', 'skills'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'proficiencies', 'tools'],
+				count: 3,
+				ref: 'obj',
+				list: ['tools', 'musical instrument'],
+				result: [],
+				name: ['proficiency', 'musical instrument'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'tools'],
+				count: 1,
+				ref: 'arr',
+				list: ['diplomat\'s pack', 'entertainer\'s pack'],
+				result: [],
+				name: ['equipment', 'gear'],
+			},
+			{
+				type: 'multi',
+				init: ['Rapier', 'Longsword', 'ANY Simple Weapon'],
+				name: ['equipment', 'weapon'],
+				options: {
+					opt1: {
+						type: 'single',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 0,
+						ref: 'string',
+						list: [],
+						result: ['rapier']
+					},
+					opt2: {
+						type: 'single',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 0,
+						ref: 'string',
+						list: [],
+						result: ['longsword'],
+					},
+					opt3: {
+						type: 'obj',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 1,
+						ref: 'obj',
+						list: [['weapons', 'simple', 'melee'],['weapons', 'simple', 'ranged']],
+						result: [],
+					}
+				}
+			},
+			{
+				type: 'multi',
+				init: ['Lute', 'ANY Musical Instrument'],
+				name: ['proficiency', 'musical instrument'],
+				options: {
+					opt1: {
+						type: 'single',
+						cat: ['class', 'equipment', 'tools'],
+						count: 0,
+						ref: 'string',
+						list: [],
+						result: ['lute']
+					},
+					opt2: {
+						type: 'obj',
+						cat: ['class', 'equipment', 'tools'],
+						count: 1,
+						ref: 'obj',
+						list: ['tools', 'musical instrument'],
+						result: [],
+					}
+				}
+			},
+		],
+		clericSelect: [
+			{
+				type: 'list',
+				cat: ['class', 'skills'],
+				count: 2,
+				ref: 'arr',
+				list: ['history', 'insight', 'medicine', 'persuasion', 'religion'],
+				name: ['skills'],
+				result: [],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'weapons'],
+				count: 1,
+				ref: 'arr',
+				list: ['mace', 'warhammer'],
+				result: [],
+				name: ['equipment', 'weapon'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'armor'],
+				count: 1,
+				ref: 'arr',
+				list: ['scale mail', 'leather', 'chain mail'],
+				result: [],
+				name: ['equipment', 'armor'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'tools'],
+				count: 1,
+				ref: 'arr',
+				list: ['priest\'s pack', 'explorer\'s pack'],
+				result: [],
+				name: ['equipment', 'gear'],
+			},
+			{
+				type: 'multi',
+				init: ['Light Crossbow and 20 Bolts', 'ANY Simple Weapon'],
+				name: ['equipment', 'weapon'],
+				options: {
+					opt1: {
+						type: 'single',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 0,
+						ref: 'string',
+						list: [],
+						result: ['light crossbow + 20 bolts']
+					},
+					opt2: {
+						type: 'obj',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 1,
+						ref: 'obj',
+						list: [['weapons', 'simple', 'melee'],['weapons', 'simple', 'ranged']],
+						result: [],
+					}
+				}
+			},
+		],
+		fighterSelect: [
+			{
+				type: 'list',
+				cat: ['class', 'skills'],
+				count: 2,
+				ref: 'arr',
+				list: ['acrobatics', 'animal handling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival'],
+				result: [],
+				name: ['proficiency', 'skills'],
+			},
+			{
+				type: 'list',
+				cat: [['class', 'equipment', 'armor'], [['class', 'equipment', 'armor'], ['class', 'equipment', 'weapons'],]],
+				count: 1,
+				ref: 'arr',
+				list: ['chain mail', ['leather armour', 'longbow + 20 arrows']],
+				result: [],
+				name: ['equipment', 'gear'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'tools'],
+				count: 1,
+				ref: 'arr',
+				list: ['dungeoneer\'s pack', 'explorer\'s pack'],
+				result: [],
+				name: ['equipment', 'gear'],
+			},
+			{
+				type: 'multi',
+				init: ['ANY Martial Weapon AND a Shield', 'TWO Martial Weapons (any)'],
+				name: ['equipment', 'gear'],
+				options: {
+					opt1: {
+						type: ['list', 'single'],
+						cat: [['class', 'equipment', 'armor'], ['class', 'equipment', 'weapons']],
+						count: 1,
+						ref: ['obj','string'],
+						list: [[['weapons', 'martial', 'melee'],['weapons', 'martial', 'ranged']],],
+						result: ['shield']
+					},
+					opt2: {
+						type: 'list',
+						cat: ['class', 'equipment', 'weapons'],
+						count: 2,
+						ref: 'obj',
+						list: [['weapons', 'martial', 'melee'],['weapons', 'martial', 'ranged']],
+						result: [],
+					}
+				}
+			}
+		],
+		wizardSelect: [
+			{
+				type: 'list',
+				cat: ['class', 'skills'],
+				count: 2,
+				ref: 'arr',
+				list: ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion'],
+				name: ['proficiency', 'skills'],
+				result: [],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'weapons'],
+				count: 1,
+				ref: 'obj',
+				list: [['weapons', 'simple', 'melee'],['weapons', 'simple', 'ranged']],
+				result: [],
+				name: ['equipment', 'weapon'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'weapons'],
+				count: 1,
+				ref: 'arr',
+				list: ['quarterstaff', 'dagger'],
+				result: [],
+				name: ['equipment', 'weapon'],
+			},
+			{
+				type: 'list',
+				cat: ['class', 'equipment', 'tools'],
+				count: 1,
+				ref: 'arr',
+				list: [ 'scholar\'s pack', 'dungeoneer\'s pack'],
+				result: [],
+				name: ['equipment', 'gear'],
+			},
+		]
+	}
+	
 	// utilities: [calcSpellsKnown, calcSpellSlots]
 };
 
