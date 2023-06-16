@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, memo, useReducer } from 'react';
 import { Dropdown } from '../Dropdown';
+import { SubmitButton } from '../SubmitButton';
+import { RadioButton, RadioButtonAlt } from '../RadioButton';
 const _ = require('lodash'); 
 
 const optionReducer = (options, action) => {
@@ -84,8 +86,8 @@ const initOptions = (select, cat) => {
    return init;
 }
 
-export const TestSpecial = (props) => {
-   const {selectSpecial, updateSelect, selectRef, clearSelections} = props;
+export const SelectAdditional = memo(function SelectAdditional(props) {
+   const {selectSpecial, updateSelect, updateSelectArray, selectRef, clearSelections} = props;
    const initRender = useRef(true)
    const submitCategory = useRef(selectRef)
    const [options, dispatch] = useReducer(optionReducer, initOptions(selectSpecial, selectRef))
@@ -177,29 +179,36 @@ export const TestSpecial = (props) => {
          }
       })
    }
-   
-   const radioSelect = (e) => {
-      const index = Number(e.target.name)
-      const selected = options[options.findIndex(el => el.id === e.target.value)]
+   const radioSelect = (val,i) => {
+      const index = i
+      const selected = options[options.findIndex(el => el.id === val)]
       if (selected.type === 'multi') multiSelect(selected,index)
       else if (selected.type === 'direct') {
          let updateElement = {...selected};
          updateElement.category = updateElement.category.some(el => _.isArray(el)) ? updateElement.category[index] : updateElement.category;
          let result = updateElement.list[index]
          updateElement.countSelect = [1]
-         updateElement.result = [...updateElement.result, result].flat(1)
-         // console.log(updateElement)
+         if (updateElement.selected) {
+            let defaultResults = _.without(updateElement.result, updateElement.list[0], updateElement.list[1])
+            
+            updateElement.result = [...defaultResults, result].flat(1)
+         } else {
+            updateElement.result = [...updateElement.result, result].flat(1)
+         }
          directSelect(updateElement)
       }
    }
-
    const dropdownSelect = (string, id, i) => {
       let val = _.lowerCase(string)
       const selected = options[options.findIndex(el => el.id === id)]
       let updateElement = {...selected};
       if (updateElement.count < 2) {
-         updateElement.result = [...updateElement.result, val].flat(1)
+         // updateElement.result = [...updateElement.result, val].flat(1)
          updateElement.countSelect = [1]
+         if (updateElement.selected) {
+            let defaultResults = _.without(updateElement.result, ...updateElement.list)
+            updateElement.result = [...defaultResults, val].flat(1)
+         } else updateElement.result = [...updateElement.result, val].flat(1)
          directSelect(updateElement)
       } else {
          updateElement.countSelect.splice(i, 1, 1)
@@ -216,18 +225,25 @@ export const TestSpecial = (props) => {
 
    const handleSubmit = (element) => {
       submitCategory.current = element.section
-      if (element.category.some(el => _.isArray(el))) element.category.forEach((arr,i) => updateSelect(element.result[i], arr[1], arr[0], arr?.[2]))
-      else updateSelect(element.result, element.category[1], element.category[0], element.category?.[2])
+      if (element.category.some(el => _.isArray(el))) {
+         updateSelectArray(element.result, element.category)
+         // element.category.forEach((arr,i) => updateSelectArray([element.result[i]].flat(1), arr[1], arr[0], arr?.[2]))
+      } else {
+         updateSelect(element.result, element.category[1], element.category[0], element.category?.[2])
+      }
       deleteSelection(element.id)
+   }
+
+   const catNameDisplay = (cat) => {
+      return (<p className='subhead'>{_.capitalize(cat)}</p>)
    }
 
    const selectContainer = (option) => {
       const displayName = option.name.length === 1 ? (<p>Select {_.capitalize(option.name[0])}</p>) : (<p>Select {_.capitalize(option.name[0])}: {_.capitalize(option.name[1])}</p>)
-      // const checkBox = (<input type='checkbox' value={option.id} onChange={handleChange} checked={option.selected} />)
       const optionSelect = option.type === 'multi' || option.list.length < 3 ? optionRadio(option) : optionDropdown(option)
 
       return (
-         <div className='full-width' key={option.id}>
+         <div className='select-additional-row' key={option.id}>
             {displayName}
             {optionSelect}
          </div>
@@ -237,19 +253,18 @@ export const TestSpecial = (props) => {
    const optionRadio = (element) => {
       let option0 = element.list[0]
       let option1 = element.list[1]
-      // let isSelected = element.selected
+      
+
       return (
-         <div className='row'>
-            <div>
-               <input type='radio' id={`${element.id}-0`} value={element.id} name='0' onChange={radioSelect}/>
-               <label htmlFor={`${element.id}-0`}>{_.isArray(option0) ? option0.join(', ') : option0}</label>
-            </div>
-            <div>OR</div>
-            <div>
-               <input type='radio' id={`${element.id}-1`} value={element.id} name='1' onChange={radioSelect} />
-               <label htmlFor={`${element.id}-1`}>{_.isArray(option1) ? option1.join(', ') : option1}</label>
-            </div>
-            {element.selected ? <div>{`Selected: ${element.result} (${element.section})`}<input type='button' value='Submit' onClick={(() => handleSubmit(element))} /> </div> : null}
+         <div>
+            
+               <RadioButtonAlt id={element.id} name={element.name} select={radioSelect} options={element.list} />
+            {element.selected ? 
+            <div className='complete-selection'>
+               {`Selected: ${element.result}`}
+               <SubmitButton canSubmit={true} submit={handleSubmit} args={[element]} reset={false} addClass={'small'}/>
+               {/* <input type='button' value='Submit' onClick={(() => handleSubmit(element))} />  */}
+            </div> : null}
          </div>
       )
    }
@@ -258,9 +273,16 @@ export const TestSpecial = (props) => {
       let count = Array(element.count).fill(0)
       // console.log(element.list)
       return (
-         <div className='row'>
-            { count.map((el,i) => <Dropdown key={`${element.id}-${i}`} cat={element.id} handleSelect={dropdownSelect} optionsArray={element.list} initialOption='-- select --' index={i} />)}
-            {element.selected ? <div>{`Selected: ${element.result} (${element.section})`}<input type='button' value='Submit' onClick={(() => handleSubmit(element))} /> </div> : null}
+         <div>
+            <div className='row'>
+               { count.map((el,i) => <Dropdown key={`${element.id}-${i}`} cat={element.id} handleSelect={dropdownSelect} optionsArray={element.list} initialOption='-- select --' index={i} />)}
+            </div>
+            {element.selected ? 
+            <div className='complete-selection'>
+               {`Selected: ${element.result}`}
+               <SubmitButton canSubmit={true} submit={handleSubmit} args={[element]} reset={false} addClass={'small'}/>
+               {/* <input type='button' value='Submit' onClick={(() => handleSubmit(element))} />  */}
+            </div> : null}
          </div>
       )
    }
@@ -276,116 +298,17 @@ export const TestSpecial = (props) => {
       initRender.current = false
    }, [])
 
+   const selectCats = Object.keys(selectSpecial).filter(cat => !_.isEmpty(selectSpecial[cat]))
+
    return (
       <div className="stat-input-container">
          <div className='display-heading open'>
-            <p className='section-title'>Test</p>
+            <p className='section-title'>Select Additional</p>
          </div>
          <div className='stat-input'>
-            { options.map(cat => selectContainer(cat))}
+            { selectCats.map(cat => (<div key={`${cat}-options`}>{catNameDisplay(cat)}{ options.map(el => el.section === cat ? selectContainer(el) : null) }</div>))}
+            {/* { options.map(cat => selectContainer(cat))} */}
          </div>
       </div>
    )
-}
-
-
-// export const TestSpecial = (props) => {
-// const {selectSpecial, updateSelect, selectRef} = props;
-// const [allSelection, setAllSelection] = useState({race: [], class: [], background: []})
-
-// useEffect(() => {
-//    setAllSelection(current => {
-//       let update;
-//       Object.keys(current).map(el => {
-//          if (el === selectRef) {
-//             if (!_.isEmpty(current[el])) clearChecklistEvent()
-//             let arr = []
-//             if (!_.isEmpty(selectSpecial[el].direct)) selectSpecial[el].direct.forEach(e => arr.push(false))
-//             if (!_.isEmpty(selectSpecial[el].multi)) selectSpecial[el].multi.forEach(e => arr.push(false))
-//             update = {...current, [el]: arr}
-//          }
-//       })
-//       return update
-//    })
-//    addCheckListEvent()
-// }, [selectSpecial])
-
-// const addCheckListEvent = () => {
-//    const checkList = document.getElementsByName('select-check');
-//    for (let i = 0; i < checkList.length; i++) {  
-//       if (!Array.from(checkList[i].classList).includes('event')) {
-//          checkList[i].addEventListener('change', (event) => updateSelections(event.target.checked, event.target.value))
-//          checkList[i].classList.add('event')
-//       }
-//    }
-// }
-
-// const clearChecklistEvent = () => {
-//    const checkList = document.getElementsByName('select-check');
-//    for (let i = 0; i < checkList.length; i++) {
-//       const cat = checkList[i].value.split(',')[0]
-//       if (cat === selectRef) {
-//          checkList[i].removeEventListener('change', updateSelections)
-//          checkList[i].checked = false
-//          checkList[i].classList.remove('event')
-//       }
-//    }
-// }
-
-// const updateSelections = (isChecked, val) => {
-//    const cat = val.split(',')[0]
-//    const i = Number(val.split(',')[1])
-//    setAllSelection(current => {
-//       let update = [...current[cat].slice(0, i), isChecked, ...current[cat].slice(i + 1)]
-//       return ({...current, [cat]: update})
-//    })
-// }
-
-
-// return (
-//    <div className="stat-input-container">
-//       <div className='display-heading open'>
-//          <p className='section-title'>Test</p>
-//       </div>
-//       { Object.keys(selectSpecial).map(cat => !_.isEmpty(selectSpecial[cat]) ? <CategoryDiv key={`${cat}-select`} catName={cat} cat={selectSpecial[cat]} /> : null) }
-//       {/* { Object.keys(selectSpecial).map(cat => !_.isEmpty(selectSpecial[cat]) ? categoryDiv(cat) : null)} */}
-//    </div>
-// )
-// }
-
-// const CategoryDiv = (props) => {
-//    const {catName, cat} = props
-//    // const [multiSelect, setMultiSelect] = useState(cat.multi)
-// 	// const [directSelect, setDirectSelect] = useState(cat.direct)
-//    // console.log(cat)
-
-//    return (
-//       <div key={catName}>
-//          {catName}
-//          {/* { multiSelect.length ? <CategoryList key={`${catName}-multi`} section={cat.multi} catName={catName} sectionName='multi' /> : null} */}
-//          {/* { directSelect.length ? <CategoryList key={`${catName}-direct`} section={cat.direct} catName={catName} sectionName='direct' /> : null} */}
-//          {/* { Object.keys(cat).map(section => _.isEmpty(cat[section]) ? null : categoryList(cat[section], [cat, section].join('-'))) } */}
-//          {/* { Object.keys(cat).map(section => _.isEmpty(cat[section]) ? null : <CategoryList key={`${catName}-${section}`} section={cat[section]} />) } */}
-//       </div>
-//    )
-// }
-
-// // const CategoryList = (props) => {
-// //    const {section, catName, sectionName} = props
-// //    //  console.log(section)
-// //     return (
-// //       // <ul key={keyName}>
-// //       <ul>
-// //          {section.map((el,i) => (<li key={i}>{el.name.join(' ')}<input type='checkbox' name='select-check' value={[el.catName, el.index]}/></li>))}
-// //       </ul>
-// //    )
-// // }
-
-// // const categoryList = (section, keyName) => {
-// //    // console.log(section)
-// //    return (
-// //       <ul key={keyName}>
-// //          {section.map((el,i) => (<li key={i}>{el.name.join(' ')}<input type='checkbox' name='select-check' value={[el.catName, el.index]}/></li>))}
-// //       </ul>
-// //    )
-// // }
+})

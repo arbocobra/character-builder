@@ -426,7 +426,7 @@ span.ability-selected {
 }
 .value-list.open {
 	box-shadow: 0px 0px 5px #00000057;
-	max-height: 300px;
+	max-height: 280px;
 }
 .value-list.closed {
 	max-height: 0;
@@ -471,19 +471,19 @@ span.ability-selected {
 }
 .row-line > div {
    display: grid;
-   grid-template-rows: minmax(min(30px), 30px) minmax(min(20px), 20px);
+   grid-template-rows: minmax(30px, max-content) minmax(min(20px), 20px);
 }
 .bio-info {
-    padding: 0 5px;
-    display: flex;
-    align-items: center;
-    flex-flow: row nowrap;
-    gap: 10px;
-   border-bottom: 1px #6b6b7d solid;
-   font-family: 'Cormorant', serif;
-    font-size: 22px;
-    line-height: 18px;
-    height: 100%;
+	padding: 0 5px 5px;
+	display: flex;
+	align-items: flex-end;
+	flex-flow: row wrap;
+	gap: 5px 10px;
+	border-bottom: 1px #6b6b7d solid;
+	font-family: 'Cormorant', serif;
+	font-size: 22px;
+	line-height: 18px;
+	height: 100%;
 }
 .bio-name {
    font-size: 14px;
@@ -660,4 +660,104 @@ p.intro {
 	flex-flow: row wrap;
 	/* justify-content: space-between; */
 	column-gap: 15px;
+	margin-bottom: 5px;
+}
+.subhead {
+	font-size: 18px;
+	font-weight: 600;
+	padding: 15px,0;
+}
+.complete-selection {
+	display: flex;
+	flex-flow: row nowrap;
+	gap: 20px;
+	font-style: italic;
+}
+.button-container.small {
+	width: inherit;
+	margin: 0;
+}
+.button-container.small button {
+	padding: 3px 7px;
+}
+.select-additional-row {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	margin-bottom: 10px;
+	width: 100%;
+}
+.radio-container {
+	display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.default-radio {
+	opacity: 0;
+	position: absolute;
+}
+.custom-radio {
+	position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .custom-radio {
+	background-color: #58587c;
+ }
+ 
+ /* When the radio button is checked, add a blue background */
+ /* .radio-container input:checked ~ .custom-radio {
+	background-color: #2196F3;
+ } */
+ /* Create the indicator (the dot/circle - hidden when not checked) */
+.custom-radio:after {
+	content: "";
+	position: absolute;
+	display: none;
+ }
+ 
+ /* Show the indicator (dot/circle) when checked */
+ .radio-container input:checked ~ .custom-radio:after {
+	display: block;
+ }
+ 
+ /* Style the indicator (dot/circle) */
+ .radio-container .custom-radio:after {
+	top: 5px;
+	left: 5px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #1e1e39;
+ }
+ /* .radio-container:hover .custom-radio:after {
+	background: #333356;
+ } */
+ .reverse.value-list {
+	top: inherit;
+	bottom: 45px;
+ }
+ .row-line.special {
+	display: flex;
+	justify-content: space-between;
+	flex-flow: row wrap;
+}
+.row-line.special > div {
+	flex: 1 1 auto;
+}
+.bio-container > p {
+	font-size: 18px;
+	font-weight: 500;
+	margin-top: 5px;
 }

@@ -20,6 +20,8 @@ export const language = {
 	undercommon: { script: 'elvish' },
 };
 
+export const Feats = ['Aberrant Dragonmark','Actor','Adept of the Black Robes','Adept of the Red Robes','Adept of the White Robes','Alert','Artificer Initiate','Athlete','Bountiful Luck','Charger','Chef','Crossbow Expert','Crusher','Defensive Duelist','Divinely Favored','Dragon Fear','Dragon Hide','Drow High Magic','Dual Wielder','Dungeon Delver','Durable','Dwarven Fortitude','Eldritch Adept','Elemental Adept','Elven Accuracy','Fade Away','Fey Teleportation','Fey Touched','Fighting Initiate','Firearm Specialist','Flames of Phlegethos','Gift of the Chromatic Dragon','Gift of the Gem Dragon','Gift of the Metallic Dragon','Grappler','Great Weapon Master','Gunner','Healer','Heavily Armored','Heavy Armor Master','Infernal Constitution','Initiate of High Sorcery','Inspiring Leader','Keen Mind','Knight of the Crown','Knight of the Rose','Knight of the Sword','Lightly Armored','Linguist','Lucky','Mage Slayer','Magic Initiate','Martial Adept','Medium Armor Master','Metamagic Adept','Mobile','Moderately Armored','Mounted Combatant','Observant','Orcish Fury','Piercer','Poisoner','Polearm Master','Prodigy','Resilient','Revenant Blade','Ritual Caster','Savage Attacker','Second Chance','Sentinel','Shadow Touched','Sharpshooter','Shield Master','Skill Expert','Skilled','Skulker','Slasher','Spell Sniper','Squat Nimbleness','Squire of Solamnia','Strixhaven Initiate','Strixhaven Mascot','Svirfneblin Magic','Tavern Brawler','Telekinetic','Telepathic','Tough','War Caster','Weapon Master','Wood Elf Magic']
+
 export const Proficiencies = {
 	tools: {
 		'artisan\'s tools': ['alchemist\'s supplies', 'brewer\'s supplies', 'calligrapher\'s supplies', 'carpenter\'s tools', 'cartographer\'s tools', 'cobbler\'s tools', 'cook\'s utensils', 'glassblower\'s tools', 'jeweler\'s tools', 'leatherworker\'s tools', 'mason\'s tools', 'painter\'s supplies', 'potter\'s tools', 'smith\'s tools', 'tinker\'s tools', 'weaver\'s tools', 'woodcarver\'s tools'],
@@ -44,60 +46,60 @@ export const Proficiencies = {
 	},
 	armor: {
 		light: {
-			padded: {
-				class: [11, 1],
+			'padded armor': {
+				class: 1,
 				features: 'Disadvantage on stealth',
 			},
-			leather: {
-				class: [11, 1],
+			'leather armor': {
+				class: 1
 			},
 			'studded leather': {
-				class: [12, 1],
+				class: 2
 			},
 		},
 		medium: {
 			hide: {
-				class: [12, 1, 2],
+				class: 2
 			},
 			'chain shirt': {
-				class: [13, 1, 2],
+				class: 3
 			},
 			'scale mail': {
-				class: [14, 1, 2],
+				class: 4,
 				features: 'Disadvantage on stealth',
 			},
 			breastplate: {
-				class: [14, 1, 2],
+				class: 4
 			},
 			'half plate': {
-				class: [15, 1, 2],
+				class: 5,
 				features: 'Disadvantage on stealth',
 			},
 		},
 		heavy: {
 			'ring mail': {
-				class: [14],
+				class: 14,
 				features: 'Disadvantage on stealth',
 			},
 			'chain mail': {
-				class: [16],
+				class: 16,
 				features: 'Disadvantage on stealth',
 				requirement: [0, 13],
 			},
 			splint: {
-				class: [17],
+				class: 17,
 				features: 'Disadvantage on stealth',
 				requirement: [0, 15],
 			},
 			plate: {
-				class: [18],
+				class: 18,
 				features: 'Disadvantage on stealth',
 				requirement: [0, 15],
 			},
 		},
-		sheilds: {
-			sheild: {
-				class: [2],
+		shields: {
+			shield: {
+				class: 2,
 			}
 		}
 	},
@@ -163,8 +165,8 @@ export const Select = {
 // 			requirement: [0, 15],
 // 		},
 // 	},
-// 	sheilds: {
-// 		sheild: {
+// 	shields: {
+// 		shield: {
 // 			class: [2],
 // 		}
 // 	}

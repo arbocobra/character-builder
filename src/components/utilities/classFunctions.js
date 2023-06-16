@@ -1,4 +1,5 @@
 import { skills } from '../../data/CharacterDetails';
+import { updateArmor, updateSelectedTraits } from './characterFunctions'
 const _ = require('lodash'); 
 
 export const calcSpellsKnown = (charClass, level, mod) => {
@@ -77,61 +78,68 @@ const artificerFeatures = (results) => {
    feats.forEach(el => {
       if (el !== 'spellcasting') specialDetails[el] = results[el]
    })
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, specialDetails, results.spellcasting, null]
 }
 const barbarianFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
-      if (['primal knowledge', 'unarmored defense'].includes(el)) calcFuncs[el] = results[el];
+      if (el === 'unarmored defense') calcFuncs[el] = results[el];
+      else if (el === 'primal knowledge') requiresSelection[el] = results[el]
       else specialDetails[el] = results[el];
    })
-   return [calcFuncs, specialDetails]
+   return [calcFuncs, specialDetails, null, requiresSelection]
 }
 const bardFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
       if (['bardic inspiration','song of rest'].includes(el)) specialDetails[el] = results[el];
-      else if (el !== 'spellcasting') calcFuncs[el] = results[el]
+      else if (el !== 'spellcasting') requiresSelection[el] = results[el]
    })
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, specialDetails, results.spellcasting, requiresSelection]
 }
 const clericFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
-      if (['versatility'].includes(el)) calcFuncs[el] = results[el]
+      if (['versatility'].includes(el)) requiresSelection[el] = results[el]
       else if (el !== 'spellcasting') specialDetails[el] = results[el]
    })
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, specialDetails, results.spellcasting, requiresSelection]
 }
 const druidFeatures = (results) => {
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
-      if (['wild shape'].includes(el)) specialDetails[el] = results[el]
-      else if (el !== 'spellcasting') calcFuncs[el] = results[el]
+      if (el === 'druidic') calcFuncs[el] = results[el]
+      else if (el === 'wild shape') specialDetails[el] = results[el]
+      else if (el !== 'spellcasting') requiresSelection[el] = results[el]
    })
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [calcFuncs, specialDetails, results.spellcasting, requiresSelection]
 }
 const fighterFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
-      if (['versatility', 'fighting style'].includes(el)) calcFuncs[el] = results[el]
+      if (['versatility', 'fighting style'].includes(el)) requiresSelection[el] = results[el]
       else specialDetails[el] = results[el]
    })
-   return [calcFuncs, specialDetails]
+   return [null, specialDetails, null, requiresSelection]
 }
 const monkFeatures = (results) => {
    // console.log(results)
@@ -142,17 +150,19 @@ const monkFeatures = (results) => {
       if (['ki','martial arts'].includes(el)) specialDetails[el] = results[el]
       else calcFuncs[el] = results[el]
    })
-   return [calcFuncs, specialDetails]
+   return [calcFuncs, specialDetails, null, null]
 }
 const paladinFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
-      if (['versatility', 'fighting style'].includes(el)) calcFuncs[el] = results[el];else if (el !== 'spellcasting') specialDetails[el] = results[el];
+      if (['versatility', 'fighting style'].includes(el)) requiresSelection[el] = results[el];
+      else if (el !== 'spellcasting') specialDetails[el] = results[el];
    })
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, specialDetails, results.spellcasting, requiresSelection]
 }
 const rangerFeatures = (results) => {
    // console.log(results)
@@ -160,74 +170,75 @@ const rangerFeatures = (results) => {
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
       if (el !== 'spellcasting') calcFuncs[el] = results[el]
    })
    Object.assign(calcFuncs,selectOpts)
-   return [calcFuncs, specialDetails, results.spellcasting]
+   console.log('Correct ranger selections')
+   return [calcFuncs, specialDetails, results.spellcasting, null]
 }
 const rogueFeatures = (results) => {
-   // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
-      if (['sneak attack'].includes(el)) {
+      if (['thieves\' cant', 'slippery mind'].includes(el)) calcFuncs[el] = results[el]
+      else if (el === 'sneak attack') {
          specialDetails[el] = results[el]
-      } else if (el !== 'ability score') {
-         calcFuncs[el] = results[el]
-      }
+      } else requiresSelection[el] = results[el]
    })
-   Object.assign(calcFuncs, {select: ['abilities', 2, 'ALL']})
-   // console.log(calcFuncs)
-   // console.log(specialDetails)
-   return [calcFuncs, specialDetails]
+   return [calcFuncs, specialDetails, null, requiresSelection]
 }
 const sorcererFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
       if (['sorcery points'].includes(el)) {
          specialDetails[el] = results[el]
       } else if (el !== 'spellcasting') {
-         calcFuncs[el] = results[el]
+         requiresSelection[el] = results[el]
       }
    })
    // console.log(calcFuncs)
    // console.log(specialDetails)
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, specialDetails, results.spellcasting, requiresSelection]
 }
 const warlockFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
       if (el !== 'spellcasting') {
-         calcFuncs[el] = results[el]
+         requiresSelection[el] = results[el]
       }
    })
    // console.log(calcFuncs)
    // console.log(specialDetails)
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, null, results.spellcasting, requiresSelection]
 }
 const wizardFeatures = (results) => {
    // console.log(results)
    const feats = Object.keys(results);
    const calcFuncs = {}
    const specialDetails = {}
+   const requiresSelection = {}
    feats.forEach(el => {
       if (['arcane recovery'].includes(el)) {
          specialDetails[el] = results[el]
       } else if (el !== 'spellcasting') {
-         calcFuncs[el] = results[el]
+         requiresSelection[el] = results[el]
       }
    })
    // console.log(calcFuncs)
    // console.log(specialDetails)
-   return [calcFuncs, specialDetails, results.spellcasting]
+   return [null, specialDetails, results.spellcasting, requiresSelection]
 }
 
 export const spellcastingAlt = (level, charClass, spellSaveAbility, profBonus, current) => {
@@ -302,7 +313,7 @@ const rage = (args) => {
    }
 }
 const unarmoredDefenseBarbarian = (args) => {
-   const armor = args[1].armor;
+   const armor = args[1].armor_class;
    const dexMod = args[1].abilities.modifiers[1];
    const conMod = args[1].abilities.modifiers[2];
    return {
@@ -311,12 +322,12 @@ const unarmoredDefenseBarbarian = (args) => {
 }
 const primalKnowledge = (args) => {
    const level = args[0];
-   const ref = args[2].select;
+   // const ref = args[2].select;
 
    const count = [3,10].filter(el => level >= el).length;
-   const arr = ref.filter(el => el[0] === 'skills').flat()
+   const arr = ['animal handling', 'athletics', 'intimidation', 'nature', 'perception', 'survival']
    return {
-      'primal knowledge': ['** skills', count, arr[2]]
+      'primal knowledge': ['** skills', count, arr]
    }
 }
 const brutalCritical = (args) => {
@@ -405,7 +416,8 @@ const divineIntervention = (args) => {
 const druidic = (args) => {
    const languages = args[1].languages;
    return {
-      'druidic': [languages, 'druidic']
+      // 'druidic': ['languages', languages, 'druidic']
+      'languages': [languages, 'druidic']
    }
 }
 const wildShape = (args) => {
@@ -455,11 +467,12 @@ const indomitable = (args) => {
    }
 }
 const unarmoredDefenseMonk = (args) => {
-   const armor = args[1].armor;
+   const armor = args[1].armor_class;
    const dexMod = args[1].abilities.modifiers[1];
    const wisMod = args[1].abilities.modifiers[4];
    return {
-      'unarmored defense': [armor, [dexMod, wisMod]]
+      'unarmored defense': [classFeatureObject.unarmoredDefense, [args[1], dexMod + wisMod]]
+      // 'unarmored defense': [updateArmor [args[1], dexMod + wisMod]]
    }
 }
 const martialArts = (args) => {
@@ -482,19 +495,22 @@ const unarmoredMovement = (args) => {
    let index = [0,2,6,10,14,18].findLastIndex(el => el <= level)
    const unarmMov = [null,'+10 ft.','+15 ft.','+20 ft.','+25 ft.','+30 ft.'][index];
    return {
-      'unarmored movement': [unarmMov, [speed, Number.parseInt(unarmMov)]],
+      // 'unarmored movement': [unarmMov, [speed, Number.parseInt(unarmMov)]],
+      'unarmored movement': [classFeatureObject.bioUpdate, ['speed', speed + Number.parseInt(unarmMov)]],
    }
 }
 const tongueSunMoon = (args) => {
-   const languages = args[1].languages;
+   // const languages = args[1].languages;
    return {
-      'tongue of the sun and moon': ['ALL - from Tongue of the Sun and Moon', languages]
+      // 'tongue of the sun and moon': ['ALL - from Tongue of the Sun and Moon', languages]
+      'tongue of the sun and moon': [classFeatureObject.addLanguage, ['tongue of the sun and moon', args[1]]],
    }
 }
 const diamondSoul = (args) => {
-   const saves = args[1].saving_throws;
+   // const saves = args[1].saving_throws;
    return {
-      'diamond soul': [['strength','dexterity','constitution','intelligence','wisdom','charisma'], saves]
+      // 'diamond soul': [['strength','dexterity','constitution','intelligence','wisdom','charisma'], saves]
+      'diamond soul': [classFeatureObject.bioUpdate, ['saving_throws', ['strength','dexterity','constitution','intelligence','wisdom','charisma']]],
    }
 }
 const divineSense = (args) => {
@@ -698,7 +714,7 @@ export const ClassSpells = {
    ],
    bard: [
       [[],['spellcasting', 'bardic inspiration'], ['jack of all trades', 'song of rest'], ['expertise'], ['bardic versatility'], [], [], [], [], [], ['magical secrets'], [], [], [], [], [], [], [], [], [], []],
-      [[],[spellcasting, bardicInspiration], [jackTrades, songRest], [expertise], [bardicVersatility], [], [], [], [], [], [magicalSecrets], [], [], [], [], [], [], [], [], [], []],
+      [[],[spellcasting, bardicInspiration], [songRest], [expertise], [bardicVersatility], [], [], [], [], [], [magicalSecrets], [], [], [], [], [], [], [], [], [], []],
    ],
    cleric: [
       [[],['spellcasting'], ['channel divinity', 'harness divine power'], [], ['cantrip versatility'], ['destroy undead'], [], [], [], [], ['divine intervention'], [], [], [], [], [], [], [], [], [], []],
@@ -1225,6 +1241,21 @@ const fightingStyleObj = {
    fighter: ['archery', 'blind fighting', 'close quarters shooter', 'defense', 'dueling', 'great weapon fighting', 'interception', 'mariner', 'protection', 'superior technique', 'thrown weapon fighting', 'tunnel fighter', 'two-weapon fighting', 'unarmed fighting'],
    paladin: ['blessed warrior', 'blind fighting', 'close quarters shooter', 'defense', 'dueling', 'great weapon fighting', 'interception', 'mariner', 'protection', 'tunnel fighter'],
    ranger: ['archery', 'blind fighting', 'close quarters shooter', 'defense', 'druidic warrior', 'dueling', 'mariner', 'thrown weapon fighting', 'tunnel fighter', 'two-weapon fighting'],
+}
+
+export const classFeatureObject = {
+   addLanguage: function(val,char) {
+      return updateSelectedTraits([val],'languages', char, 'class')
+   },
+   bioUpdate: function(trait, val) {
+      return {[trait]: val}
+   },
+   unarmoredDefense: function(val,modifier) {
+      if (val.armor_class.armor + val.armor_class.shield === 0) {
+         // let result = updateArmor(val,modifier)
+         return updateArmor(val,modifier)
+      } else return
+   },
 }
 
 

@@ -349,6 +349,7 @@ const Features = {
 		// 'thieves\' tools',
 		// 'water vehicle'
 	},
+	other: {}
 };
 
 export default Features;

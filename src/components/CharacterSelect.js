@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { updateRace, updateSubrace, updateBackground, updateClass, updateSubclass, updateSelectedTraits, updateBaseAbilities, updateHitPoints, updateLevel, updateClassFeatures } from './utilities/characterFunctions';
-import { characterOptions, getReferenceObject, characterSelections, smartCase } from './utilities/helperFunctions';
+import { updateRace, updateSubrace, updateBackground, updateClass, updateSubclass, updateSelectedTraits, updateBaseAbilities, updateHitPoints, updateLevel, updateClassFeatures, updateArmor } from './utilities/characterFunctions';
+import { getReferenceObject, characterSelections, smartCase, unarmoredDefenseUpdate } from './utilities/helperFunctions';
 import { getClassFeaturesFunctions } from './utilities/classFunctions';
 import { SelectRace } from './select/SelectRace';
 import { SelectAbilities } from './select/SelectAbilities';
 import { SelectClass } from './select/SelectClass';
 import { SelectBackground } from './select/SelectBackground';
-import { SelectOther } from './select/SelectOther';
-import { SelectSpecial } from './select/SelectSpecial';
-import { TestSpecial } from './select/testSpecial';
+import { SelectAdditional } from './select/SelectAdditional';
 // import ClassSubclass from '../data/ClassSubclass';
 
 const _ = require('lodash'); 
@@ -16,19 +14,11 @@ const _ = require('lodash');
 export const CharacterSelect = (props) => {
 // export const CharacterSelect = memo(function CharacterSelect(props) {
 	const { updateCharacter, character } = props;
-	
-	const [selectionDetails, setSelectionDetails] = useState({});
-	// const [selectSpecial, setSelectSpecial] = useState([]);
 	const selection_req = useRef(false)
 	const characterRef = useRef()	
 	const prevChar = useRef()
-
-	// const [singleSelect, setSingleSelect] = useState([])
-	// const [listSelect, setListSelect] = useState([])
 	const [selectSpecial, setSelectSpecial] = useState({race: {}, class: {}, background: {}});
 	const selectRef = useRef()
-
-	const selectRefAlt = useRef({race: false, class: false, background: false})
 
 	useEffect(() => {
 		prevChar.current = characterRef.current;
@@ -46,7 +36,7 @@ export const CharacterSelect = (props) => {
 			if (_.isArray(current[cat])) {
 				if (!_.isEqual(current[cat], prev[cat])) changed.push(cat);
 			} else if (_.isObject(current[cat])) {
-				if (cat === 'proficiencies') {
+				if (['proficiencies', 'equipment'].includes(cat)) {
 					if (_.some(current[cat].total, (el,key) => !_.isEqual(el, prev[cat].total[key]))) {
 						changed.push(cat);
 					}
@@ -68,29 +58,21 @@ export const CharacterSelect = (props) => {
 			if (result) Object.assign(update, result)
 			// console.log(update)
 		}
-		if (_.intersection(changed, ['abilities', 'speed']).length) {
-			if (current.class.length && current.level > 0) {
-				let ref = getReferenceObject(current.class, 'class')
-				const featObjs = getClassFeaturesFunctions(current, ref);
-				// console.log(featObjs)
-				getFeatSpecial(featObjs)
+		if (_.intersection(changed, ['class', 'abilities']).length) {
+			if (current.armor_class.base !== null) {
+				let result = updateArmor(current)
+				if (result) Object.assign(update, result)
 			}
 		}
-		// if (_.intersection(changed, ['level', 'class']).length) {
-		// 	let result = updateClassFeatures(current)
-		// 	if (result) Object.assign(update, result)
-		// 	getSpecial(current);
-		// 	if (current.class.length && current.level > 0) {
-		// 		let ref = getReferenceObject(current.class, 'class')
-		// 		const featObjs = getClassFeaturesFunctions(current, ref)
-		// 		getFeatSpecial(featObjs)
-		// 	}
-		// }
-		// if (current.class.length && current.level > 0) {
-			// let ref = getReferenceObject(current.class, 'class')
-			// changedList [class,level,speed,armor,languages,abilities,skills]
-			// getClassFeaturesFunctions(current, ref)
-		// }
+		if (_.intersection(changed, ['abilities', 'speed', 'saving_throws', 'armor_class']).length) {
+			console.log('Values affected by class features')
+			// if (current.class.length && current.level > 0) {
+			// 	let ref = getReferenceObject(current.class, 'class')
+			// 	const featObjs = getClassFeaturesFunctions(current, ref);
+			// 	// console.log(featObjs)
+			// 	getFeatSpecial(featObjs)
+			// }
+		}
 		
 		if (!_.isEmpty(update)) updateCharacter(update)
 	}
@@ -112,22 +94,6 @@ export const CharacterSelect = (props) => {
 		// }
 	}
 
-	// const filterSelections = (...args) => {
-	// 	const [selectName, cat] = args;
-	// 	setSelectionDetails((current => {
-	// 		if (current[cat].length > 1) {
-	// 			let index = current[cat].findIndex(arr => arr[0] === selectName);
-	// 			let update = [...current[cat].slice(0,index), ...current[cat].slice(index + 1, current[cat].length)]
-	// 			return {...current, [cat]: update }
-	// 		} else {
-	// 			const copy = {...current};
-	// 			delete copy[cat];
-	// 			if (_.isEmpty(copy)) selection_req.current = false;
-	// 			return copy;
-	// 		}
-	// 	}))
-	// }
-
 	const clearSelections = (cat) => {
 		setSelectSpecial(current => {
 			let currentCopy = {...current}
@@ -140,18 +106,6 @@ export const CharacterSelect = (props) => {
 		})
 	}
 
-	// useEffect(() => {
-	// 	if (Object.keys(selectSpecial).every(cat => _.isEmpty(selectSpecial[cat]))) {
-	// 		selection_req.current = false
-	// 	}
-	// }, [selectSpecial])
-
-	// const clearOtherSelection = (cat) => {
-	// 	// if (!_.isEmpty(selectSpecial[cat])) setSelectSpecial((current) => ({...current, [cat]: {}}))
-	// 	setSelectSpecial((current) => ({...current, [cat]: {}}))
-	// 	selection_req.current = false;
-	// }
-
 	const requiresOtherSelection = (val, cat, ref) => {
 		if (ref.select) {
 			if (cat === 'subrace') cat = 'race'
@@ -162,35 +116,7 @@ export const CharacterSelect = (props) => {
 			selection_req.current = true;
 			selectRef.current = cat;
 		} else selection_req.current = false;
-		// if (_.has(ref, 'select')) {
-		// 	selection_req.current = true;
-		// 	let selections = characterOptions(ref.select, [ref?.proficiencies, characterRef.current.proficiencies]);
-		// 	if (cat === 'subrace') cat = 'race'
-		// 	setSelectionDetails((current) => ({...current, [cat]: selections}))
-		// } else {
-		// 	setSelectionDetails((current) => {
-		// 		if (Object.keys(current).includes(cat)) {
-		// 			const copy = {...current};
-		// 			delete copy[cat];
-		// 			if (_.isEmpty(copy)) selection_req.current = false;
-		// 			return copy;
-		// 		} else return current;
-		// 	})
-		// }
 	}
-	// const requiresOtherSelectionAlt = (val, cat, ref) => {
-	// 	if (ref.select) {
-	// 		if (cat === 'subrace') cat = 'race'
-	// 		const selection = characterSelections(val, cat)
-	// 		// if (selectRefAlt.current[cat])
-	// 		setSelectSpecial((current) => ({...current, [cat]: selection}))
-	// 		// selectRefAlt.current[cat] = 
-	// 		selection_req.current = true;
-	// 		selectRef.current = cat;
-	// 	} else selection_req.current = false;
-	// }
-
-	// useEffect(() => console.log(selectSpecial), [selectSpecial])
 
 	const classFeatureSelect = (update, ref) => {
 		if (characterRef.current.level > 0) {
@@ -213,6 +139,34 @@ export const CharacterSelect = (props) => {
 
 	// useEffect(() => limitSelections(document.querySelectorAll('.custom-dropdown'), selection_req.current, selectionDetails[0]), [selectionDetails])
 	
+	const updateSelectArray = (val, cat) => {
+		let currentCopy = JSON.parse(JSON.stringify(characterRef.current))
+		if (cat[0][1] === cat[1][1]) {
+			cat.forEach((el,i) => {
+				let trait = el[1]
+				let subtrait = el[2]
+				let charCat = el[0]
+				let result = updateSelectedTraits([val[i]], trait, currentCopy, charCat, subtrait);
+				currentCopy[trait][charCat][subtrait] = result[trait][charCat][subtrait]
+				currentCopy[trait].total = result[trait].total
+			})
+			let update = {[cat[0][1]]: currentCopy[cat[0][1]]}
+			console.log(update)
+			updateCharacter(update)
+		} else {
+			let update = {};
+			cat.forEach(el => {
+				let trait = el[1]
+				let subtrait = el[2]
+				let charCat = el[0]
+				let result = updateSelectedTraits(val, trait, currentCopy, charCat, subtrait);
+				Object.assign(update, result)
+				console.log(update)
+				updateCharacter(update)
+			})
+		}
+	}
+
 	const updateSelect = useCallback((val, cat, ...extra) => {
 		let update;
 		let referenceData;
@@ -238,6 +192,9 @@ export const CharacterSelect = (props) => {
 				update.class_feature_special = feats[1];
 				if (!_.isEmpty(feats[2])) update.class_spellcasting = feats[2]
 				console.log(feats[0])
+				// console.log(feats[1])
+				// console.log(feats[2])
+				// console.log(feats[3])
 			}
 		}
 		else if (cat === 'class') {
@@ -247,35 +204,27 @@ export const CharacterSelect = (props) => {
 			if (feats) {
 				update.class_feature_special = feats[1];
 				if (!_.isEmpty(feats[2])) update.class_spellcasting = feats[2]
-				console.log(feats[0])
+				// if (!_.isEmpty(feats[0])) {
+				// 	const featResults = 
+				// }
+				// console.log(feats[0])
+				
+				// Object.keys(feats[0]).forEach(val => {
+				// 	console.log(feats[0][val][0](...feats[0][val][1]))
+				// })
+				// console.log(feats[1])
+				// console.log(feats[2])
+				// console.log(feats[3])
 			}		
 		}
 		else if (cat === 'subclass') {
 			update = {subclass: val}
 		}
-		// else if (cat === 'abilities') {
-		// 	filterSelections(cat, extra[0]);
-		// 	update = updateSelectedTraits(val, 'abilities', characterRef.current, extra[0]);
-		// }
-		// else if (cat === 'language') {
-		// 	filterSelections(cat, extra[0]);
-		// 	update = updateSelectedTraits(val, 'languages', characterRef.current, extra[0]);
-		// }
-		else if (cat === 'skills') {
-			update = updateSelectedTraits(val, 'skills', characterRef.current, extra[0]);
+		else if (['abilities','languages','skills'].includes(cat)) {
+			update = updateSelectedTraits(val, cat, characterRef.current, extra[0]);
 		}
-		// else if (cat === 'proficiencies') {
-		// 	// filterSelections(cat, extra[0]);
-		// 	update = updateSelectedTraits(val, 'proficiencies', characterRef.current, extra[0], extra[1]);
-		// }
-		else if (cat === 'equipment') {
-			update = updateSelectedTraits(val, 'equipment', characterRef.current, extra[0], extra[1]);
-		}
-		else if (['abilities','language','proficiencies','equipment'].includes(cat)) {
-			console.log(val)
-			console.log(cat)
-			console.log(extra)
-			// extra.forEach(el => console.log(el))
+		else if (['proficiencies','equipment'].includes(cat)) {
+			update = updateSelectedTraits(val, cat, characterRef.current, extra[0], extra[1]);
 		}
 		else if (cat === 'hit-points') {
 			update = updateHitPoints(val, characterRef.current);
@@ -301,9 +250,7 @@ export const CharacterSelect = (props) => {
 			<SelectAbilities updateSelect={updateSelect} />
 			<SelectClass updateSelect={updateSelect} />
 			<SelectBackground updateSelect={updateSelect} />
-			{ selection_req.current ? <TestSpecial selectSpecial={selectSpecial} updateSelect={updateSelect} selectRef={selectRef.current} clearSelections={clearSelections} /> : null }
-			{/* { selection_req.current ? <SelectOther updateSelect={updateSelect} selectionDetails={selectionDetails}/> : null } */}
-			{/* { selection_req.current ? <SelectSpecial selectSpecial={selectSpecial} updateSelect={updateSelect} selectRef={selectRef.current} /> : null } */}
+			{ selection_req.current ? <SelectAdditional selectSpecial={selectSpecial} updateSelect={updateSelect} updateSelectArray={updateSelectArray} selectRef={selectRef.current} clearSelections={clearSelections} /> : null }
 		</div>
 	);
 };

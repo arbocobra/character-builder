@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import featDetails from './../../data/FeatureDetails';
-import { smartCase } from '../utilities/helperFunctions';
+import { smartCase, equipArmor } from '../utilities/helperFunctions';
 import CharacterClassSubclass from '../../data/ClassSubclass';
 import { toggleHeading } from '../utilities/selectFunctions';
 
 const _ = require('lodash'); 
 
 export const DisplayFeatures = memo(function DisplayFeatures(props) {
-   const {currentCharacter} = props;
+   const {updateCharacter, currentCharacter} = props;
 
    const isSpellcaster = (currentCharacter.spellcaster && currentCharacter.level > 0);
    
@@ -15,6 +15,7 @@ export const DisplayFeatures = memo(function DisplayFeatures(props) {
       <div className='stat-box' id='features'>
          <FeaturesRow name='features' bio={currentCharacter.features}/>
          <FeaturesRow name='proficiencies' bio={currentCharacter.proficiencies}/>
+         <FeaturesRow name='equipment' bio={currentCharacter.equipment} char={currentCharacter} updateCharacter={updateCharacter}/>
          
          { isSpellcaster ? <Spellcasting charClass={currentCharacter.class} spellStats={currentCharacter.class_spellcasting} /> : null}
       </div>
@@ -22,9 +23,9 @@ export const DisplayFeatures = memo(function DisplayFeatures(props) {
 })
 
 const FeaturesRow = (props) => {
-   const {name, bio} = props;
+   const {name, bio, char, updateCharacter} = props;
  
-   const count = Array(3).fill(null);
+   const count = name === 'equipment' ? Array(4).fill(null) : Array(3).fill(null);
    const cats = name === 'features' ? Object.keys(bio) : Object.keys(bio.total)
  
    const isTrue = bio.total?.length > 0 || _.some(bio.total, (el) => el.length )
@@ -52,26 +53,26 @@ const FeaturesRow = (props) => {
      }
      return row;
    }
-   // let allFeats = Object.keys(featDetails.class).sort()
-   // console.log(allFeats)
+   const selectArmor = (val, event) => {
+    const result = equipArmor(val, char, event.target.checked)
+    updateCharacter(result)
+   }
+   
    const DisplayFeatures = (index) => {
      let results = getDetails(cats[index]);
-   //   console.log(results)
+     if (results[0] === 'other') results[1] = [results[1]]
      const rows = results[1].map((el,i) => {
        if (_.isArray(el)) {
          return (<div key={i}>{el.join(', ')}</div>)
        } else if (!results[2][i]) {
-         return (<div key={i}>{el}</div>)
+        if (name === 'equipment' && results[0] === 'armor') {
+          return (<div key={i}>{el}<input onClick={(e) => selectArmor(el,e)} type='checkbox'/></div>)
+        } else return (<div key={i}>{el}</div>)
        } else {
          return (
-          //  <div key={i} className='tooltip'>
-          //    <div>{el}</div>
-          //    <div className='tooltiptext'>{results[2][i]}</div>
-          //  </div>
           <div className='feat' key={i}>
              <div className='tooltip'>{el}
               <span className='tooltiptext'>{results[2][i]}</span>
-              {/* <div className='tooltipArrow'></div> */}
              </div>
            </div>
          )}
@@ -81,6 +82,7 @@ const FeaturesRow = (props) => {
      <div className='row-grid' key={`${name}-${index}`}>
        {name === 'features' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
        {name === 'proficiencies' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
+       {name === 'equipment' ? <div className='feat-subtitle'>{results[0] ? `${_.capitalize(results[0])}:` : null}</div> : null}
        <div className='feat-inner'>{ rows }</div>
      </div>
      )

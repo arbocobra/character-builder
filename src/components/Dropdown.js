@@ -13,6 +13,9 @@ export const Dropdown = (props) => {
 
 	useEffect(() => {
 		const div = dropdown.current
+		// console.log(div)
+		// console.dir(div.offsetTop)
+		// console.dir(document.getElementById('player-select').offsetHeight)
 	if (index !== null) {
 		if (returnSelectIndex) {addOptionEventSpecial(div, handleSelect, index)}
 		else addOptionEvent(div, handleSelect, [cat, index])

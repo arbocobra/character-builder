@@ -1,10 +1,16 @@
+import { useRef, useEffect } from "react";
 export const SubmitButton = (props) => {
    // const { updateSelect, setSelectionType, canSubmit, selectedArr } = props;
-	const { canSubmit, submit, args, reset } = props;
+	const { canSubmit, submit, args, reset, addClass } = props;
+	const buttonRef = useRef()
 
+	useEffect(() => {
+		if (addClass) buttonRef.current.classList.add(addClass)
+	},[])
+	
 	
    return (
-      <div className='button-container full'>
+      <div ref={buttonRef} className='button-container'>
 				<button onClick={() => submit(...args)} disabled={!canSubmit}>
 					<span>&#10003;</span>
 				</button>

@@ -9,7 +9,7 @@ const _ = require('lodash');
 
 
   export const CharacterDisplay = (props) => {
-  const { currentCharacter } = props;
+  const { updateCharacter, currentCharacter } = props;
 
   const abilityRef = useRef(['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'])
 
@@ -25,7 +25,7 @@ const _ = require('lodash');
   return (
     <div className='stat-box'>
       <DisplayBio currentCharacter={currentCharacter} />
-      <DisplayFeatures currentCharacter={currentCharacter} />
+      <DisplayFeatures updateCharacter={updateCharacter} currentCharacter={currentCharacter} />
       <DisplayAbilities abilityScores={abilityScores} abilityRef={abilityRef.current} />
       <div className='save-skill-grid display-container'>
         <DisplaySaves currentCharacter={currentCharacter} abilityRef={abilityRef.current} />

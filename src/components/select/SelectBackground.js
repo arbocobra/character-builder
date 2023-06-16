@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useRef, memo } from 'react';
 import { Background } from '../../data/Background';
 import { Dropdown } from '../Dropdown';
 const _ = require('lodash'); 
@@ -8,7 +8,7 @@ export const SelectBackground = memo(function SelectBackground(props) {
 
 	const initialOption = useRef('-- select --');
 	const backgroundRef = useRef();
-   const optionsArray = Object.keys(Background);
+   const optionsArray = Object.keys(Background.background);
 
 	const handleSelect = (val, cat) => {
 		updateSelect(_.lowerCase(val), cat)

@@ -60,6 +60,20 @@ const toggleList = (div) => {
    div.classList.toggle('closed');
    arrow.classList.toggle('arrow-down');
    arrow.classList.toggle('arrow-up');
+   if (Array.from(div.classList).includes('open')) {
+      let containerHeight = document.getElementById('player-select').offsetHeight
+      if (div.scrollHeight > 280) {
+         if (div.offsetParent.offsetTop + 325 > containerHeight) {
+            div.classList.add('reverse')
+         } else div.classList.remove('reverse')
+      } else {
+         if (div.offsetParent.offsetTop + div.scrollHeight + 45 > containerHeight) {
+            div.classList.add('reverse')
+         } else div.classList.remove('reverse')
+      }
+      // console.dir(div.offsetParent.offsetTop)
+      // console.dir(div.scrollHeight)
+   }
 };
 
 export const clearSelection = (setCat) => setCat(null);

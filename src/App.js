@@ -31,7 +31,9 @@ const App = () => {
     // ***
     armor_class: {
       base: 0,
-      sheild: 0,
+      shield: 0,
+      armor: 0,
+      special: 0,
       total: 0,
     },
     background: '',
@@ -130,24 +132,6 @@ const App = () => {
     Array.from(displayArr).map(div => div.addEventListener('click', () => toggleHeading(div)))
   },[])
 
-  // export const toggleSection = (div ) => {
-  //   div.classList.toggle('open')
-  //   div.nextElementSibling.classList.toggle('hidden')
-  //   let parent = div.closest('.container-box');
-  //   let arr = parent.querySelectorAll('.section-heading');
-  //   arr.forEach((el,i) => {
-  //     if (el !== div) {
-  //     // if (i !== index) {
-  //       el.classList.remove('open')
-  //       el.nextElementSibling.classList.add('hidden')
-  //     }
-  //   })}
-
-  // export const toggleHeading = (div) => {
-  //   div.classList.toggle('open')
-  //   div.nextElementSibling.classList.toggle('hidden')
-  // }
-
   const updateCharacter = (val) => {
     setCharacter((prev) => ({
       ...prev,
@@ -163,10 +147,12 @@ const App = () => {
       </div>
       <div id="player-display" className="container-box display">
         {/* <h2>Character Display</h2> */}
-        <CharacterDisplay currentCharacter={character} />
+        <CharacterDisplay updateCharacter={updateCharacter} currentCharacter={character} />
       </div>
     </div>
   );
 };
+
+// export const updateCharacterSpecial = (val) => updateCharacter(val)
 
 export default App;

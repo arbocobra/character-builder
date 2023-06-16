@@ -57,7 +57,7 @@ const CharacterRaceSubrace = {
 			select: true,
 			// select: [
 			// 	['skills', 2, ['deception', 'insight', 'intimidation', 'performance', 'persuasion']],
-			// 	['language', 2, 'ALL'],
+			// 	['languages', 2, 'ALL'],
 			// 	['abilities', 1, ['dexterity', 'intelligence']],
 			// ],
 		},
@@ -235,7 +235,7 @@ const CharacterRaceSubrace = {
 			subrace: ['variant'],
 			subrace_req: false,
 			extras: null,
-			select: [['language', 1, 'ALL']],
+			select: [['languages', 1, 'ALL']],
 		},
 		kalashtar: {
 			size: 'Medium',
@@ -246,7 +246,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['dual mind', 'mentail discipline', 'mind link', 'severed from dreams'],
-			select: [['language', 1, 'ALL']],
+			select: [['languages', 1, 'ALL']],
 		},
 		kenku: {
 			size: 'Medium',
@@ -357,7 +357,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ["30' climb", "60' Darkvision", 'Feline Agility (temp. speed*2)', "Cat's Claws"],
-			select: [['language', 1, 'ALL']],
+			select: [['languages', 1, 'ALL']],
 		},
 		tiefling: {
 			size: 'Medium',
@@ -407,7 +407,7 @@ const CharacterRaceSubrace = {
 			has_subrace: false,
 			subrace_req: null,
 			extras: ['Partially Amphibious', 'Tireless Precision', 'Adv. on INT, WIS & CHA saves'],
-			select: [['language', 1, 'ALL']],
+			select: [['languages', 1, 'ALL']],
 		},
 		warforged: {
 			size: 'Medium',
@@ -472,7 +472,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: ['extra language', 'elf weapon training'],
-				select: [['language', 1, 'ALL']],
+				select: [['languages', 1, 'ALL']],
 			},
 			wood: {
 				modifiers: [0, 2, 0, 0, 1, 0],
@@ -625,7 +625,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'ALL']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['languages', 1, 'ALL']],
 			},
 			'half-high': {
 				modifiers: [0, 0, 0, 0, 0, 2],
@@ -633,7 +633,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'ALL']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['languages', 1, 'ALL']],
 			},
 			'half-drow': {
 				modifiers: [0, 0, 0, 0, 0, 2],
@@ -641,7 +641,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'ALL']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['languages', 1, 'ALL']],
 			},
 			'half-aquatic': {
 				modifiers: [0, 0, 0, 0, 0, 2],
@@ -649,7 +649,7 @@ const CharacterRaceSubrace = {
 				language: null,
 				speed: null,
 				extras: null,
-				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['language', 1, 'ALL']],
+				select: [['abilities', 2, ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom']], ['languages', 1, 'ALL']],
 			},
 		},
 		human: {
@@ -661,7 +661,7 @@ const CharacterRaceSubrace = {
 				extras: ['**+1 feat'],
 				select: [
 					['skills', 1, 'ALL'],
-					['language', 1, 'ALL'],
+					['languages', 1, 'ALL'],
 					['abilities', 2, 'ALL'],
 				],
 			},
@@ -731,7 +731,7 @@ const CharacterRaceSubrace = {
 				extras: ['warforged resilience', "sentry's rest", 'integrated protection', '+1 tool', 'integrated tool'],
 				select: [
 					['skills', 1, 'ALL'],
-					['language', 1, 'ALL'],
+					['languages', 1, 'ALL'],
 					['abilities', 2, ['strength', 'dexterity', 'intelligence', 'wisdom', 'charisma']],
 				],
 			},
@@ -783,12 +783,12 @@ const CharacterRaceSubrace = {
 			},
 			{
 				type: 'list',
-				cat: ['race', 'language'],
+				cat: ['race', 'languages'],
 				count: 2,
 				ref: 'obj',
-				list: ['language'],
+				list: ['languages'],
 				result: [],
-				name: ['language'],
+				name: ['languages'],
 			},
 			{
 				type: 'list',

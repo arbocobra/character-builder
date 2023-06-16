@@ -4,16 +4,16 @@ const _ = require('lodash');
 
 export const DisplaySkills = memo(function DisplaySkills(props) {
    const {currentCharacter} = props;
-
-  //  const [currentSkills, setCurrentSkills] = useState([]) 
-  //  const [skillProf, setSkillProf] = useState([])
    const abilityRef = useRef(['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'])
 
    const charSkills = [...currentCharacter.skills.total];
    const charMods = currentCharacter.abilities.modifiers.length ? [...currentCharacter.abilities.modifiers] : null;
-   const profBonus = currentCharacter.proficiency_bonus > 0 ? currentCharacter.proficiency_bonus : 2
-   const skillProf = charMods ? skills.map(el => charSkills.includes(el[0]) ? charMods[el[1]] + profBonus : charMods[el[1]]) : null;
+   const profBonus = currentCharacter.proficiency_bonus > 0 ? currentCharacter.proficiency_bonus : 2;
+   const isJackofAllTrades = currentCharacter.features.class.includes('jack of all trades') ? true : false;
+   const skillProf = charMods ? skills.map(el => charSkills.includes(el[0]) ? charMods[el[1]] + profBonus : 
+    isJackofAllTrades ? charMods[el[1]] + Math.floor(profBonus / 2) : charMods[el[1]]) : null;
    const profDisplay = !skillProf ? null : skillProf.map(num => num > 0 ? `+${num}` : num);
+
  
    return (
     <div className='skill-display'>
@@ -34,10 +34,9 @@ export const DisplaySkills = memo(function DisplaySkills(props) {
            <div className='strong'>{ skillProf ? profDisplay[i] : null }</div>
          </div>
        )) }
+       { isJackofAllTrades ? (<div className='skill-ability'><p>* includes bonus from Jack of All Trades</p></div>) : null}
        </div>
-    ) : <div className='display-box'><p>No skills selected</p></div>}
-      
-       
+    ) : <div className='display-box'><p>No skills selected</p></div>}   
      </div>
    )
  })

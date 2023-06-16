@@ -18,7 +18,7 @@ export const updateRace = (reference, val, currentChar) => {
       languages: modifiedLanguages,
       size: reference.size,
       skills: modifiedSkills,
-      speed: reference.speed,
+      speed: currentChar.speed + reference.speed,
    }
 
    checkForNull(update, current)
@@ -45,10 +45,12 @@ export const updateSubrace = (reference, val, currentChar, parentRef) => {
    return update;
 }
 
+// need to clear clear class proficiencies/equipment/etc..? when changing classes
 export const updateClass = (reference, val, currentChar) => {
    const current = JSON.parse(JSON.stringify(currentChar))
    let modifiedSkills = updateReferenceObject(reference.skills, current.skills, 'class');
    let modifiedProficiencies = setProficienciesObject(reference.proficiencies, current.proficiencies, 'class');
+   let modifiedEquipment = setProficienciesObject(reference.equipment, current.equipment, 'class');
    let modifiedFeatures = updateClassFeatures(val, current)
    
    let update = {
@@ -56,6 +58,7 @@ export const updateClass = (reference, val, currentChar) => {
       skills: modifiedSkills,
       class: val,
       proficiencies: modifiedProficiencies,
+      equipment: modifiedEquipment,
       saving_throws: reference.saves,
       hit_dice: reference.hitDice,
       sub_name: reference.subName,
@@ -158,10 +161,6 @@ export const updateLevel = (val, charCurrent) => {
 
 export const updateSelectedTraits = (val, trait, charCurrent, ...cat) => {
    const current = JSON.parse(JSON.stringify(charCurrent))
-   // console.log(val)
-   // console.log(trait)
-   // console.log(current)
-   // console.log(...cat)
    let charCat = cat[0] === 'subrace' ? 'race' : cat[0];
    
    let modifiedTrait;
@@ -172,7 +171,7 @@ export const updateSelectedTraits = (val, trait, charCurrent, ...cat) => {
    } else if (['proficiencies', 'equipment'].includes(trait)){
       let secondaryCat = cat?.[1];
       modifiedTrait = updateProficienciesObject(val, current[trait], charCat, secondaryCat, trait);
-      console.log(modifiedTrait)
+      // console.log(modifiedTrait)
    } else if (trait === 'asi') {
       modifiedTrait = updateBonusAbilities(current.abilities, val, 'class');
       trait = 'abilities'
@@ -185,8 +184,17 @@ export const updateSelectedTraits = (val, trait, charCurrent, ...cat) => {
 const updateTraitObject = (val, ref, cat) => {
    let update = _.uniq([...ref[cat], ...val]);
    ref[cat] = update;
-   ref.total = _.uniq([...ref.race, ...ref.class, ...ref.background])
-   return ref;
+   if (ref.class.includes('tongue of the sun and moon')) {
+      ref.total = 'ALL - from Tongue of the Sun and Moon'
+      return ref;
+   } else {
+      ref.total = _.uniq([...ref.race, ...ref.class, ...ref.background])
+      return ref;
+   }
+   // let update = _.uniq([...ref[cat], ...val]);
+   // ref[cat] = update;
+   // ref.total = _.uniq([...ref.race, ...ref.class, ...ref.background])
+   // return ref;
 }
 
 const updateProficienciesObject = (val, ref, cat, type, trait) => {
@@ -267,6 +275,15 @@ export const updateClassFeatures = (val, currentChar) => {
    } else return null;
 }
 
-// const updateArmor = (val, className) => {
+export const updateArmor = (currentChar, unarmoredMod) => {
+   // let result;
+   const current = JSON.parse(JSON.stringify(currentChar)); 
+   if (unarmoredMod) current.armor_class.base = unarmoredMod + 10
+   else current.armor_class.base = current.abilities.modifiers[1] + 10
 
-// }
+   const armorValArr = Object.values(current.armor_class).slice(0,-1)
+   current.armor_class.total = _.sum(armorValArr)
+
+   // console.log(Object.values(current.armor_class))
+   return {armor_class: current.armor_class};
+}
